@@ -4,10 +4,13 @@ from PlayerData import PlayerColor
 
 class Node:
 
-    def __init__(self, edges, tiles) -> None:
-        self.piece = NodePiece.EMPTY
+    def __init__(self, edges, tiles, piece) -> None:
+        self.piece = piece
         self.edges = edges
         self.tiles = tiles
+
+    def __init__(self, edges, tiles) -> None:
+        self.__init__(edges, tiles, NodePiece.EMPTY)
 
 
 class Edge:

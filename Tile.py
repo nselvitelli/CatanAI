@@ -13,6 +13,12 @@ Tile is referenced by each neighboring Node
 """
 class Tile:
 
+    def __init__(self, number, resource, nodes, isBlockedByRobber) -> None:
+        self.number = number
+        self.resource = resource
+        self.isBlockedByRobber = isBlockedByRobber
+        self.nodes = nodes
+
     def __init__(self, number, resource, nodes) -> None:
         self.number = number
         self.resource = resource
