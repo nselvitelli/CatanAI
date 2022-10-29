@@ -30,3 +30,9 @@ class PlayerData:
 
         self.armySize = armySize
         self.color = color
+
+    def getTotalResources(self):
+        count = 0
+        for key in self.resourcesAvailable:
+            count += self.resourcesAvailable[key]
+        return count
