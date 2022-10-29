@@ -1,5 +1,6 @@
 
 import random
+from typing_extensions import Self
 from Node import Edge, Node, NodePiece
 from PlayerData import PlayerColor
 from Resource import Resource
@@ -14,6 +15,18 @@ class Board:
         self.edges = edges
         self.robber_tile = robber_tile
 
+
+    def getCopy(self) -> Self:
+        tiles = {}
+        for key in self.tiles.keys():
+            tiles[key] = self.tiles[key].getCopy()
+        nodes = {}
+        for key in self.nodes.keys():
+            nodes[key] = self.nodes[key].getCopy()
+        edges = {}
+        for key in self.edges.keys():
+            edges[key] = self.edges[key].getCopy()
+        return Board(tiles, nodes, edges, self.robber_tile)
 
     """
     BOARD HARDCODE
