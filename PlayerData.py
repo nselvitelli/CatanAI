@@ -15,7 +15,6 @@ class PlayerData:
 
 
 
-
 class PlayerColor(Enum):
     WHITE = 0
     RED = 1
