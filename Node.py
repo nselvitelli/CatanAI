@@ -2,10 +2,12 @@ from enum import Enum
 
 from PlayerData import PlayerColor
 
+
 class NodePiece(Enum):
     EMPTY = 0
     SETTLEMENT = 1
     CITY = 2
+
 
 class Port(Enum):
     EMPTY = 0
@@ -16,10 +18,11 @@ class Port(Enum):
     LOG = 5
     THREE_TO_ONE = 6
 
+
 class Node:
 
     def __init__(self, edges, id, piece=(NodePiece.EMPTY, PlayerColor.BLANK), port=Port.EMPTY) -> None:
-        self.piece = piece # tuple of type and color
+        self.piece = piece  # tuple of type and color
         self.port = port
         self.edges = edges
         self.id = id
@@ -30,7 +33,8 @@ class Node:
 
         endpoints = []
         for edge in self.edges:
-            endpoints.extend(edgeMap[edge].bfsEndpoints(playerColor, explored + [self.id], self.id, edgeMap, nodeMap))
+            endpoints.extend(edgeMap[edge].bfsEndpoints(
+                playerColor, explored + [self.id], self.id, edgeMap, nodeMap))
         return endpoints
 
     def bfsPossibleSettlements(self, playerColor, explored, edgeMap, nodeMap):
@@ -42,10 +46,11 @@ class Node:
                 if edge.adjacentSettlement(self.id, edgeMap, nodeMap):
                     return []
             return [self.id]
-        
+
         possibles = []
         for edge in self.edges:
-            possibles.extend(edgeMap[edge].bfsPossibleSettlements(self, playerColor, explored, edgeMap, nodeMap))
+            possibles.extend(edgeMap[edge].bfsPossibleSettlements(
+                self, playerColor, explored, edgeMap, nodeMap))
         return possibles
 
     def bfsUpgradeableSettlements(self, playerColor, explored, edgeMap, nodeMap):
@@ -54,11 +59,18 @@ class Node:
 
         if self.piece == (NodePiece.SETTLEMENT, playerColor):
             return [self.id]
-        
+
         possibles = []
         for edge in self.edges:
-            possibles.extend(edgeMap[edge].bfsUpgradeableSettlements(self, playerColor, explored, edgeMap, nodeMap))
+            possibles.extend(edgeMap[edge].bfsUpgradeableSettlements(
+                self, playerColor, explored, edgeMap, nodeMap))
         return possibles
+
+    def getCopy(self):
+        newEdges = []
+        for edge in self.edges:
+            newEdges.append(edge)
+        return Node(newEdges, self.id, self.piece, self.port)
 
 
 class Edge:
@@ -95,3 +107,6 @@ class Edge:
             return nodeMap[otherNode].bfsUpgradeableSettlements(playerColor, explored, nodeMap, edgeMap)
         else:
             return []
+
+    def getCopy(self):
+        return Edge(self.id, self.nodeOne, self.nodeTwo, self.playerColor)
