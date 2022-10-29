@@ -1,28 +1,16 @@
-from enum import Enum
-
 from Resource import Resource
-
-
-class PlayerColor(Enum):
-    WHITE = 0
-    RED = 1
-    BLUE = 2
-    ORANGE = 3
-    BLANK = 4
+from PlayerColor import PlayerColor
 
 
 class PlayerData:
 
-    def __init__(self, victoryPoints=0, devCards=[], longestRoad=False, largestArmy=False, settlements=[], resources={}, color=PlayerColor.BLANK) -> None:
+    def __init__(self, victoryPoints=0, devCards=[], settlements=[], resources={}, armySize=0, color=PlayerColor.BLANK) -> None:
         self.victoryPoints = victoryPoints
 
         # Note: NOT a deep copy (don't think it needs to be, never edit devcards)
         self.devCards = []
         for devCard in devCards:
             self.devCards.append(devCard)
-
-        self.longestRoad = longestRoad
-        self.largestArmy = largestArmy
 
         self.settlements = []
         for settlement in settlements:
@@ -40,4 +28,5 @@ class PlayerData:
         self.resourcesAvailable[Resource.SHEEP] = resources[Resource.SHEEP] if resources.has_key(
             Resource.SHEEP) else 0
 
+        self.armySize = armySize
         self.color = color
