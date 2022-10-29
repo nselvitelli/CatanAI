@@ -1,5 +1,7 @@
 
 import random
+from Node import NodePiece
+from PlayerData import PlayerColor
 from Resource import Resource
 from Tile import Tile
 
@@ -16,7 +18,7 @@ class Board:
     """
     BOARD HARDCODE
     """
-    def __init__(self) -> None:
+    def generate_start_board(self) -> None:
         
         resource_pool = [
             Resource.BRICK, Resource.BRICK, Resource.BRICK,
@@ -32,8 +34,10 @@ class Board:
         ]
         random.shuffle(frequency_pool)
 
-        self.nodes = {}
+        self.nodes = []
         self.edges = {}
+
+        self.robber_tile = 'J'
 
         self.tiles = {}
         self.tiles['A'] = Tile(frequency_pool[0], resource_pool[0], [0, 1, 2, 8, 9, 10])
@@ -45,7 +49,7 @@ class Board:
         self.tiles['G'] = Tile(frequency_pool[6], resource_pool[6], [13, 14, 15, 23, 24, 25])
         self.tiles['H'] = Tile(frequency_pool[7], resource_pool[7], [16, 17, 18, 27, 28, 29])
         self.tiles['I'] = Tile(frequency_pool[8], resource_pool[8], [18, 19, 20, 29, 30, 31])
-        self.tiles['J'] = Tile(-1, Resource.DESERT, [20, 21, 22, 31, 32, 33]) # Desert
+        self.tiles['J'] = Tile(-1, Resource.DESERT, [20, 21, 22, 31, 32, 33]) # Always Desert
         self.tiles['K'] = Tile(frequency_pool[9], resource_pool[9], [22, 23, 24, 33, 34, 35])
         self.tiles['L'] = Tile(frequency_pool[10], resource_pool[10], [24, 25, 26, 35, 36, 37])
         self.tiles['M'] = Tile(frequency_pool[11], resource_pool[11], [28, 29, 30, 38, 39, 40])
@@ -55,3 +59,47 @@ class Board:
         self.tiles['Q'] = Tile(frequency_pool[15], resource_pool[15], [39, 40, 41, 47, 48, 49])
         self.tiles['R'] = Tile(frequency_pool[16], resource_pool[16], [41, 42, 43, 49, 50, 51])
         self.tiles['S'] = Tile(frequency_pool[17], resource_pool[17], [43, 44, 45, 51, 52, 53])
+
+        self.nodes[0] = Node([0, 6], (NodePiece.EMPTY, PlayerColor.BLANK))    # v
+        self.nodes[1] = Node([0, 1], (NodePiece.EMPTY, PlayerColor.BLANK))    # ^
+        self.nodes[2] = Node([1, 2, 7], (NodePiece.EMPTY, PlayerColor.BLANK)) # v
+        self.nodes[3] = Node([2, 3], (NodePiece.EMPTY, PlayerColor.BLANK))    # ^
+        self.nodes[4] = Node([3, 4, 8], (NodePiece.EMPTY, PlayerColor.BLANK)) # v
+        self.nodes[5] = Node([4, 5], (NodePiece.EMPTY, PlayerColor.BLANK))    # ^
+        self.nodes[6] = Node([5, 9], (NodePiece.EMPTY, PlayerColor.BLANK))    # v
+
+        self.nodes[7] = Node([10, 18], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[8] = Node([10, 11, 6], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[9] = Node([11, 12, 19], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[10] = Node([12, 13, 7], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[11] = Node([13, 14, 20], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[12] = Node([14, 15, 8], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[13] = Node([15, 16, 21], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[14] = Node([16, 17, 9], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[15] = Node([17, 22], (NodePiece.EMPTY, PlayerColor.BLANK))
+
+        self.nodes[16] = Node([23, 33], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[17] = Node([23, 24, 18], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[18] = Node([24, 25, 34], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[19] = Node([25, 26, 19], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[20] = Node([26, 27, 35], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[21] = Node([27, 28, 20], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[22] = Node([28, 29, 36], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[23] = Node([29, 30, 21], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[24] = Node([30, 31, 37], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[25] = Node([31, 32, 22], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[26] = Node([32, 38], (NodePiece.EMPTY, PlayerColor.BLANK))
+
+        self.nodes[27] = Node([39, 33], (NodePiece.EMPTY, PlayerColor.BLANK)) # ^
+        self.nodes[28] = Node([39, 40, 49], (NodePiece.EMPTY, PlayerColor.BLANK)) # v
+        self.nodes[29] = Node([40, 41, 34], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[29] = Node([41, 42, 50], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[30] = Node([42, 43, 35], (NodePiece.EMPTY, PlayerColor.BLANK))
+
+        self.nodes[31] = Node([43, 44, 50], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[32] = Node([44, 45, 50], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[33] = Node([45, 46, 50], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[34] = Node([46, 47, 50], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[35] = Node([47, 48, 50], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[36] = Node([48, 49, 50], (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[37] = Node([41, 42, 50], (NodePiece.EMPTY, PlayerColor.BLANK))
