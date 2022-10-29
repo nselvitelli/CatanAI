@@ -5,13 +5,13 @@ from Resource import Resource
 
 class PlayerData:
 
-    def __init__(self, wheat=0, brick=0, log=0, ore=0, sheep=0, devCards=[]) -> None:
+    def __init__(self, resources = {}, devCards=[]) -> None:
         self.resourcesAvailable = {}
-        self.resourcesAvailable[Resource.WHEAT] = wheat
-        self.resourcesAvailable[Resource.BRICK] = brick
-        self.resourcesAvailable[Resource.LOG] = log
-        self.resourcesAvailable[Resource.ORE] = ore
-        self.resourcesAvailable[Resource.SHEEP] = sheep
+        self.resourcesAvailable[Resource.WHEAT] = resources[Resource.WHEAT] if resources.has_key(Resource.WHEAT) else 0
+        self.resourcesAvailable[Resource.BRICK] = resources[Resource.BRICK] if resources.has_key(Resource.BRICK) else 0
+        self.resourcesAvailable[Resource.LOG] = resources[Resource.LOG] if resources.has_key(Resource.LOG) else 0
+        self.resourcesAvailable[Resource.ORE] = resources[Resource.ORE] if resources.has_key(Resource.ORE) else 0
+        self.resourcesAvailable[Resource.SHEEP] = resources[Resource.SHEEP] if resources.has_key(Resource.SHEEP) else 0
 
         self.devCards = []
         for devCard in devCards:

@@ -5,12 +5,12 @@ from PlayerData import PlayerColor
 class Node:
 
     def __init__(self, edges, tiles, piece) -> None:
-        self.piece = piece
+        self.piece = piece # tuple of type and color
         self.edges = edges
         self.tiles = tiles
 
     def __init__(self, edges, tiles) -> None:
-        self.__init__(edges, tiles, NodePiece.EMPTY)
+        self.__init__(edges, tiles, (NodePiece.EMPTY, PlayerColor.BLANK))
 
 
 class Edge:
