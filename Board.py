@@ -1,6 +1,6 @@
 
 import random
-from Node import Node, NodePiece
+from Node import Edge, Node, NodePiece
 from PlayerData import PlayerColor
 from Resource import Resource
 from Tile import Tile
@@ -34,8 +34,8 @@ class Board:
         ]
         random.shuffle(frequency_pool)
 
-        self.nodes = []
-        self.edges = []
+        self.nodes = {}
+        self.edges = {}
 
         self.robber_tile = 'J'
 
@@ -100,7 +100,7 @@ class Board:
         self.nodes[34] = Node([45, 46, 52], 34, (NodePiece.EMPTY, PlayerColor.BLANK))
         self.nodes[35] = Node([46, 47, 37], 35, (NodePiece.EMPTY, PlayerColor.BLANK))
         self.nodes[36] = Node([47, 48, 53], 36, (NodePiece.EMPTY, PlayerColor.BLANK))
-        self.nodes[37] = Node([41, 42, 38], 37, (NodePiece.EMPTY, PlayerColor.BLANK))
+        self.nodes[37] = Node([48, 38], 37, (NodePiece.EMPTY, PlayerColor.BLANK))
 
         self.nodes[38] = Node([54, 49], 38, (NodePiece.EMPTY, PlayerColor.BLANK))
         self.nodes[39] = Node([54, 55, 62], 39, (NodePiece.EMPTY, PlayerColor.BLANK))
@@ -120,4 +120,75 @@ class Board:
         self.nodes[52] = Node([70, 71], 52, (NodePiece.EMPTY, PlayerColor.BLANK))
         self.nodes[53] = Node([71, 65], 53, (NodePiece.EMPTY, PlayerColor.BLANK))
 
-        self.edges[0] = 
+        self.edges[ 0 ] = Edge( 0 , 0 , 1 )
+        self.edges[ 1 ] = Edge( 1 , 1 , 2 )
+        self.edges[ 2 ] = Edge( 2 , 2 , 3 )
+        self.edges[ 3 ] = Edge( 3 , 3 , 4 )
+        self.edges[ 4 ] = Edge( 4 , 4 , 5 )
+        self.edges[ 5 ] = Edge( 5 , 5 , 6 )
+        self.edges[ 6 ] = Edge( 6 , 0 , 8 )
+        self.edges[ 7 ] = Edge( 7 , 2 , 10 )
+        self.edges[ 8 ] = Edge( 8 , 4 , 12 )
+        self.edges[ 9 ] = Edge( 9 , 6 , 14 )
+        self.edges[ 10 ] = Edge( 10 , 7 , 8 )
+        self.edges[ 11 ] = Edge( 11 , 8 , 9 )
+        self.edges[ 12 ] = Edge( 12 , 9 , 10 )
+        self.edges[ 13 ] = Edge( 13 , 10 , 11 )
+        self.edges[ 14 ] = Edge( 14 , 11 , 12 )
+        self.edges[ 15 ] = Edge( 15 , 12 , 13 )
+        self.edges[ 16 ] = Edge( 16 , 13 , 14 )
+        self.edges[ 17 ] = Edge( 17 , 14 , 15 )
+        self.edges[ 18 ] = Edge( 18 , 7 , 17 )
+        self.edges[ 19 ] = Edge( 19 , 9 , 19 )
+        self.edges[ 20 ] = Edge( 20 , 11 , 21 )
+        self.edges[ 21 ] = Edge( 21 , 13 , 23 )
+        self.edges[ 22 ] = Edge( 22 , 15 , 25 )
+        self.edges[ 23 ] = Edge( 23 , 16 , 17 )
+        self.edges[ 24 ] = Edge( 24 , 17 , 18 )
+        self.edges[ 25 ] = Edge( 25 , 18 , 19 )
+        self.edges[ 26 ] = Edge( 26 , 19 , 20 )
+        self.edges[ 27 ] = Edge( 27 , 20 , 21 )
+        self.edges[ 28 ] = Edge( 28 , 21 , 22 )
+        self.edges[ 29 ] = Edge( 29 , 22 , 23 )
+        self.edges[ 30 ] = Edge( 30 , 23 , 24 )
+        self.edges[ 31 ] = Edge( 31 , 24 , 25 )
+        self.edges[ 32 ] = Edge( 32 , 25 , 26 )
+        self.edges[ 33 ] = Edge( 33 , 16 , 27 )
+        self.edges[ 34 ] = Edge( 34 , 18 , 29 )
+        self.edges[ 35 ] = Edge( 35 , 20 , 31 )
+        self.edges[ 36 ] = Edge( 36 , 22 , 33 )
+        self.edges[ 37 ] = Edge( 37 , 24 , 35 )
+        self.edges[ 38 ] = Edge( 38 , 26 , 37 )
+        self.edges[ 39 ] = Edge( 39 , 27 , 28 )
+        self.edges[ 40 ] = Edge( 40 , 28 , 29 )
+        self.edges[ 41 ] = Edge( 41 , 29 , 30 )
+        self.edges[ 42 ] = Edge( 42 , 30 , 31 )
+        self.edges[ 43 ] = Edge( 43 , 31 , 32 )
+        self.edges[ 44 ] = Edge( 44 , 32 , 33 )
+        self.edges[ 45 ] = Edge( 45 , 33 , 34 )
+        self.edges[ 46 ] = Edge( 46 , 34 , 35 )
+        self.edges[ 47 ] = Edge( 47 , 35 , 36 )
+        self.edges[ 48 ] = Edge( 48 , 36 , 37 )
+        self.edges[ 49 ] = Edge( 49 , 28 , 38 )
+        self.edges[ 50 ] = Edge( 50 , 30 , 40 )
+        self.edges[ 51 ] = Edge( 51 , 32 , 42 )
+        self.edges[ 52 ] = Edge( 52 , 34 , 44 )
+        self.edges[ 53 ] = Edge( 53 , 36 , 46 )
+        self.edges[ 54 ] = Edge( 54 , 38 , 39 )
+        self.edges[ 55 ] = Edge( 55 , 39 , 40 )
+        self.edges[ 56 ] = Edge( 56 , 40 , 41 )
+        self.edges[ 57 ] = Edge( 57 , 41 , 42 )
+        self.edges[ 58 ] = Edge( 58 , 42 , 43 )
+        self.edges[ 59 ] = Edge( 59 , 43 , 44 )
+        self.edges[ 60 ] = Edge( 60 , 44 , 45 )
+        self.edges[ 61 ] = Edge( 61 , 45 , 46 )
+        self.edges[ 62 ] = Edge( 62 , 39 , 47 )
+        self.edges[ 63 ] = Edge( 63 , 41 , 49 )
+        self.edges[ 64 ] = Edge( 64 , 43 , 51 )
+        self.edges[ 65 ] = Edge( 65 , 45 , 53 )
+        self.edges[ 66 ] = Edge( 66 , 47 , 48 )
+        self.edges[ 67 ] = Edge( 67 , 48 , 49 )
+        self.edges[ 68 ] = Edge( 68 , 49 , 50 )
+        self.edges[ 69 ] = Edge( 69 , 50 , 51 )
+        self.edges[ 70 ] = Edge( 70 , 51 , 52 )
+        self.edges[ 71 ] = Edge( 71 , 52 , 53 )

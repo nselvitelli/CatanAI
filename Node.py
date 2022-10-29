@@ -7,9 +7,6 @@ class NodePiece(Enum):
     SETTLEMENT = 1
     CITY = 2
 
-    def __init__(self) -> None:
-        super().__init__()
-
 class Node:
 
     def __init__(self, edges, id, piece=(NodePiece.EMPTY, PlayerColor.BLANK)) -> None:
