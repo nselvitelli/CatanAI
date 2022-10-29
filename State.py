@@ -2,6 +2,7 @@ from Actions.BuildCity import BuildCity
 from Actions.BuildRoad import BuildRoad
 from Actions.BuildSettlement import BuildSettlement
 from Actions.DevelopmentCard import DevelopmentCard
+from Actions.EndTurn import EndTurn
 from Actions.Trade import Trade
 from Node import Port
 
@@ -32,6 +33,8 @@ class State:
             validActions.append(DevelopmentCard(currentPlayer))
 
         validActions.extend(self.getPortActions(currentPlayer))
+
+        validActions.append(EndTurn())
 
     def getBuildingAction(self, brick, log, sheep, wheat, ore, currentPlayer, resourcesAvailable, func, action):
         if resourcesAvailable(brick, log, sheep, wheat, ore, resourcesAvailable):
