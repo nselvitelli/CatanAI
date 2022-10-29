@@ -12,10 +12,9 @@ class NodePiece(Enum):
 
 class Node:
 
-    def __init__(self, edges, tiles, id, piece=(NodePiece.EMPTY, PlayerColor.BLANK)) -> None:
+    def __init__(self, edges, id, piece=(NodePiece.EMPTY, PlayerColor.BLANK)) -> None:
         self.piece = piece # tuple of type and color
         self.edges = edges
-        self.tiles = tiles
         self.id = id
 
     def bfsEndpoints(self, playerColor, explored, edgeMap, nodeMap):
