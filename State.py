@@ -1,4 +1,3 @@
-from mimetypes import init
 from Actions.BuildCity import BuildCity
 from Actions.BuildRoad import BuildRoad
 from Actions.BuildSettlement import BuildSettlement
@@ -41,6 +40,9 @@ class State:
 
     def resourcesAvailable(self, brick, log, sheep, wheat, ore, resourcesAvailable):
         return resourcesAvailable[Resource.BRICK] >= brick and resourcesAvailable[Resource.LOG] >= log and resourcesAvailable[Resource.SHEEP] >= sheep and resourcesAvailable[Resource.WHEAT] >= wheat and resourcesAvailable[Resource.ORE] >= ore
+
+    def portsWithSettlement(self):
+
 
 
 # end State

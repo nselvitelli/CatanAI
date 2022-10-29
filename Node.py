@@ -7,13 +7,20 @@ class NodePiece(Enum):
     SETTLEMENT = 1
     CITY = 2
 
-    def __init__(self) -> None:
-        super().__init__()
+class Port(Enum):
+    EMPTY = 0
+    BRICK = 1
+    WHEAT = 2
+    SHEEP = 3
+    ORE = 4
+    LOG = 5
+    THREE_TO_ONE = 6
 
 class Node:
 
-    def __init__(self, edges, id, piece=(NodePiece.EMPTY, PlayerColor.BLANK)) -> None:
+    def __init__(self, edges, id, piece=(NodePiece.EMPTY, PlayerColor.BLANK), port=Port.EMPTY) -> None:
         self.piece = piece # tuple of type and color
+        self.port = port
         self.edges = edges
         self.id = id
 
