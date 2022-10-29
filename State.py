@@ -22,31 +22,18 @@ class State:
 
         validActions = []
 
-        if resourcesAvailable[Resource.BRICK] >= 1 and resourcesAvailable[Resource.LOG] >= 1:
-            validRoadLocations = set()
-            for settlementNodeID in currentPlayer.firstSettlements:
-                validRoadLocations.union(
-                    set(self.board.bfsEndpoint(settlementNodeID, self.whoseTurn)))
-            for roadLocation in validRoadLocations:
-                validActions.append(BuildRoad(roadLocation, self.whoseTurn))
+        validActions.extend(self.getBuildingAction(1,1,0,0,0,currentPlayer,resourcesAvailable,self.board.bfsEndpoint,BuildRoad))
+        validActions.extend(self.getBuildingAction(1,1,1,1,0,currentPlayer,resourcesAvailable,self.board.bfsPossibleSettlements,BuildSettlement))
+        validActions.extend(self.getBuildingAction(0,0,0,2,3,currentPlayer,resourcesAvailable,self.board.bfsCurrentSettlements,BuildCity))
 
-        if resourcesAvailable[Resource.BRICK] >= 1 and resourcesAvailable[Resource.LOG] >= 1 and resourcesAvailable[Resource.SHEEP] >= 1 and resourcesAvailable[Resource.WHEAT] >= 1:
-            validSettlementLocations = set()
+    def getBuildingAction(self, brick, log, sheep, wheat, ore, currentPlayer, resourcesAvailable, func, action):
+        if resourcesAvailable[Resource.BRICK] >= brick and resourcesAvailable[Resource.LOG] >= log and resourcesAvailable[Resource.SHEEP] >= sheep and resourcesAvailable[Resource.WHEAT] >= wheat and resourcesAvailable[Resource.ORE] >= ore:
+            valid = set()
             for settlementNodeID in currentPlayer.firstSettlements:
-                validSettlementLocations.union(
-                    set(self.board.bfsPossibleSettlements(settlementNodeID, self.whoseTurn)))
-            for settlementLocation in validSettlementLocations:
-                validActions.append(BuildSettlement(
-                    settlementLocation, self.whoseTurn))
-
-        if resourcesAvailable[Resource.WHEAT] >= 2 and resourcesAvailable[Resource.ORE] >= 3:
-            validUpgradeableSettlements = set()
-            for settlementNodeID in currentPlayer.firstSettlements:
-                validUpgradeableSettlements.union(
-                    set(self.board.bfsCurrentSettlements(settlementNodeID, self.whoseTurn)))
-            for upgradeableSettlement in validUpgradeableSettlements:
-                validActions.append(
-                    BuildCity(upgradeableSettlement, self.whoseTurn))
+                valid.union(set(func(settlementNodeID, self.whoseTurn)))
+            return [action(x, self.whoseTurn) for x in valid]
+        else:
+            return []
 
 
 # end State
