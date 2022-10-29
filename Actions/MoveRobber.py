@@ -15,7 +15,7 @@ class MoveRobber(Action):
 
     def apply(self, state):
         board = Board(state.board.tiles, state.board.nodes,
-                      state.board.edges, tileID)
+                      state.board.edges, self.tileID)
 
         stealData = state.playerDataDict[self.stealPlayer]
 
