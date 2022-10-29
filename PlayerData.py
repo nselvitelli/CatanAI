@@ -1,24 +1,20 @@
-from enum import Enum
-
 from Resource import Resource
+from PlayerColor import PlayerColor
 
 
 class PlayerData:
 
-    def __init__(self, victoryPoints, devCards, longestRoad, largestArmy, settlements, resources, color) -> None:
+    def __init__(self, victoryPoints=0, devCards=[], settlements=[], resources={}, armySize=0, color=PlayerColor.BLANK) -> None:
         self.victoryPoints = victoryPoints
 
         # Note: NOT a deep copy (don't think it needs to be, never edit devcards)
         self.devCards = []
         for devCard in devCards:
-            self.devCards.push(devCard)
-
-        self.longestRoad = longestRoad
-        self.largestArmy = largestArmy
+            self.devCards.append(devCard)
 
         self.settlements = []
         for settlement in settlements:
-            self.settlements.push(settlement)
+            self.settlements.append(settlement)
 
         self.resourcesAvailable = {}
         self.resourcesAvailable[Resource.WHEAT] = resources[Resource.WHEAT] if resources.has_key(
@@ -32,15 +28,11 @@ class PlayerData:
         self.resourcesAvailable[Resource.SHEEP] = resources[Resource.SHEEP] if resources.has_key(
             Resource.SHEEP) else 0
 
+        self.armySize = armySize
         self.color = color
 
-    def __init__(self):
-        self.__init__(0, [], False, False, [], {}, PlayerColor.BLANK)
-
-
-class PlayerColor(Enum):
-    WHITE = 0
-    RED = 1
-    BLUE = 2
-    ORANGE = 3
-    BLANK = 4
+    def getTotalResources(self):
+        count = 0
+        for key in self.resourcesAvailable:
+            count += self.resourcesAvailable[key]
+        return count

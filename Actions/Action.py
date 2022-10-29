@@ -1,4 +1,4 @@
 class Action:
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self, playerColor) -> None:
+        self.playerColor = playerColor
