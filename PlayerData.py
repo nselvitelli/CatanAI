@@ -6,15 +6,8 @@ class PlayerData:
 
     def __init__(self, victoryPoints=0, devCards=[], settlements=[], resources={}, armySize=0, color=PlayerColor.BLANK) -> None:
         self.victoryPoints = victoryPoints
-
-        # Note: NOT a deep copy (don't think it needs to be, never edit devcards)
-        self.devCards = []
-        for devCard in devCards:
-            self.devCards.append(devCard)
-
-        self.settlements = []
-        for settlement in settlements:
-            self.settlements.append(settlement)
+        self.devCards = devCards
+        self.settlements = settlements
 
         self.resourcesAvailable = {}
         self.resourcesAvailable[Resource.WHEAT] = resources[Resource.WHEAT] if resources.has_key(
@@ -36,3 +29,18 @@ class PlayerData:
         for key in self.resourcesAvailable:
             count += self.resourcesAvailable[key]
         return count
+
+    def getCopy(self):
+        newDevCards = []
+        for devCard in self.devCards:
+            newDevCards.append(devCard)
+
+        newSettlements = []
+        for settlement in self.settlements:
+            newSettlements.append(settlement)
+
+        newResources = {}
+        for key in self.resourcesAvailable:
+            newResources[key] = self.resourcesAvailable[key]
+
+        return PlayerData(self.victoryPoints, newDevCards, newSettlements, newResources, self.armySize, self.color)

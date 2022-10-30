@@ -19,17 +19,32 @@ class State:
         self.longestRoad = longestRoad
         self.largestArmy = largestArmy
 
+    def getCopy(self):
+        newBoard = self.board.getCopy()
+        newPlayerDataDict = {}
+        for key in self.playerDataDict:
+            newPlayerDataDict[key] = self.playerDataDict[key].getCopy()
+
+        newDevCards = []
+        for devCard in self.devCards:
+            newDevCards.append(devCard)
+
+        return State(newBoard, newPlayerDataDict, newDevCards, self.longestRoad, self.largestArmy, self.whoseTurn)
+
     def getValidActions(self):
         currentPlayer = self.playerDataDict[self.whoseTurn]
         resourcesAvailable = currentPlayer.resourcesAvailable
 
         validActions = []
 
-        validActions.extend(self.getBuildingAction(1,1,0,0,0,currentPlayer,resourcesAvailable,self.board.bfsEndpoint,BuildRoad))
-        validActions.extend(self.getBuildingAction(1,1,1,1,0,currentPlayer,resourcesAvailable,self.board.bfsPossibleSettlements,BuildSettlement))
-        validActions.extend(self.getBuildingAction(0,0,0,2,3,currentPlayer,resourcesAvailable,self.board.bfsCurrentSettlements,BuildCity))
+        validActions.extend(self.getBuildingAction(
+            1, 1, 0, 0, 0, currentPlayer, resourcesAvailable, self.board.bfsEndpoint, BuildRoad))
+        validActions.extend(self.getBuildingAction(1, 1, 1, 1, 0, currentPlayer,
+                            resourcesAvailable, self.board.bfsPossibleSettlements, BuildSettlement))
+        validActions.extend(self.getBuildingAction(0, 0, 0, 2, 3, currentPlayer,
+                            resourcesAvailable, self.board.bfsCurrentSettlements, BuildCity))
 
-        if resourcesAvailable(0,0,1,1,1):
+        if resourcesAvailable(0, 0, 1, 1, 1):
             validActions.append(DevelopmentCard(currentPlayer))
 
         validActions.extend(self.getPortActions(currentPlayer))
@@ -55,8 +70,10 @@ class State:
         for settlementNodeID in currentPlayer.firstSettlements:
             ports.union(set(self.board.bfsPorts(settlementNodeID)))
         maxTradeQuantity = 3 if Port.THREE_TO_ONE else 4
-        inaccessiblePorts = set([Port.BRICK, Port.LOG, Port.ORE, Port.SHEEP, Port.WHEAT]) - ports
-        portsToResources = {Port.BRICK : Resource.BRICK, Port.LOG : Resource.LOG, Port.ORE : Resource.ORE, Port.SHEEP : Resource.SHEEP, Port.WHEAT : Resource.SHEEP}
+        inaccessiblePorts = set(
+            [Port.BRICK, Port.LOG, Port.ORE, Port.SHEEP, Port.WHEAT]) - ports
+        portsToResources = {Port.BRICK: Resource.BRICK, Port.LOG: Resource.LOG,
+                            Port.ORE: Resource.ORE, Port.SHEEP: Resource.SHEEP, Port.WHEAT: Resource.SHEEP}
         for port in ports - set([Port.THREE_TO_ONE]):
             resource = portsToResources[port]
             if currentPlayer.resourcesAvailable[resource] >= 2:
@@ -65,5 +82,5 @@ class State:
             resource = portsToResources[port]
             if currentPlayer.resourcesAvailable[resource] >= maxTradeQuantity:
                 actions.append(Trade(resource, maxTradeQuantity))
-        
+
         return actions
