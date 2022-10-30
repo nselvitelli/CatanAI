@@ -14,51 +14,23 @@ class MoveRobber(Action):
         self.stealPlayer = stealPlayer
 
     def apply(self, state):
-        board = Board(state.board.tiles, state.board.nodes,
-                      state.board.edges, self.tileID)
+        newState = state.getCopy()
+        # moves robber to new tile
+        newState.board.robber_tile = self.tileID
 
-        stealData = state.playerDataDict[self.stealPlayer]
+        # performs steal
+        stealData = newState.playerDataDict[self.stealPlayer]
 
         totalResourceCount = stealData.getTotalResources()
 
         stealNum = random.randint(1, totalResourceCount)
 
         count = 0
-        takeResource = Resource.WHEAT
         for key in stealData.resourcesAvailable:
             if count + stealData.resourcesAvailable[key] >= stealNum:
-                takeResource = key
+                stealData.resourcesAvailable[key] -= 1
+                newState.playerDataDict[newState.whoseTurn].resourcesAvailable[key] += 1
                 break
             count += stealData.resourcesAvailable[key]
 
-        # need to generate new playerData
-        newPlayerDataDict = {}
-        for key in state.playerDataDict:
-            oldPlayerData = state.playerDataDict[key]
-            if key == self.stealPlayer:
-                newResources = {}
-                for resource in oldPlayerData.resourcesAvailable:
-                    if resource == takeResource:
-                        newResources[resource] = oldPlayerData.resourcesAvailable[resource] - 1
-                    else:
-                        newResources[resource] = oldPlayerData.resourcesAvailable[resource]
-                newPlayerDataDict[key] = PlayerData(oldPlayerData.victoryPoints, oldPlayerData.devCards,
-                                                    oldPlayerData.settlements, newResources, oldPlayerData.armySize, oldPlayerData.color)
-                pass
-            elif key == state.whoseTurn:
-                newResources = {}
-                for resource in oldPlayerData.resourcesAvailable:
-                    if resource == takeResource:
-                        newResources[resource] = oldPlayerData.resourcesAvailable[resource] + 1
-                    else:
-                        newResources[resource] = oldPlayerData.resourcesAvailable[resource]
-                newPlayerDataDict[key] = PlayerData(oldPlayerData.victoryPoints, oldPlayerData.devCards,
-                                                    oldPlayerData.settlements, newResources, oldPlayerData.armySize, oldPlayerData.color)
-            else:
-                newResources = {}
-                for resource in oldPlayerData.resourcesAvailable:
-                    newResources[resource] = oldPlayerData.resourcesAvailable[resource]
-                newPlayerDataDict[key] = PlayerData(oldPlayerData.victoryPoints, oldPlayerData.devCards,
-                                                    oldPlayerData.settlements, newResources, oldPlayerData.armySize, oldPlayerData.color)
-
-        return State(board, newPlayerDataDict, state.devCards, state.longestRoad, state.largestArmy, state.whoseTurn)
+        return newState
