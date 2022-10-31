@@ -1,8 +1,6 @@
 from Actions.Action import Action
 from Resource import Resource
 
-# NOT DONE
-
 
 class BuildRoad(Action):
 
