@@ -1,4 +1,5 @@
 from Actions.Action import Action
+import random
 
 
 class DevelopmentCard(Action):
@@ -9,8 +10,8 @@ class DevelopmentCard(Action):
     def apply(self, state):
         newState = state.getCopy()
 
-        # not sure how many of each devcard exist...
+        stealNum = random.randint(0, len(newState.devCards) - 1)
+        newDevCard = newState.devCards.pop(stealNum)
+        newState.playerDataDict[newState.whoseTurn].devCards.append(newDevCard)
 
-        # note: i think victory point cards should be handled differently.
-        # if its an action to appply our victory point that works, but i think the ai would just take that aciton immediately
-        # idk tho could be fine
+        return newState
