@@ -21,17 +21,10 @@ class RollDice(Action):
 
         if rollVal == 7:
             for player in state.playerDataList:
-                newState.necessaryAction.append(EAction.CHANGEWHOSETURN)
-                newState.necessaryAction.append(EAction.DISCARD)
+                newState.necessaryActions.append(EAction.NEXTPLAYER)
+                for i in range(max(0, len(player.resourcesAvailable.items()) - 7)):
+                    newState.necessaryActions.append(EAction.DISCARD)
             newState.necessaryAction.append(EAction.MOVEROBBER)
-            # if (self.robberTileID == None):
-            #     l = 0
-            #     # need to take in user data here!
-            #     # discardcards should be a dict of each player??????
-            #     # each player needs to choose in order which cards they discard i think...
-            # # for each player check if they have 8 cards
-            # # TODO: we need to take in information for discarding / movingrobber
-            # moveRobber = MoveRobber(self.robberTileID, self.robberStealPlayer)
 
         else:
             for tileNum in newState.board.tiles:
