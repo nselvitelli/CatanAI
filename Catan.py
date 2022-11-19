@@ -1,4 +1,4 @@
-from State import State
+import State
 from game import Game
 from graphics.graphicsDisplay import CatanGraphics
 
