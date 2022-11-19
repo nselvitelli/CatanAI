@@ -6,11 +6,8 @@ import random
 
 class RollDice(Action):
 
-    def __init__(self, discardCards, robberTileID, robberStealPlayer) -> None:
+    def __init__(self) -> None:
         super().__init__()
-        self.discardCards = discardCards
-        self.robberTileID = robberTileID
-        self.robberStealPlayer = robberStealPlayer
 
     def apply(self, state):
         newState = state.getCopy()
