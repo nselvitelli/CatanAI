@@ -16,12 +16,14 @@ class RollDice(Action):
         d2 = random.randint(1, 6)
         rollVal = d1 + d2
 
+        newState.necessaryActions.clear()
+
         if rollVal == 7:
             for player in state.playerDataList:
                 newState.necessaryActions.append(EAction.NEXTPLAYER)
                 for i in range(max(0, len(player.resourcesAvailable.items()) - 7)):
                     newState.necessaryActions.append(EAction.DISCARD)
-            newState.necessaryAction.append(EAction.MOVEROBBER)
+            newState.necessaryActions.append(EAction.MOVEROBBER)
 
         else:
             for tileNum in newState.board.tiles:

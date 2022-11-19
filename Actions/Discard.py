@@ -12,7 +12,8 @@ class Discard(Action):
         nextState = state.getCopy()
 
         nextState.playerData[nextState.whoseTurn].resourcesAvailable.remove(self.resource)
-        nextState.necessaryActions.extend(self.necessaryActions)
+        
+        nextState.necessaryActions = self.necessaryActions
 
 
         return nextState

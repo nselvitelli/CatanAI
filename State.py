@@ -36,8 +36,8 @@ class State:
     def getCopy(self):
         newBoard = self.board.getCopy()
         newPlayerDataList = []
-        for ind in enumerate(self.playerDataList):
-            newPlayerDataList.append(self.playerDataList[ind].getCopy())
+        for player in self.playerDataList:
+            newPlayerDataList.append(player.getCopy())
 
         newDevCards = []
         for devCard in self.devCards:
@@ -131,6 +131,7 @@ class State:
         return actions
     
     def getNecessaryActions(self):
+        print(self.necessaryActions)
         necessaryActionsCopy = self.necessaryActions.copy()
         nextNeededActionEnum = necessaryActionsCopy.pop(0)
         currentPlayer = self.playerDataList[self.whoseTurn]

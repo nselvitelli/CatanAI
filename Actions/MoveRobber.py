@@ -30,7 +30,7 @@ class MoveRobber(Action):
                 break
             count += stealData.resourcesAvailable[key]
 
-        newState.necessaryActions.extend(self.necessaryActions)
+        newState.necessaryActions = self.necessaryActions
 
         return newState
 

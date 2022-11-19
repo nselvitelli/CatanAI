@@ -10,6 +10,7 @@ class RoadBuilding(Action):
 
     def apply(self, state):
         newState = state.getCopy()
+        newState.necessaryActions.clear()
         newState.necessaryActions.append(EAction.BUILDFREEROAD)
         newState.necessaryActions.extend(state.necessaryActions)
 

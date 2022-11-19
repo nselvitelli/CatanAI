@@ -13,7 +13,7 @@ class NextPlayer(Action):
 
         nextState.whoseTurn = (nextState.whoseTurn + 1) % len(nextState.playerDataList)
 
-        nextState.necessaryActions.extend(self.necessaryActions)
+        nextState.necessaryActions = self.necessaryActions
 
 
         return nextState
