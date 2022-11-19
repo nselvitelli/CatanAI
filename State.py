@@ -133,7 +133,7 @@ class State:
             return [RollDice()]
 
 
-def generateState(numPlayers=2):
+def generateState(numPlayers=2) -> State:
         board = Board(None, None, None, None).generate_start_board()
         playerList = []
         colors = [member.value for member in PlayerColor]
@@ -141,6 +141,7 @@ def generateState(numPlayers=2):
             playerList.append(PlayerData(color=colors[i]))
         devCards = getDevCardPool()
         state = State(board, playerList, devCards, PlayerColor.BLANK, PlayerColor.BLANK, playerList[0].color, [])
+        return state
 
 def getDevCardPool():
     """
