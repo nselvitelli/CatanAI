@@ -78,7 +78,7 @@ class State:
         if self.resourcesAvailable(brick, log, sheep, wheat, ore, resourcesAvailable):
             valid = set()
             for settlementNodeID in currentPlayer.settlements[0:2]:
-                valid.union(set(func(settlementNodeID, self.whoseTurn)))
+                valid.union(set(func(settlementNodeID, self.playerDataList[self.whoseTurn].color)))
             return [action(x, self.whoseTurn) for x in valid]
         else:
             return []
