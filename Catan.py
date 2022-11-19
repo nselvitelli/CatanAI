@@ -1,5 +1,10 @@
+import State
 from game import Game
 from graphics.graphicsDisplay import CatanGraphics
+
+
+NUM_PLAYERS = 2  # TODO: take in as command line arg
+
 
 if __name__ == '__main__':
     """
@@ -23,7 +28,9 @@ if __name__ == '__main__':
 
     display = CatanGraphics()
 
-    game = Game(display, None)
+    state = State.generateState(NUM_PLAYERS)
+
+    game = Game(display, state)
 
     game.run()
     pass
