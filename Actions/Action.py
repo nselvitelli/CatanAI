@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from enum import Enum
 from sre_parse import State
 
 
@@ -10,3 +11,8 @@ class Action(ABC):
     @abstractmethod
     def apply(self, state):
         pass
+
+class EAction(Enum):
+    DISCARD = 0
+    CHANGEWHOSETURN = 1
+    MOVEROBBER = 2
