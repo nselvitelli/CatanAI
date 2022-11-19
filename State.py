@@ -1,6 +1,7 @@
 from Actions.BuildCity import BuildCity
 from Actions.BuildRoad import BuildRoad
 from Actions.BuildSettlement import BuildSettlement
+from Actions.DevActions.Knight import Knight
 from Actions.DevelopmentCard import DevelopmentCard
 from Actions.EndTurn import EndTurn
 from Actions.NextPlayer import NextPlayer
@@ -70,9 +71,14 @@ class State:
         validActions.extend(self.getPortActions(currentPlayer))
 
         for devCard in currentPlayer.devCards:
-            pass
+            if devCard == DevCardName.KNIGHT:
+                validActions.append(Knight)
+            elif devCard == DevCardName.MONOPOLY:
+
 
         validActions.append(EndTurn())
+        return validActions
+
         return validActions
 
     def getBuildingAction(self, brick, log, sheep, wheat, ore, currentPlayer, resourcesAvailable, func, action):
