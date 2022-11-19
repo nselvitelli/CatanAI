@@ -1,7 +1,11 @@
 from Actions.BuildCity import BuildCity
+from Actions.BuildFreeRoad import BuildFreeRoad
 from Actions.BuildRoad import BuildRoad
 from Actions.BuildSettlement import BuildSettlement
 from Actions.DevActions.Knight import Knight
+from Actions.DevActions.Monopoly import Monopoly
+from Actions.DevActions.RoadBuilding import RoadBuilding
+from Actions.DevActions.YearOfPlenty import YearOfPlenty
 from Actions.DevelopmentCard import DevelopmentCard
 from Actions.EndTurn import EndTurn
 from Actions.NextPlayer import NextPlayer
@@ -71,11 +75,20 @@ class State:
 
         validActions.extend(self.getPortActions(currentPlayer))
 
-        for devCard in currentPlayer.devCards:
+        for devCard in set(currentPlayer.devCards):
             if devCard == DevCardName.KNIGHT:
-                validActions.append(Knight)
+                validActions.append(Knight())
             elif devCard == DevCardName.MONOPOLY:
-                pass
+                for resource in Resource:
+                    if resource != Resource.DESERT:
+                        validActions.append(Monopoly(resource))
+            elif devCard == DevCardName.YEAR_OF_PLENTY:
+                for resource1 in Resource:
+                    for resource2 in Resource:
+                        if Resource.DESERT not in [resource1, resource2]:
+                            validActions.append(YearOfPlenty(resource1, resource2))
+            elif devCard == DevCardName.ROAD_BUILDING:
+                validActions.append(RoadBuilding())
 
         validActions.append(EndTurn())
 
@@ -120,6 +133,8 @@ class State:
     def getNecessaryActions(self):
         necessaryActionsCopy = self.necessaryActions.copy()
         nextNeededActionEnum = necessaryActionsCopy.pop(0)
+        currentPlayer = self.playerDataList[self.whoseTurn]
+
 
         if nextNeededActionEnum == EAction.DISCARD:
             discardActions = []
@@ -158,6 +173,11 @@ class State:
             for nodeID in allPossibleLocations:
                 initialSettlementActions.append(PlaceInitialSettlement(nodeID, getResourcesFromSettlement))
             return initialSettlementActions
+        elif nextNeededActionEnum == EAction.BUILDFREEROAD:
+            valid = set()
+            for settlementNodeID in currentPlayer.settlements[0:2]: 
+                valid.union(set(self.board.bfsEndpoint(settlementNodeID, self.playerDataList[self.whoseTurn].color)))
+            return [BuildFreeRoad(edge) for edge in valid]
     
     def isGameOver(self):
         for player in self.playerDataList:
