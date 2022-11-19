@@ -3,8 +3,12 @@ from Actions.BuildRoad import BuildRoad
 from Actions.BuildSettlement import BuildSettlement
 from Actions.DevelopmentCard import DevelopmentCard
 from Actions.EndTurn import EndTurn
+from Actions.NextPlayer import NextPlayer
 from Actions.Trade import Trade
 from Actions.Action import EAction
+from Actions.MoveRobber import MoveRobber
+from Actions.RollDice import RollDice
+from Actions.Discard import Discard
 from Node import Port
 
 from Resource import Resource
@@ -100,14 +104,24 @@ class State:
     def getNecessaryActions(self):
         nextNeededActionEnum = self.necessaryActions.pop(0)
 
-        actions = []
-
         if nextNeededActionEnum == EAction.DISCARD:
-            
-            
+            discardActions = []
+            currentPlayer = self.playerDataList[self.whoseTurn]
+            for resourceID, amount in currentPlayer.resourcesAvailable.items():
+                if amount > 0:
+                    discardActions.append(Discard(resourceID))
+            return discardActions
+        elif nextNeededActionEnum == EAction.NEXTPLAYER:
+            return [NextPlayer()]
+        elif nextNeededActionEnum == EAction.MOVEROBBER:
+            " get all tile id's with other player's settlements and cities"
+            " for each player, for each of their settlements/cities's node ids, make a move robber move"
+            robbingActions = []
 
-            return actions
-        elif nextNeededActionEnum == EAction.CHANGEWHOSETURN:
-            return actions
-        else:
-            return actions
+            for tileID, value in self.board.tiles.items():
+                for player in self.playerDataList:
+                    if len(set(value.nodes) - set(player.settlements)) != len(value.nodes): #player is on this tile
+                        robbingActions.append(MoveRobber(tileID, player))
+            return robbingActions
+        elif nextNeededActionEnum == EAction.ROLLDICE:
+            return [RollDice()]
