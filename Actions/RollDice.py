@@ -1,6 +1,5 @@
 from Actions.Action import Action, EAction
 from Node import NodePiece
-from MoveRobber import MoveRobber
 import random
 
 
@@ -36,7 +35,7 @@ class RollDice(Action):
                         elif node.piece[0] == NodePiece.CITY:
                             playerData = newState.playerDataDict[node.piece[1]]
                             playerData.resourcesAvailable[tile.resource] += 2
-        
+
         newState.necessaryActions.extend(self.necessaryActions)
 
         return newState
