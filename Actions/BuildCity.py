@@ -12,11 +12,13 @@ class BuildCity(Action):
     def apply(self, state):
         newState = state.getCopy()
 
+        playerData = newState.playerDataList[newState.whoseTurn]
+
         newNode = newState.board.nodes[self.nodeID].getCopy()
-        newNode.piece = (NodePiece.CITY, newState.whoseTurn)
+        newNode.piece = (NodePiece.CITY, playerData.color)
         newState.board.node[self.nodeID] = newNode
 
-        playerData = newState.playerDataList[newState.whoseTurn]
+        
         playerData.resourcesAvailable[Resource.WHEAT] -= 2
         playerData.resourcesAvailable[Resource.ORE] -= 3
 
