@@ -7,7 +7,7 @@ class EndTurn(Action):
     def __init__(self) -> None:
         super().__init__()
 
-    def apply(self, state): 
+    def apply(self, state):
         nextState = state.getCopy()
 
         nextState.whoseTurn = (nextState.whoseTurn + 1) % len(nextState.playerDataList)
