@@ -1,6 +1,6 @@
 from Actions.Action import Action
 from Node import NodePiece, Port
-from Resource import Resource
+from Actions.Action import EAction
 
 
 class PlaceInitialSettlement(Action):
@@ -31,6 +31,8 @@ class PlaceInitialSettlement(Action):
         playerData.settlements.append(self.nodeID)
 
         playerData.victoryPoints += 1
+
+        newState.necessaryActions.insert(0, EAction.BUILDFREEROAD)
 
         return newState
 
