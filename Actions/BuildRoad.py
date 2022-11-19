@@ -12,10 +12,10 @@ class BuildRoad(Action):
         newState = state.getCopy()
 
         newEdge = newState.board.edges[self.edgeID].getCopy()
-        newEdge.playerColor = newState.whoseTurn
+        newEdge.playerIndex = newState.whoseTurn
         newState.board.edges[self.edgeID] = newEdge
 
-        playerData = newState.playerDataDict[newState.whoseTurn]
+        playerData = newState.playerDataList[newState.whoseTurn]
         playerData.resourcesAvailable[Resource.LOG] -= 1
         playerData.resourcesAvailable[Resource.BRICK] -= 1
 
