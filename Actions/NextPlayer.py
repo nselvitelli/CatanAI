@@ -15,7 +15,6 @@ class NextPlayer(Action):
 
         nextState.necessaryActions = self.necessaryActions
 
-
         return nextState
 
 

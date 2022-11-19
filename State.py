@@ -14,6 +14,7 @@ from Actions.Action import EAction
 from Actions.MoveRobber import MoveRobber
 from Actions.RollDice import RollDice
 from Actions.Discard import Discard
+from Actions.PlaceInitialSettlement import PlaceInitialSettlement
 from Board import Board
 from DevCard import DevCardName
 from Node import NodePiece, Port
@@ -90,7 +91,6 @@ class State:
                 validActions.append(RoadBuilding())
 
         validActions.append(EndTurn())
-        return validActions
 
         return validActions
 
@@ -158,6 +158,22 @@ class State:
             return robbingActions
         elif nextNeededActionEnum == EAction.ROLLDICE:
             return [RollDice(necessaryActionsCopy)]
+        elif nextNeededActionEnum == EAction.PLACE_INIT_SETTLEMENT or nextNeededActionEnum == EAction.PLACE_INIT_SETTLEMENT_GET_RESOURCES:
+            " TODO: FIX THIS"
+            allNodeLocations = set(self.board.nodes.keys())
+            takenLocations = set() # including nodes 1 away from a settlement
+            for player in self.playerDataList:
+                for settlement in player.settlements:
+                    for edge in settlement.edges:
+                        takenLocations.add(edge.nodeOne)
+                        takenLocations.add(edge.nodeTwo)
+            allPossibleLocations = allNodeLocations - takenLocations
+
+            initialSettlementActions = []
+            getResourcesFromSettlement = nextNeededActionEnum == EAction.PLACE_INIT_SETTLEMENT_GET_RESOURCES
+            for nodeID in allPossibleLocations:
+                initialSettlementActions.append(PlaceInitialSettlement(nodeID, getResourcesFromSettlement))
+            return initialSettlementActions
         elif nextNeededActionEnum == EAction.BUILDFREEROAD:
             valid = set()
             for settlementNodeID in currentPlayer.settlements[0:2]: 
@@ -175,10 +191,23 @@ def generateState(agents) -> State:
         board = Board(None, None, None, None)
         board.generate_start_board()
         playerList = []
-        for i in range(len(agents)):
+        numAgents = len(agents)
+        for i in range(numAgents):
             playerList.append(PlayerData(agents[i], color=agents[i].color))
         devCards = getDevCardPool()
-        state = State(board, playerList, devCards, PlayerColor.BLANK, PlayerColor.BLANK, 0, [])
+
+        necessaryActions = []
+        "first round of place settlement"
+        for i in range(numAgents):
+            necessaryActions.append(EAction.PLACE_INIT_SETTLEMENT)
+            necessaryActions.append(EAction.NEXTPLAYER)
+        "second round of place settlement"
+        for i in range(numAgents):
+            for b in range(numAgents - 1):
+                necessaryActions.append(EAction.NEXTPLAYER)
+            necessaryActions.append(EAction.PLACE_INIT_SETTLEMENT_GET_RESOURCES)
+
+        state = State(board, playerList, devCards, PlayerColor.BLANK, PlayerColor.BLANK, 0, necessaryActions)
         return state
 
 def getDevCardPool():
