@@ -159,7 +159,6 @@ class State:
         elif nextNeededActionEnum == EAction.ROLLDICE:
             return [RollDice(necessaryActionsCopy)]
         elif nextNeededActionEnum == EAction.PLACE_INIT_SETTLEMENT or nextNeededActionEnum == EAction.PLACE_INIT_SETTLEMENT_GET_RESOURCES:
-            " TODO: FIX THIS"
             allNodeLocations = set(self.board.nodes.keys())
             takenLocations = set() # including nodes 1 away from a settlement
             for player in self.playerDataList:
