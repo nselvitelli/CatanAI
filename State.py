@@ -11,19 +11,19 @@ from Resource import Resource
 
 class State:
 
-    def __init__(self, board, playerDataDict, devCards, longestRoad, largestArmy, whoseTurn) -> None:
+    def __init__(self, board, playerDataList, devCards, longestRoad, largestArmy, whoseTurn) -> None:
         self.board = board
-        self.playerDataDict = playerDataDict
+        self.playerDataList = playerDataList
         self.devCards = devCards
-        self.whoseTurn = whoseTurn  # this is a color
+        self.whoseTurn = whoseTurn  # this is an index
         self.longestRoad = longestRoad
         self.largestArmy = largestArmy
 
     def getCopy(self):
         newBoard = self.board.getCopy()
         newPlayerDataDict = {}
-        for key in self.playerDataDict:
-            newPlayerDataDict[key] = self.playerDataDict[key].getCopy()
+        for key in self.playerDataList:
+            newPlayerDataDict[key] = self.playerDataList[key].getCopy()
 
         newDevCards = []
         for devCard in self.devCards:
@@ -32,7 +32,7 @@ class State:
         return State(newBoard, newPlayerDataDict, newDevCards, self.longestRoad, self.largestArmy, self.whoseTurn)
 
     def getValidActions(self):
-        currentPlayer = self.playerDataDict[self.whoseTurn]
+        currentPlayer = self.playerDataList[self.whoseTurn]
         resourcesAvailable = currentPlayer.resourcesAvailable
 
         validActions = []
@@ -45,7 +45,7 @@ class State:
                             resourcesAvailable, self.board.bfsCurrentSettlements, BuildCity))
 
         if resourcesAvailable(0, 0, 1, 1, 1):
-            validActions.append(DevelopmentCard(currentPlayer))
+            validActions.append(DevelopmentCard())
 
         validActions.extend(self.getPortActions(currentPlayer))
 
