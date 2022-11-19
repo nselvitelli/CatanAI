@@ -164,9 +164,9 @@ class State:
             takenLocations = set() # including nodes 1 away from a settlement
             for player in self.playerDataList:
                 for settlement in player.settlements:
-                    for edge in settlement.edges:
-                        takenLocations.add(edge.nodeOne)
-                        takenLocations.add(edge.nodeTwo)
+                    for edge in self.board.nodes[settlement].edges:
+                        takenLocations.add(self.board.edges[edge].nodeOne)
+                        takenLocations.add(self.board.edges[edge].nodeTwo)
             allPossibleLocations = allNodeLocations - takenLocations
 
             initialSettlementActions = []
