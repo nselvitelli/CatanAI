@@ -21,3 +21,4 @@ class EAction(Enum):
     NEXTPLAYER = 1
     MOVEROBBER = 2
     ROLLDICE = 3
+    BUILDFREEROAD = 4
