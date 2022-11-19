@@ -69,6 +69,9 @@ class State:
 
         validActions.extend(self.getPortActions(currentPlayer))
 
+        for devCard in currentPlayer.devCards:
+            pass
+
         validActions.append(EndTurn())
 
     def getBuildingAction(self, brick, log, sheep, wheat, ore, currentPlayer, resourcesAvailable, func, action):
@@ -128,7 +131,7 @@ class State:
             for tileID, value in self.board.tiles.items():
                 for player in self.playerDataList:
                     if len(set(value.nodes) - set(player.settlements)) != len(value.nodes): #player is on this tile
-                        robbingActions.append(MoveRobber(tileID, player))
+                        robbingActions.append(MoveRobber(tileID, player, necessaryActionsCopy))
             return robbingActions
         elif nextNeededActionEnum == EAction.ROLLDICE:
             return [RollDice(necessaryActionsCopy)]
