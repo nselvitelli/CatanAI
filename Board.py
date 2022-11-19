@@ -27,6 +27,12 @@ class Board:
             edges[key] = self.edges[key].getCopy()
         return Board(tiles, nodes, edges, self.robber_tile)
 
+    def bfsEndpoint(self, settlementNodeID, whoseTurn):
+        return self.nodes[settlementNodeID].bfsEndpoints(whoseTurn, [], self.nodes, self.edges)
+
+    def bfsPossibleSettlements(self, settlementNodeID, whoseTurn):
+        return self.nodes[settlementNodeID].bfsPossibleSettlements(whoseTurn, [], self.nodes, self.edges)
+
     """
     BOARD HARDCODE
     """
