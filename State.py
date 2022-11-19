@@ -21,15 +21,15 @@ class State:
 
     def getCopy(self):
         newBoard = self.board.getCopy()
-        newPlayerDataDict = {}
-        for key in self.playerDataList:
-            newPlayerDataDict[key] = self.playerDataList[key].getCopy()
+        newPlayerDataList = []
+        for ind,item in enumerate(self.playerDataList):
+            newPlayerDataList.append(self.playerDataList[ind].getCopy())
 
         newDevCards = []
         for devCard in self.devCards:
             newDevCards.append(devCard)
 
-        return State(newBoard, newPlayerDataDict, newDevCards, self.longestRoad, self.largestArmy, self.whoseTurn)
+        return State(newBoard, newPlayerDataList, newDevCards, self.longestRoad, self.largestArmy, self.whoseTurn)
 
     def getValidActions(self):
         currentPlayer = self.playerDataList[self.whoseTurn]
@@ -75,10 +75,14 @@ class State:
         for port in ports - set([Port.THREE_TO_ONE]):
             resource = portsToResources[port]
             if currentPlayer.resourcesAvailable[resource] >= 2:
-                actions.append(Trade(resource, 2))
+                for targetResource in Resource:
+                    if targetResource not in [Resource.DESERT, resource]:
+                        actions.append(Trade(resource, 2, targetResource))
         for port in inaccessiblePorts - set([Port.THREE_TO_ONE]):
             resource = portsToResources[port]
             if currentPlayer.resourcesAvailable[resource] >= maxTradeQuantity:
-                actions.append(Trade(resource, maxTradeQuantity))
+                for targetResource in Resource:
+                    if targetResource not in [Resource.DESERT, resource]:
+                        actions.append(Trade(resource, maxTradeQuantity, targetResource))
 
         return actions
