@@ -9,7 +9,7 @@ from Actions.Action import EAction
 from Actions.MoveRobber import MoveRobber
 from Actions.RollDice import RollDice
 from Actions.Discard import Discard
-from Node import Port
+from Node import NodePiece, Port
 
 from Resource import Resource
 
@@ -55,10 +55,13 @@ class State:
             1, 1, 0, 0, 0, currentPlayer, resourcesAvailable, self.board.bfsEndpoint, BuildRoad))
         validActions.extend(self.getBuildingAction(1, 1, 1, 1, 0, currentPlayer,
                             resourcesAvailable, self.board.bfsPossibleSettlements, BuildSettlement))
-        validActions.extend(self.getBuildingAction(0, 0, 0, 2, 3, currentPlayer,
-                            resourcesAvailable, self.board.bfsCurrentSettlements, BuildCity))
+                            
+        if resourcesAvailable(0, 0, 0, 2, 3, resourcesAvailable):
+            for settlement in currentPlayer.settlements:
+                if self.board.nodes[settlement].piece[0] == NodePiece.SETTLEMENT:
+                    validActions.append(BuildCity(settlement))
 
-        if resourcesAvailable(0, 0, 1, 1, 1):
+        if self.resourcesAvailable(0, 0, 1, 1, 1, resourcesAvailable):
             validActions.append(DevelopmentCard())
 
         validActions.extend(self.getPortActions(currentPlayer))
@@ -66,9 +69,9 @@ class State:
         validActions.append(EndTurn())
 
     def getBuildingAction(self, brick, log, sheep, wheat, ore, currentPlayer, resourcesAvailable, func, action):
-        if resourcesAvailable(brick, log, sheep, wheat, ore, resourcesAvailable):
+        if self.resourcesAvailable(brick, log, sheep, wheat, ore, resourcesAvailable):
             valid = set()
-            for settlementNodeID in currentPlayer.firstSettlements:
+            for settlementNodeID in currentPlayer.settlements[0:2]:
                 valid.union(set(func(settlementNodeID, self.whoseTurn)))
             return [action(x, self.whoseTurn) for x in valid]
         else:

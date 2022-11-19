@@ -26,6 +26,8 @@ class BuildSettlement(Action):
         if newNode.port != Port.EMPTY:
             playerData.portsAvailable.add(newNode.port)
 
+        playerData.settlements.append(self.nodeID)
+
         playerData.victoryPoints += 1
 
         return newState

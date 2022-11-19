@@ -53,18 +53,18 @@ class Node:
                 self, playerColor, explored, edgeMap, nodeMap))
         return possibles
 
-    def bfsUpgradeableSettlements(self, playerColor, explored, edgeMap, nodeMap):
-        if self.id in explored:
-            return []
+    # def bfsUpgradeableSettlements(self, playerColor, explored, edgeMap, nodeMap):
+    #     if self.id in explored:
+    #         return []
 
-        if self.piece == (NodePiece.SETTLEMENT, playerColor):
-            return [self.id]
+    #     if self.piece == (NodePiece.SETTLEMENT, playerColor):
+    #         return [self.id]
 
-        possibles = []
-        for edge in self.edges:
-            possibles.extend(edgeMap[edge].bfsUpgradeableSettlements(
-                self, playerColor, explored, edgeMap, nodeMap))
-        return possibles
+    #     possibles = []
+    #     for edge in self.edges:
+    #         possibles.extend(edgeMap[edge].bfsUpgradeableSettlements(
+    #             self, playerColor, explored, edgeMap, nodeMap))
+    #     return possibles
 
     def getCopy(self):
         newEdges = []
@@ -101,12 +101,12 @@ class Edge:
         otherNode = self.nodeOne if self.nodeTwo == comingFrom else self.nodeTwo
         return nodeMap[otherNode].piece[0] != NodePiece.EMPTY
 
-    def bfsUpgradeableSettlements(self, playerColor, explored, comingFrom, nodeMap, edgeMap):
-        if self.playerColor == playerColor:
-            otherNode = self.nodeOne if self.nodeTwo == comingFrom else self.nodeTwo
-            return nodeMap[otherNode].bfsUpgradeableSettlements(playerColor, explored, nodeMap, edgeMap)
-        else:
-            return []
+    # def bfsUpgradeableSettlements(self, playerColor, explored, comingFrom, nodeMap, edgeMap):
+    #     if self.playerColor == playerColor:
+    #         otherNode = self.nodeOne if self.nodeTwo == comingFrom else self.nodeTwo
+    #         return nodeMap[otherNode].bfsUpgradeableSettlements(playerColor, explored, nodeMap, edgeMap)
+    #     else:
+    #         return []
 
     def getCopy(self):
         return Edge(self.id, self.nodeOne, self.nodeTwo, self.playerColor)
