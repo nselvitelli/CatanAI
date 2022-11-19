@@ -1,5 +1,4 @@
 
-
 class Game:
     """
     The Game manages the control flow, soliciting actions from agents.

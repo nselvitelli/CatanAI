@@ -9,10 +9,13 @@ from Actions.Action import EAction
 from Actions.MoveRobber import MoveRobber
 from Actions.RollDice import RollDice
 from Actions.Discard import Discard
+from Board import Board
+from DevCard import DevCardName
 from Node import Port
+from PlayerColor import PlayerColor
+from PlayerData import PlayerData
 
 from Resource import Resource
-
 
 class State:
 
@@ -125,3 +128,38 @@ class State:
             return robbingActions
         elif nextNeededActionEnum == EAction.ROLLDICE:
             return [RollDice()]
+
+
+def generateState(numPlayers=2):
+        board = Board(None, None, None, None).generate_start_board()
+        playerList = []
+        colors = [member.value for member in PlayerColor]
+        for i in range(0, numPlayers):
+            playerList.append(PlayerData(color=colors[i]))
+        devCards = getDevCardPool()
+        state = State(board, playerList, devCards, PlayerColor.BLANK, PlayerColor.BLANK, playerList[0].color, [])
+
+def getDevCardPool():
+    """
+    In the base game, there are 25 development cards: 
+        14 knight cards, 
+        5 victory point cards, 
+        2 road building, 
+        2 year of plenty, and 
+        2 monopoly.
+    """
+    devCards = []
+    for i in range(0, 14):
+        devCards.append(DevCardName.KNIGHT)
+    for i in range(0, 2):
+        devCards.append(DevCardName.ROAD_BUILDING)
+    for i in range(0, 2):
+        devCards.append(DevCardName.YEAR_OF_PLENTY)
+    for i in range(0, 2):
+        devCards.append(DevCardName.MONOPOLY)
+    devCards.append(DevCardName.CHAPEL)
+    devCards.append(DevCardName.GREAT_HALL)
+    devCards.append(DevCardName.LIBRARY)
+    devCards.append(DevCardName.MARKET)
+    devCards.append(DevCardName.UNIVERSITY)
+    return devCards
