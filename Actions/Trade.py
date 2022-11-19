@@ -18,5 +18,4 @@ class Trade(Action):
         playerData[self.resource] -= self.quantity
         playerData[self.targetResource] += 1
 
-
         return newState
