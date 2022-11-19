@@ -131,7 +131,7 @@ class State:
                         robbingActions.append(MoveRobber(tileID, player))
             return robbingActions
         elif nextNeededActionEnum == EAction.ROLLDICE:
-            return [RollDice()]
+            return [RollDice(necessaryActionsCopy)]
 
 
 def generateState(numPlayers=2) -> State:
