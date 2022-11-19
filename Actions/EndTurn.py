@@ -1,15 +1,15 @@
-from Actions.Action import Action
+from Actions.Action import Action, EAction
 
 
 class EndTurn(Action):
 
-    # TODO: we need to come up with some way of tracking turn order...
     def __init__(self) -> None:
         super().__init__()
 
     def apply(self, state):
         nextState = state.getCopy()
 
-        nextState.whoseTurn = (nextState.whoseTurn + 1) % len(nextState.playerDataList)
+        nextState.necessaryActions.append(EAction.NEXTPLAYER)
+        nextState.necessaryActions.append(EAction.ROLLDICE)
 
         return nextState

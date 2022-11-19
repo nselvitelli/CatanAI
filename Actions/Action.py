@@ -16,3 +16,4 @@ class EAction(Enum):
     DISCARD = 0
     NEXTPLAYER = 1
     MOVEROBBER = 2
+    ROLLDICE = 3
