@@ -1,6 +1,5 @@
 
 import random
-from typing_extensions import Self
 from Node import Edge, Node, NodePiece, Port
 from PlayerData import PlayerColor
 from Resource import Resource
@@ -16,7 +15,7 @@ class Board:
         self.robber_tile = robber_tile
 
 
-    def getCopy(self) -> Self:
+    def getCopy(self):
         tiles = {}
         for key in self.tiles.keys():
             tiles[key] = self.tiles[key].getCopy()
