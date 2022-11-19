@@ -14,3 +14,6 @@ class YearOfPlenty(Action):
         playerData.resourcesAvailable[self.resource1] += 1
         playerData.resourcesAvailable[self.resource2] += 1
         return newState
+
+    def getActionAsString(self):
+        return "Play YearOfPlenty DevCard to get " + str(self.resource1) + " and " + str(self.resource2)

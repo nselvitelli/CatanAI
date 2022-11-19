@@ -13,3 +13,6 @@ class EndTurn(Action):
         nextState.necessaryActions.append(EAction.ROLLDICE)
 
         return nextState
+
+    def getActionAsString(self):
+        return "EndTurn"

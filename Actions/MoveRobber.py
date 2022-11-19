@@ -33,3 +33,6 @@ class MoveRobber(Action):
         newState.necessaryActions.extend(self.necessaryActions)
 
         return newState
+
+    def getActionAsString(self):
+        return "MoveRobber to " + str(self.tileID) + ", steal from " + str(self.stealPlayer)

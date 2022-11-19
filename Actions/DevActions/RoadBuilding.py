@@ -21,3 +21,6 @@ class RoadBuilding(Action):
         playerData.resourcesAvailable[Resource.BRICK] += 2
 
         return newState
+
+    def getActionAsString(self):
+        return "Play RoadBuilding DevCard to build roads at " + str(self.edgeID1) + " and " + str(self.edgeID2)
