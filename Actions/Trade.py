@@ -14,7 +14,7 @@ class Trade(Action):
     def apply(self, state):
         newState = state.getCopy()
 
-        playerData = newState.playerDataDict[newState.whoseTurn]
+        playerData = newState.playerDataList[newState.whoseTurn]
         playerData[self.resource] -= self.quantity
         playerData[self.targetResource] += 1
 

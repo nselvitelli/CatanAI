@@ -16,7 +16,7 @@ class BuildSettlement(Action):
         newNode.piece = (NodePiece.SETTLEMENT, newState.whoseTurn)
         newState.board.node[self.nodeID] = newNode
 
-        playerData = newState.playerDataDict[newState.whoseTurn]
+        playerData = newState.playerDataList[newState.whoseTurn]
         playerData.resourcesAvailable[Resource.LOG] -= 1
         playerData.resourcesAvailable[Resource.BRICK] -= 1
         playerData.resourcesAvailable[Resource.SHEEP] -= 1

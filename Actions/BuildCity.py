@@ -16,7 +16,7 @@ class BuildCity(Action):
         newNode.piece = (NodePiece.CITY, newState.whoseTurn)
         newState.board.node[self.nodeID] = newNode
 
-        playerData = newState.playerDataDict[newState.whoseTurn]
+        playerData = newState.playerDataList[newState.whoseTurn]
         playerData.resourcesAvailable[Resource.WHEAT] -= 2
         playerData.resourcesAvailable[Resource.ORE] -= 3
 
