@@ -1,9 +1,10 @@
 import State
+from Agents.KeyboardAgent import KeyboardAgent
+from Agents.RandomAgent import RandomAgent
 from game import Game
 from graphics.graphicsDisplay import CatanGraphics
+from PlayerColor import PlayerColor
 
-
-NUM_PLAYERS = 2  # TODO: take in as command line arg
 
 
 if __name__ == '__main__':
@@ -28,7 +29,12 @@ if __name__ == '__main__':
 
     display = CatanGraphics()
 
-    state = State.generateState(NUM_PLAYERS)
+    agents = [
+        KeyboardAgent(PlayerColor.RED),
+        RandomAgent(PlayerColor.BLUE)
+    ]
+
+    state = State.generateState(agents)
 
     game = Game(display, state)
 

@@ -23,4 +23,16 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     exit = True
+            
+            currentPlayerData = self.state.playerDataList[self.state.whoseTurn]
+            currentAgent = currentPlayerData.agent
+            action = currentAgent.getAction(self.state)
+            nextState = action.apply(self.state)
+
+            if(nextState.isGameOver()):
+                print("GAME OVER")
+                exit = True
+            
+            self.state = nextState
+
             pygame.display.update()

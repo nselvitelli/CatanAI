@@ -4,7 +4,8 @@ from PlayerColor import PlayerColor
 
 class PlayerData:
 
-    def __init__(self, victoryPoints=0, devCards=[], settlements=[], resources={}, armySize=0, color=PlayerColor.BLANK, pendingDevCards = []) -> None:
+    def __init__(self, agent, victoryPoints=0, devCards=[], settlements=[], resources={}, armySize=0, color=PlayerColor.BLANK, pendingDevCards = []) -> None:
+        self.agent = agent
         self.victoryPoints = victoryPoints
         self.devCards = devCards
         self.settlements = settlements
@@ -44,7 +45,7 @@ class PlayerData:
         for key in self.resourcesAvailable:
             newResources[key] = self.resourcesAvailable[key]
 
-        return PlayerData(self.victoryPoints, newDevCards, newSettlements, newResources, self.armySize, self.color)
+        return PlayerData(self.agent, self.victoryPoints, newDevCards, newSettlements, newResources, self.armySize, self.color)
 
     def getPorts(self):
         return self.portsAvailable

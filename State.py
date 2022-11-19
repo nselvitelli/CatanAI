@@ -143,14 +143,13 @@ class State:
         return False
 
 
-def generateState(numPlayers=2) -> State:
+def generateState(agents) -> State:
         board = Board(None, None, None, None).generate_start_board()
         playerList = []
-        colors = [member.value for member in PlayerColor]
-        for i in range(0, numPlayers):
-            playerList.append(PlayerData(color=colors[i]))
+        for i in range(len(agents)):
+            playerList.append(PlayerData(agents[i], color=agents[i].color))
         devCards = getDevCardPool()
-        state = State(board, playerList, devCards, PlayerColor.BLANK, PlayerColor.BLANK, playerList[0].color, [])
+        state = State(board, playerList, devCards, PlayerColor.BLANK, PlayerColor.BLANK, 0, [])
         return state
 
 def getDevCardPool():
