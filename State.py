@@ -64,12 +64,12 @@ class State:
         validActions.extend(self.getBuildingAction(1, 1, 1, 1, 0, currentPlayer,
                             resourcesAvailable, self.board.bfsPossibleSettlements, BuildSettlement))
 
-        if resourcesAvailable(0, 0, 0, 2, 3, resourcesAvailable):
+        if self.hasResourcesAvailable(0, 0, 0, 2, 3, resourcesAvailable):
             for settlement in currentPlayer.settlements:
                 if self.board.nodes[settlement].piece[0] == NodePiece.SETTLEMENT:
                     validActions.append(BuildCity(settlement))
 
-        if self.resourcesAvailable(0, 0, 1, 1, 1, resourcesAvailable):
+        if self.hasResourcesAvailable(0, 0, 1, 1, 1, resourcesAvailable):
             validActions.append(DevelopmentCard())
 
         validActions.extend(self.getPortActions(currentPlayer))
@@ -90,11 +90,12 @@ class State:
                 validActions.append(RoadBuilding())
 
         validActions.append(EndTurn())
+        return validActions
 
         return validActions
 
     def getBuildingAction(self, brick, log, sheep, wheat, ore, currentPlayer, resourcesAvailable, func, action):
-        if self.resourcesAvailable(brick, log, sheep, wheat, ore, resourcesAvailable):
+        if self.hasResourcesAvailable(brick, log, sheep, wheat, ore, resourcesAvailable):
             valid = set()
             for settlementNodeID in currentPlayer.settlements[0:2]:
                 valid.union(set(func(settlementNodeID, self.playerDataList[self.whoseTurn].color)))
@@ -102,7 +103,7 @@ class State:
         else:
             return []
 
-    def resourcesAvailable(self, brick, log, sheep, wheat, ore, resourcesAvailable):
+    def hasResourcesAvailable(self, brick, log, sheep, wheat, ore, resourcesAvailable):
         return resourcesAvailable[Resource.BRICK] >= brick and resourcesAvailable[Resource.LOG] >= log and resourcesAvailable[Resource.SHEEP] >= sheep and resourcesAvailable[Resource.WHEAT] >= wheat and resourcesAvailable[Resource.ORE] >= ore
 
     def getPortActions(self, currentPlayer):
@@ -169,14 +170,14 @@ class State:
         return False
 
 
-def generateState(numPlayers=2) -> State:
-        board = Board(None, None, None, None).generate_start_board()
+def generateState(agents) -> State:
+        board = Board(None, None, None, None)
+        board.generate_start_board()
         playerList = []
-        colors = [member.value for member in PlayerColor]
-        for i in range(0, numPlayers):
-            playerList.append(PlayerData(color=colors[i]))
+        for i in range(len(agents)):
+            playerList.append(PlayerData(agents[i], color=agents[i].color))
         devCards = getDevCardPool()
-        state = State(board, playerList, devCards, PlayerColor.BLANK, PlayerColor.BLANK, playerList[0].color, [])
+        state = State(board, playerList, devCards, PlayerColor.BLANK, PlayerColor.BLANK, 0, [])
         return state
 
 def getDevCardPool():
