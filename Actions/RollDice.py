@@ -6,8 +6,9 @@ import random
 
 class RollDice(Action):
 
-    def __init__(self) -> None:
+    def __init__(self, necessaryActions) -> None:
         super().__init__()
+        self.necessaryActions = necessaryActions
 
     def apply(self, state):
         newState = state.getCopy()
@@ -35,5 +36,7 @@ class RollDice(Action):
                         elif node.piece[0] == NodePiece.CITY:
                             playerData = newState.playerDataDict[node.piece[1]]
                             playerData.resourcesAvailable[tile.resource] += 2
+        
+        newState.necessaryActions.extend(self.necessaryActions)
 
         return newState

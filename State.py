@@ -55,7 +55,7 @@ class State:
             1, 1, 0, 0, 0, currentPlayer, resourcesAvailable, self.board.bfsEndpoint, BuildRoad))
         validActions.extend(self.getBuildingAction(1, 1, 1, 1, 0, currentPlayer,
                             resourcesAvailable, self.board.bfsPossibleSettlements, BuildSettlement))
-                            
+
         if resourcesAvailable(0, 0, 0, 2, 3, resourcesAvailable):
             for settlement in currentPlayer.settlements:
                 if self.board.nodes[settlement].piece[0] == NodePiece.SETTLEMENT:
@@ -105,17 +105,18 @@ class State:
         return actions
     
     def getNecessaryActions(self):
-        nextNeededActionEnum = self.necessaryActions.pop(0)
+        necessaryActionsCopy = self.necessaryActions.copy()
+        nextNeededActionEnum = necessaryActionsCopy.pop(0)
 
         if nextNeededActionEnum == EAction.DISCARD:
             discardActions = []
             currentPlayer = self.playerDataList[self.whoseTurn]
             for resourceID, amount in currentPlayer.resourcesAvailable.items():
                 if amount > 0:
-                    discardActions.append(Discard(resourceID))
+                    discardActions.append(Discard(resourceID, necessaryActionsCopy))
             return discardActions
         elif nextNeededActionEnum == EAction.NEXTPLAYER:
-            return [NextPlayer()]
+            return [NextPlayer(necessaryActionsCopy)]
         elif nextNeededActionEnum == EAction.MOVEROBBER:
             " get all tile id's with other player's settlements and cities"
             " for each player, for each of their settlements/cities's node ids, make a move robber move"
@@ -127,4 +128,4 @@ class State:
                         robbingActions.append(MoveRobber(tileID, player))
             return robbingActions
         elif nextNeededActionEnum == EAction.ROLLDICE:
-            return [RollDice()]
+            return [RollDice(necessaryActionsCopy)]
