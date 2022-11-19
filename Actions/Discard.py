@@ -16,3 +16,6 @@ class Discard(Action):
 
 
         return nextState
+
+    def getActionAsString(self):
+        return "Discard " + str(self.resource.name)

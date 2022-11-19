@@ -18,3 +18,6 @@ class Monopoly(Action):
 
         newState.playerDataDict[newState.whoseTurn].resourcesAvailable[self.resource] += stealCount
         return newState
+
+    def getActionAsString(self):
+        return "Play Monopoly DevCard to get " + str(self.resource) + " from all players"

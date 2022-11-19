@@ -40,3 +40,6 @@ class RollDice(Action):
         newState.necessaryActions.extend(self.necessaryActions)
 
         return newState
+
+    def getActionAsString(self):
+        return "RollDice"

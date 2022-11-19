@@ -25,3 +25,6 @@ class BuildCity(Action):
         playerData.victoryPoints += 1
 
         return newState
+
+    def getActionAsString(self):
+        return "BuildCity on " + str(self.nodeID)

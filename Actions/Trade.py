@@ -19,3 +19,6 @@ class Trade(Action):
         playerData[self.targetResource] += 1
 
         return newState
+
+    def getActionAsString(self):
+        return "Trade " + str(self.quantity) + " " + str(self.resource.name) + " for 1 " + str(self.targetResource.name)
