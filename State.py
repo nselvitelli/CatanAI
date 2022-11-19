@@ -4,6 +4,7 @@ from Actions.BuildSettlement import BuildSettlement
 from Actions.DevelopmentCard import DevelopmentCard
 from Actions.EndTurn import EndTurn
 from Actions.Trade import Trade
+from Actions.Action import EAction
 from Node import Port
 
 from Resource import Resource
@@ -11,27 +12,36 @@ from Resource import Resource
 
 class State:
 
-    def __init__(self, board, playerDataList, devCards, longestRoad, largestArmy, whoseTurn) -> None:
+    def __init__(self, board, playerDataList, devCards, longestRoad, largestArmy, whoseTurn, necessaryActions) -> None:
         self.board = board
         self.playerDataList = playerDataList
         self.devCards = devCards
         self.whoseTurn = whoseTurn  # this is an index
         self.longestRoad = longestRoad
         self.largestArmy = largestArmy
+        self.necessaryActions = necessaryActions
 
     def getCopy(self):
         newBoard = self.board.getCopy()
         newPlayerDataList = []
-        for ind,item in enumerate(self.playerDataList):
+        for ind in enumerate(self.playerDataList):
             newPlayerDataList.append(self.playerDataList[ind].getCopy())
 
         newDevCards = []
         for devCard in self.devCards:
             newDevCards.append(devCard)
 
-        return State(newBoard, newPlayerDataList, newDevCards, self.longestRoad, self.largestArmy, self.whoseTurn)
+        newNecessaryActions = []
+        for action in self.necessaryActions:
+            newNecessaryActions.append(action)
+
+        return State(newBoard, newPlayerDataList, newDevCards, self.longestRoad, self.largestArmy, self.whoseTurn, newNecessaryActions)
 
     def getValidActions(self):
+
+        if len(self.necessaryActions) > 0:
+            return self.getNecessaryActions()
+
         currentPlayer = self.playerDataList[self.whoseTurn]
         resourcesAvailable = currentPlayer.resourcesAvailable
 
@@ -86,3 +96,18 @@ class State:
                         actions.append(Trade(resource, maxTradeQuantity, targetResource))
 
         return actions
+    
+    def getNecessaryActions(self):
+        nextNeededActionEnum = self.necessaryActions.pop(0)
+
+        actions = []
+
+        if nextNeededActionEnum == EAction.DISCARD:
+            
+            
+
+            return actions
+        elif nextNeededActionEnum == EAction.CHANGEWHOSETURN:
+            return actions
+        else:
+            return actions

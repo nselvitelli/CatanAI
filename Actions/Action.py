@@ -14,5 +14,5 @@ class Action(ABC):
 
 class EAction(Enum):
     DISCARD = 0
-    CHANGEWHOSETURN = 1
+    NEXTPLAYER = 1
     MOVEROBBER = 2
