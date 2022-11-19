@@ -4,10 +4,11 @@ import random
 
 class MoveRobber(Action):
 
-    def __init__(self, tileID, stealPlayer) -> None:
+    def __init__(self, tileID, stealPlayer, necessaryActions) -> None:
         super().__init__()
         self.tileID = tileID
         self.stealPlayer = stealPlayer
+        self.necessaryActions = necessaryActions
 
     def apply(self, state):
         newState = state.getCopy()
@@ -28,5 +29,7 @@ class MoveRobber(Action):
                 newState.playerDataDict[newState.whoseTurn].resourcesAvailable[key] += 1
                 break
             count += stealData.resourcesAvailable[key]
+
+        newState.necessaryActions.extend(self.necessaryActions)
 
         return newState

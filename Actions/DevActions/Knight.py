@@ -1,4 +1,4 @@
-from Actions.Action import Action
+from Actions.Action import Action, EAction
 from Actions.MoveRobber import MoveRobber
 from PlayerColor import PlayerColor
 from DevCard import DevCardName
@@ -8,15 +8,12 @@ from DevCard import DevCardName
 
 class Knight(Action):
 
-    def __init__(self, tileID, stealPlayer) -> None:
+    def __init__(self) -> None:
         super().__init__()
-        self.tileID = tileID
-        self.stealPlayer = stealPlayer
 
     def apply(self, state):
-        # moves robber
-        moveRobber = MoveRobber(self.tileID, self.stealPlayer)
-        newState = moveRobber.apply(state)
+        newState = state.getCopy()
+        newState.necessaryActions.insert(0, EAction.MOVEROBBER)
 
         # corrects largest army if necessary
         maxKnights = 0
