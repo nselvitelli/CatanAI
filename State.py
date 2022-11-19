@@ -66,9 +66,7 @@ class State:
     def getPortActions(self, currentPlayer):
         actions = []
 
-        ports = set()
-        for settlementNodeID in currentPlayer.firstSettlements:
-            ports.union(set(self.board.bfsPorts(settlementNodeID)))
+        ports = currentPlayer.getPorts()
         maxTradeQuantity = 3 if Port.THREE_TO_ONE else 4
         inaccessiblePorts = set(
             [Port.BRICK, Port.LOG, Port.ORE, Port.SHEEP, Port.WHEAT]) - ports

@@ -23,6 +23,7 @@ class PlayerData:
 
         self.armySize = armySize
         self.color = color
+        self.portsAvailable = set()
 
     def getTotalResources(self):
         count = 0
@@ -44,3 +45,6 @@ class PlayerData:
             newResources[key] = self.resourcesAvailable[key]
 
         return PlayerData(self.victoryPoints, newDevCards, newSettlements, newResources, self.armySize, self.color)
+
+    def getPorts(self):
+        return self.portsAvailable

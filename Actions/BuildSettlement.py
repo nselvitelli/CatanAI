@@ -1,5 +1,5 @@
 from Actions.Action import Action
-from Node import NodePiece
+from Node import NodePiece, Port
 from Resource import Resource
 
 
@@ -21,6 +21,9 @@ class BuildSettlement(Action):
         playerData.resourcesAvailable[Resource.BRICK] -= 1
         playerData.resourcesAvailable[Resource.SHEEP] -= 1
         playerData.resourcesAvailable[Resource.WHEAT] -= 1
+
+        if newNode.port != Port.EMPTY:
+            playerData.portsAvailable.add(newNode.port)
 
         playerData.victoryPoints += 1
 
