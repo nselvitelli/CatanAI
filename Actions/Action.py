@@ -12,6 +12,10 @@ class Action(ABC):
     def apply(self, state):
         pass
 
+    @abstractmethod
+    def getActionAsString(self):
+        pass
+
 class EAction(Enum):
     DISCARD = 0
     NEXTPLAYER = 1

@@ -23,3 +23,6 @@ class BuildRoad(Action):
         playerData.resourcesAvailable[Resource.BRICK] -= 1
 
         return newState
+    
+    def getActionAsString(self):
+        return "BuildRoad on " + str(self.edgeID)

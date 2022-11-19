@@ -36,3 +36,6 @@ class Knight(Action):
         return newState
 
     # remove card from player hand
+
+    def getActionAsString(self):
+            return "Play Knight DevCard"

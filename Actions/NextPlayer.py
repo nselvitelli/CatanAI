@@ -17,3 +17,7 @@ class NextPlayer(Action):
 
 
         return nextState
+
+
+    def getActionAsString(self):
+        return "NextPlayer"

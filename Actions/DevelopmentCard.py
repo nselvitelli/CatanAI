@@ -15,3 +15,6 @@ class DevelopmentCard(Action):
         newState.playerDataDict[newState.whoseTurn].devCards.append(newDevCard)
 
         return newState
+
+    def getActionAsString(self):
+            return "BuyDevCard"

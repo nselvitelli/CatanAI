@@ -31,3 +31,6 @@ class BuildSettlement(Action):
         playerData.victoryPoints += 1
 
         return newState
+
+    def getActionAsString(self):
+        return "BuildSettlement on " + str(self.nodeID) 
