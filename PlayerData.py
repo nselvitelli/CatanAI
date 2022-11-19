@@ -4,10 +4,11 @@ from PlayerColor import PlayerColor
 
 class PlayerData:
 
-    def __init__(self, victoryPoints=0, devCards=[], settlements=[], resources={}, armySize=0, color=PlayerColor.BLANK) -> None:
+    def __init__(self, victoryPoints=0, devCards=[], settlements=[], resources={}, armySize=0, color=PlayerColor.BLANK, pendingDevCards = []) -> None:
         self.victoryPoints = victoryPoints
         self.devCards = devCards
         self.settlements = settlements
+        self.pendingDevCards = pendingDevCards
 
         self.resourcesAvailable = {}
         self.resourcesAvailable[Resource.WHEAT] = resources[Resource.WHEAT] if resources.has_key(
@@ -35,6 +36,10 @@ class PlayerData:
         newDevCards = []
         for devCard in self.devCards:
             newDevCards.append(devCard)
+
+        newPendingDevCards = []
+        for pDC in self.pendingDevCards:
+            newPendingDevCards.append(pDC)
 
         newSettlements = []
         for settlement in self.settlements:

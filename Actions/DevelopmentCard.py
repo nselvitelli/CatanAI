@@ -1,6 +1,8 @@
 from Actions.Action import Action
 import random
 
+from DevCard import DevCardName
+
 
 class DevelopmentCard(Action):
 
@@ -12,6 +14,9 @@ class DevelopmentCard(Action):
 
         stealNum = random.randint(0, len(newState.devCards) - 1)
         newDevCard = newState.devCards.pop(stealNum)
-        newState.playerDataDict[newState.whoseTurn].devCards.append(newDevCard)
+        if newDevCard in [DevCardName.CHAPEL, DevCardName.GREAT_HALL, DevCardName.LIBRARY, DevCardName.MARKET, DevCardName.UNIVERSITY]:
+            newState.playerDataDict[newState.whoseTurn].victoryPoints += 1
+        else:
+            newState.playerDataDict[newState.whoseTurn].pendingDevCards.append(newDevCard)
 
         return newState

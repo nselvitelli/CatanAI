@@ -9,6 +9,11 @@ class EndTurn(Action):
     def apply(self, state):
         nextState = state.getCopy()
 
+        currentPlayer = nextState.playerDataList[nextState.whoseTurn]
+
+        currentPlayer.devCards.extend(currentPlayer.pendingDevCards)
+        currentPlayer.pendingDevCards.clear()
+
         nextState.necessaryActions.append(EAction.NEXTPLAYER)
         nextState.necessaryActions.append(EAction.ROLLDICE)
 
