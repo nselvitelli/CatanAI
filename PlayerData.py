@@ -11,16 +11,11 @@ class PlayerData:
         self.pendingDevCards = pendingDevCards
 
         self.resourcesAvailable = {}
-        self.resourcesAvailable[Resource.WHEAT] = resources[Resource.WHEAT] if resources.has_key(
-            Resource.WHEAT) else 0
-        self.resourcesAvailable[Resource.BRICK] = resources[Resource.BRICK] if resources.has_key(
-            Resource.BRICK) else 0
-        self.resourcesAvailable[Resource.LOG] = resources[Resource.LOG] if resources.has_key(
-            Resource.LOG) else 0
-        self.resourcesAvailable[Resource.ORE] = resources[Resource.ORE] if resources.has_key(
-            Resource.ORE) else 0
-        self.resourcesAvailable[Resource.SHEEP] = resources[Resource.SHEEP] if resources.has_key(
-            Resource.SHEEP) else 0
+        self.resourcesAvailable[Resource.WHEAT] = resources[Resource.WHEAT] if Resource.WHEAT in resources else 0
+        self.resourcesAvailable[Resource.BRICK] = resources[Resource.BRICK] if Resource.BRICK in resources else 0
+        self.resourcesAvailable[Resource.LOG] = resources[Resource.LOG] if Resource.LOG in resources else 0
+        self.resourcesAvailable[Resource.ORE] = resources[Resource.ORE] if Resource.ORE in resources else 0
+        self.resourcesAvailable[Resource.SHEEP] = resources[Resource.SHEEP] if Resource.SHEEP in resources else 0
 
         self.armySize = armySize
         self.color = color
