@@ -132,6 +132,12 @@ class State:
             return robbingActions
         elif nextNeededActionEnum == EAction.ROLLDICE:
             return [RollDice(necessaryActionsCopy)]
+    
+    def isGameOver(self):
+        for player in self.playerDataList:
+            if player.victoryPoints >= 10:
+                return True
+        return False
 
 
 def generateState(numPlayers=2) -> State:
