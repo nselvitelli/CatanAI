@@ -218,7 +218,7 @@ def generateState(agents) -> State:
         playerList = []
         numAgents = len(agents)
         for i in range(numAgents):
-            playerList.append(PlayerData(agents[i], color=agents[i].color))
+            playerList.append(PlayerData(agents[i], color=agents[i].color, resources={Resource.BRICK: 1, Resource.LOG: 1, Resource.SHEEP: 1, Resource.WHEAT: 1}))
         devCards = getDevCardPool()
 
         necessaryActions = []
