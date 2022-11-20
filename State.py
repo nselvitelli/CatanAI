@@ -142,20 +142,34 @@ class State:
                 if amount > 0:
                     discardActions.append(Discard(resourceID, necessaryActionsCopy))
             return discardActions
+
+
         elif nextNeededActionEnum == EAction.NEXTPLAYER:
             return [NextPlayer(necessaryActionsCopy)]
+
+
         elif nextNeededActionEnum == EAction.MOVEROBBER:
             " get all tile id's with other player's settlements and cities"
             " for each player, for each of their settlements/cities's node ids, make a move robber move"
             robbingActions = []
 
             for tileID, value in self.board.tiles.items():
-                for player in self.playerDataList:
-                    if len(set(value.nodes) - set(player.settlements)) != len(value.nodes): #player is on this tile
-                        robbingActions.append(MoveRobber(tileID, player, necessaryActionsCopy))
+                addedTile = False
+                if tileID != self.board.robber_tile:
+                    players = set(self.playerDataList) - set([self.playerDataList[self.whoseTurn]])
+                    for player in players:
+                        if len(set(value.nodes) - set(player.settlements)) != len(value.nodes): #player is on this tile
+                            robbingActions.append(MoveRobber(tileID, player, necessaryActionsCopy))
+                            addedTile = True
+                    if not addedTile: # add for each tile that doesn't have a player on it too
+                        robbingActions.append(MoveRobber(tileID, None, necessaryActionsCopy))
             return robbingActions
+
+
         elif nextNeededActionEnum == EAction.ROLLDICE:
             return [RollDice(necessaryActionsCopy)]
+
+
         elif nextNeededActionEnum == EAction.PLACE_INIT_SETTLEMENT or nextNeededActionEnum == EAction.PLACE_INIT_SETTLEMENT_GET_RESOURCES:
             allNodeLocations = set(self.board.nodes.keys())
             takenLocations = set() # including nodes 1 away from a settlement
@@ -171,6 +185,8 @@ class State:
             for nodeID in allPossibleLocations:
                 initialSettlementActions.append(PlaceInitialSettlement(nodeID, getResourcesFromSettlement, necessaryActionsCopy))
             return initialSettlementActions
+
+
         elif nextNeededActionEnum == EAction.BUILDFREEROAD:
             valid = set()
             for settlementNodeID in currentPlayer.settlements[0:2]: 
