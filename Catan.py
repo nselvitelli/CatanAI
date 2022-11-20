@@ -1,6 +1,7 @@
 import State
 from Agents.KeyboardAgent import KeyboardAgent
 from Agents.RandomAgent import RandomAgent
+from Agents.FirstActionAgent import FirstActionAgent
 from game import Game
 from graphics.graphicsDisplay import CatanGraphics
 from PlayerColor import PlayerColor
@@ -30,7 +31,8 @@ if __name__ == '__main__':
     display = CatanGraphics()
 
     agents = [
-        KeyboardAgent(PlayerColor.RED),
+        #KeyboardAgent(PlayerColor.RED),
+        RandomAgent(PlayerColor.RED),
         RandomAgent(PlayerColor.BLUE)
     ]
 

@@ -11,7 +11,7 @@ class YearOfPlenty(Action):
 
     def apply(self, state):
         newState = state.getCopy()
-        playerData = newState.getPlayerWithColor[newState.whoseTurn]
+        playerData = newState.getPlayerWithColor(newState.whoseTurn)
         playerData.resourcesAvailable[self.resource1] += 1
         playerData.resourcesAvailable[self.resource2] += 1
 
