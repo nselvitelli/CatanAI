@@ -58,7 +58,7 @@ class CatanGraphics:
         pygame.init()
         pygame.font.init()
 
-        self.canvas = pygame.display.set_mode((800, 800))
+        self.canvas = pygame.display.set_mode((600, 600))
         # TITLE OF CANVAS
         pygame.display.set_caption("Catan")
         self.canvas.fill(WHITE)
@@ -70,7 +70,7 @@ class CatanGraphics:
         pygame.display.update()
 
     def drawBoard(self, board):
-        startX = 250
+        startX = 150
         startY = 100
         yOffset = TILE_SIZE * math.sqrt(2.5) / 2
 
@@ -177,9 +177,10 @@ class CatanGraphics:
                       tile.nodes[1], pos, (1, 0.75), (0, 0.25))
 
     def drawEdge(self, board, tileID1, tileID2, pos, offset1, offset2):
+        print('drawing edge')
         for edgeID in board.edges:
             edge = board.edges[edgeID]
-            if (edge.nodeOne == tileID1 and edge.nodeOne == tileID2) or (edge.nodeOne == tileID2 and edge.nodeOne == tileID1):
+            if (edge.nodeOne == tileID1 and edge.nodeTwo == tileID2) or (edge.nodeOne == tileID2 and edge.nodeTwo == tileID1):
                 if not edge.playerColor == PlayerColor.BLANK:
                     pos1 = (pos[0] + offset1[0] * TILE_SIZE,
                             pos[1] + offset1[1] * TILE_SIZE)
