@@ -162,6 +162,32 @@ class CatanGraphics:
         node = board.nodes[tile.nodes[5]]
         self.drawPiece(node.piece, pos, (1, 0.75))
 
+        # draw edges
+        self.drawEdge(board, tile.nodes[0],
+                      tile.nodes[1], pos, (0, 0.25), (0.5, 0))
+        self.drawEdge(board, tile.nodes[1],
+                      tile.nodes[2], pos, (0.5, 0), (1, 0.25))
+        self.drawEdge(board, tile.nodes[2],
+                      tile.nodes[3], pos, (1, 0.25), (0, 0.75))
+        self.drawEdge(board, tile.nodes[3],
+                      tile.nodes[4], pos, (0, 0.75), (0.5, 1))
+        self.drawEdge(board, tile.nodes[4],
+                      tile.nodes[5], pos, (0.5, 1), (1, 0.75))
+        self.drawEdge(board, tile.nodes[5],
+                      tile.nodes[1], pos, (1, 0.75), (0, 0.25))
+
+    def drawEdge(self, board, tileID1, tileID2, pos, offset1, offset2):
+        for edgeID in board.edges:
+            edge = board.edges[edgeID]
+            if (edge.nodeOne == tileID1 and edge.nodeOne == tileID2) or (edge.nodeOne == tileID2 and edge.nodeOne == tileID1):
+                if not edge.playerColor == PlayerColor.BLANK:
+                    pos1 = (pos[0] + offset1[0] * TILE_SIZE,
+                            pos[1] + offset1[1] * TILE_SIZE)
+                    pos2 = (pos[0] + offset2[0] * TILE_SIZE,
+                            pos[1] + offset2[1] * TILE_SIZE)
+                    pygame.draw.line(
+                        self.canvas, PLAYER_COLOR_MAP[edge.playerColor], pos1, pos2, 5)
+
     def drawPiece(self, piece, pos, offset):
         if piece[0] == NodePiece.EMPTY:
             return
@@ -179,7 +205,3 @@ class CatanGraphics:
                           newPos[0], CITY_SIZE * y + newPos[1])
                 coords.append(newPos)
         pygame.draw.polygon(self.canvas, PLAYER_COLOR_MAP[piece[1]], coords)
-
-    def drawEdges(self, board, tileID, pos):
-        # top left, top right, left, right, bottom left, bottom right
-        pass
