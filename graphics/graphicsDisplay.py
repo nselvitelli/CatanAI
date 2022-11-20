@@ -1,6 +1,12 @@
 import pygame
 import math
 from Resource import Resource
+from PlayerColor import PlayerColor
+from Node import NodePiece
+
+
+WHITE = (255, 255, 255)
+GREY = (211, 211, 211)
 
 TILE_COLOR_MAP = {
     Resource.DESERT: (255, 255, 204),
@@ -11,11 +17,13 @@ TILE_COLOR_MAP = {
     Resource.LOG: (0, 102, 0)
 }
 
-rect_color = (255, 0, 0)
+PLAYER_COLOR_MAP = {
+    PlayerColor.BLUE: (0, 0, 255),
+    PlayerColor.ORANGE: (255, 128, 0),
+    PlayerColor.RED: (255, 0, 0),
+    PlayerColor.WHITE: WHITE
+}
 
-DEFAULT_GRID_SIZE = 50.0
-WINDOW_WIDTH = 1000
-WINDOW_HEIGHT = 1000
 TILE_SHAPE = [
     (.5, 0),
     (0, 0.25),
@@ -26,14 +34,25 @@ TILE_SHAPE = [
 ]
 TILE_SIZE = 80
 
-WHITE = (255, 255, 255)
-GREY = (211, 211, 211)
+SETTLEMENT_SHAPE = [
+    (0, 0),
+    (0, 1),
+    (1, 1),
+    (1, 0)
+]
+SETTLEMENT_SIZE = 10
+
+CITY_SHAPE = [
+    (0.5, 0),
+    (1, 1),
+    (0, 1)
+]
+CITY_SIZE = 10
 
 
 class CatanGraphics:
     def __init__(self, zoom=1.0):
         self.zoom = zoom
-        self.gridSize = DEFAULT_GRID_SIZE * zoom
 
     def initialize(self, state):
         pygame.init()
@@ -120,3 +139,46 @@ class CatanGraphics:
             text_surface = my_font.render(str(tile.number), False, (0, 0, 0))
             textPos = (pos[0] + TILE_SIZE / 2.5, pos[1] + TILE_SIZE / 3)
             self.canvas.blit(text_surface, textPos)
+
+        self.drawNodes(board, tile, pos)
+
+    def drawNodes(self, board, tile, pos):
+        # top left node:
+        node = board.nodes[tile.nodes[0]]
+        self.drawPiece(node.piece, pos, (0, 0.25))
+        # top node:
+        node = board.nodes[tile.nodes[1]]
+        self.drawPiece(node.piece, pos, (0.5, 0))
+        # top right node:
+        node = board.nodes[tile.nodes[2]]
+        self.drawPiece(node.piece, pos, (1, 0.25))
+        # bottom left node:
+        node = board.nodes[tile.nodes[3]]
+        self.drawPiece(node.piece, pos, (0, 0.75))
+        # bottom node:
+        node = board.nodes[tile.nodes[4]]
+        self.drawPiece(node.piece, pos, (0.5, 1))
+        # bottom right node:
+        node = board.nodes[tile.nodes[5]]
+        self.drawPiece(node.piece, pos, (1, 0.75))
+
+    def drawPiece(self, piece, pos, offset):
+        if piece[0] == NodePiece.EMPTY:
+            return
+        newPos = (pos[0] + offset[0], pos[1] + offset[1])
+        coords = []
+        if piece[0] == NodePiece.SETTLEMENT:
+            for (x, y) in SETTLEMENT_SHAPE:
+                newPos = (SETTLEMENT_SIZE * x +
+                          newPos[0], SETTLEMENT_SIZE * y + newPos[1])
+                coords.append(newPos)
+        else:
+            for (x, y) in CITY_SHAPE:
+                newPos = (CITY_SIZE * x +
+                          newPos[0], CITY_SIZE * y + newPos[1])
+                coords.append(newPos)
+        pygame.draw.polygon(self.canvas, PLAYER_COLOR_MAP[piece[1]], coords)
+
+    def drawEdges(self, board, tileID, pos):
+        # top left, top right, left, right, bottom left, bottom right
+        pass
