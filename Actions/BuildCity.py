@@ -16,7 +16,7 @@ class BuildCity(Action):
 
         newNode = newState.board.nodes[self.nodeID].getCopy()
         newNode.piece = (NodePiece.CITY, playerData.color)
-        newState.board.node[self.nodeID] = newNode
+        newState.board.nodes[self.nodeID] = newNode
 
         
         playerData.resourcesAvailable[Resource.WHEAT] -= 2

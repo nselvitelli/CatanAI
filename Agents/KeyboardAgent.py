@@ -16,8 +16,15 @@ class KeyboardAgent(Agent):
         self.printEnumeratedActions(actions)
 
         print("Type the index number of the action you want to use:")
-        index = int(input())
-
+        userData = input()
+        index = None
+        while not userData.isnumeric() or int(userData) >= len(actions):
+            if not userData.isnumeric():
+                print("Please input a positive integer:")
+            else:
+                print("Please choose an item within range:")
+            userData = input()
+        index = int(userData)
         print("Using action: ", actions[index].getActionAsString())
 
         return actions[index]
@@ -25,4 +32,3 @@ class KeyboardAgent(Agent):
     def printEnumeratedActions(self, actions):
         for i in range(len(actions)):
             print("\t", i, ": ", actions[i].getActionAsString())
-

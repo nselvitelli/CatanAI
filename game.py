@@ -15,13 +15,14 @@ class Game:
         Main control loop for game play.
         """
         exit = False
-
-        self.display.initialize(self.state)
+        if not self.display == None:
+            self.display.initialize(self.state)
 
         while not exit:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    exit = True
+            if not self.display == None:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        exit = True
 
             currentPlayerData = self.state.playerDataList[self.state.whoseTurn]
             currentAgent = currentPlayerData.agent
@@ -33,4 +34,5 @@ class Game:
                 exit = True
 
             self.state = nextState
-            self.display.drawState(self.state)
+            if not self.display == None:
+                self.display.drawState(self.state)

@@ -11,15 +11,16 @@ class Monopoly(Action):
     def apply(self, state):
         newState = state.getCopy()
 
+        currentPlayer = newState.playerDataList[newState.whoseTurn]
+
         stealCount = 0
-        for idx,player in enumerate(newState.playerDataList):
+        for idx,player in enumerate(set(newState.playerDataList) - set([currentPlayer])):
             if idx != newState.whoseTurn:
-                stealCount += newState.getPlayerWithColor[player].resourcesAvailable[self.resource]
-                newState.playerDataList[player].resourcesAvailable[self.resource] = 0
+                stealCount += player.resourcesAvailable[self.resource]
+                player.resourcesAvailable[self.resource] = 0
 
-        newState[newState.whoseTurn].resourcesAvailable[self.resource] += stealCount
-
-        newState.playerDataList[newState.whoseTurn].devCards.remove(DevCardName.MONOPOLY)
+        currentPlayer.resourcesAvailable[self.resource] += stealCount
+        currentPlayer.devCards.remove(DevCardName.MONOPOLY)
 
         return newState
 
