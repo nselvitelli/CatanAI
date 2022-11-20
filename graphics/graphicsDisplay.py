@@ -202,7 +202,7 @@ class CatanGraphics:
                 coords.append(coordPos)
         else:
             for (x, y) in CITY_SHAPE:
-                newPos = (CITY_SIZE * x +
-                          newPos[0], CITY_SIZE * y + newPos[1])
+                coordPos = (CITY_SIZE * x +
+                            newPos[0], CITY_SIZE * y + newPos[1])
                 coords.append(newPos)
         pygame.draw.polygon(self.canvas, PLAYER_COLOR_MAP[piece[1]], coords)
