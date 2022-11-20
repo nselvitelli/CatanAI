@@ -23,7 +23,9 @@ class RollDice(Action):
         if rollVal == 7:
             for player in state.playerDataList:
                 newState.necessaryActions.append(EAction.NEXTPLAYER)
-                for i in range(max(0, len(player.resourcesAvailable.items()) - 7)):
+                numPlayerCards = len(player.resourcesAvailable.items())
+                cardsToRemove = int(numPlayerCards / 2) if numPlayerCards > 7 else 0
+                for i in range(cardsToRemove):
                     newState.necessaryActions.append(EAction.DISCARD)
             newState.necessaryActions.append(EAction.MOVEROBBER)
 
