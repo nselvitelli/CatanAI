@@ -123,6 +123,61 @@ class CatanGraphics:
         x += TILE_SIZE
         self.drawTile(board, 'S', (x, y))
 
+        self.drawNodes(board)
+
+    def drawNodes(self, board):
+        startX = 150
+        startY = 100
+        yOffset = TILE_SIZE * math.sqrt(2.5) / 2
+
+        (x, y) = (startX, startY)
+        # draw row 1:
+        self.drawNodesFromTile(board, board.tiles['A'], (x, y))
+        x += TILE_SIZE
+        self.drawNodesFromTile(board, board.tiles['B'], (x, y))
+        x += TILE_SIZE
+        self.drawNodesFromTile(board, board.tiles['C'], (x, y))
+        # draw row 2:
+        x = startX - TILE_SIZE / 2
+        y = startY + yOffset
+        self.drawNodesFromTile(board, board.tiles['D'], (x, y))
+        x += TILE_SIZE
+        self.drawNodesFromTile(board, board.tiles['E'], (x, y))
+        x += TILE_SIZE
+        self.drawNodesFromTile(board, board.tiles['F'], (x, y))
+        x += TILE_SIZE
+        self.drawNodesFromTile(board, board.tiles['G'], (x, y))
+        # draw row 3
+        x = startX - TILE_SIZE
+        y = startY + 2 * yOffset
+        self.drawNodesFromTile(board, board.tiles['H'], (x, y))
+        x += TILE_SIZE
+        self.drawNodesFromTile(board, board.tiles['I'], (x, y))
+        x += TILE_SIZE
+        self.drawNodesFromTile(board, board.tiles['J'], (x, y))
+        x += TILE_SIZE
+        self.drawNodesFromTile(board, board.tiles['K'], (x, y))
+        x += TILE_SIZE
+        self.drawNodesFromTile(board, board.tiles['L'], (x, y))
+        # draw row 4:
+        x = startX - TILE_SIZE / 2
+        y = startY + 3 * yOffset
+        self.drawNodesFromTile(board, board.tiles['M'], (x, y))
+        x += TILE_SIZE
+        self.drawNodesFromTile(board, board.tiles['N'], (x, y))
+        x += TILE_SIZE
+        self.drawNodesFromTile(board, board.tiles['O'], (x, y))
+        x += TILE_SIZE
+        self.drawNodesFromTile(board, board.tiles['P'], (x, y))
+        # draw row 5:
+        x = startX
+        y = startY + 4 * yOffset
+        self.drawNodesFromTile(board, board.tiles['Q'], (x, y))
+        x += TILE_SIZE
+        self.drawNodesFromTile(board, board.tiles['R'], (x, y))
+        x += TILE_SIZE
+        self.drawNodesFromTile(board, board.tiles['S'], (x, y))
+
     def drawTile(self, board, tileID, pos):
         tile = board.tiles[tileID]
         coords = []
@@ -141,9 +196,9 @@ class CatanGraphics:
             textPos = (pos[0] + TILE_SIZE / 2.5, pos[1] + TILE_SIZE / 3)
             self.canvas.blit(text_surface, textPos)
 
-        self.drawNodes(board, tile, pos)
+        self.drawNodesFromTile(board, tile, pos)
 
-    def drawNodes(self, board, tile, pos):
+    def drawNodesFromTile(self, board, tile, pos):
         self.drawEdges(board, tile, pos)
         # top left node:
         node = board.nodes[tile.nodes[0]]

@@ -11,7 +11,10 @@ class RandomAgent(Agent):
         The Agent will receive a GameState and must return an action
         """
         actions = state.getValidActions()
-        action = actions[random.randint(0, len(actions) - 1)]
+        if len(actions) == 1:
+            action = actions[0]
+        else:
+            action = actions[random.randint(0, len(actions) - 1)]
 
         print("RandomAgent ", self.color.name, "chose action ", action.getActionAsString())
 

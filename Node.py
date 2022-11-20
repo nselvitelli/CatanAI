@@ -44,15 +44,17 @@ class Node:
 
         if self.piece == (NodePiece.EMPTY, PlayerColor.BLANK):
             print(self.id)
+            flag = False
             for edge in self.edges:
                 if edgeMap[edge].adjacentSettlement(self.id, nodeMap, edgeMap):
-                    return []
-            return [self.id]
+                    flag = True
+            if not flag:
+                return [self.id]
 
         possibles = []
         for edge in self.edges:
             possibles.extend(edgeMap[edge].bfsPossibleSettlements(
-                playerColor, explored, self.id, nodeMap, edgeMap))
+                playerColor, explored + [self.id], self.id, nodeMap, edgeMap))
         print(possibles)
         return possibles
 

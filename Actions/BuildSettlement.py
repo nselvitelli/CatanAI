@@ -16,7 +16,7 @@ class BuildSettlement(Action):
 
         newNode = newState.board.nodes[self.nodeID].getCopy()
         newNode.piece = (NodePiece.SETTLEMENT, playerData.color)
-        newState.board.node[self.nodeID] = newNode
+        newState.board.nodes[self.nodeID] = newNode
         
         playerData.resourcesAvailable[Resource.LOG] -= 1
         playerData.resourcesAvailable[Resource.BRICK] -= 1
