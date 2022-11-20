@@ -177,7 +177,6 @@ class CatanGraphics:
                       tile.nodes[1], pos, (1, 0.75), (0, 0.25))
 
     def drawEdge(self, board, tileID1, tileID2, pos, offset1, offset2):
-        print('drawing edge')
         for edgeID in board.edges:
             edge = board.edges[edgeID]
             if (edge.nodeOne == tileID1 and edge.nodeTwo == tileID2) or (edge.nodeOne == tileID2 and edge.nodeTwo == tileID1):
