@@ -14,7 +14,8 @@ class EndTurn(Action):
         currentPlayer.devCards.extend(currentPlayer.pendingDevCards)
         currentPlayer.pendingDevCards.clear()
 
-        nextState.necessaryActions.append(EAction.NEXTPLAYER)
+        nextState.whoseTurn = (nextState.whoseTurn + 1) % len(nextState.playerDataList)
+
         nextState.necessaryActions.append(EAction.ROLLDICE)
 
         return nextState

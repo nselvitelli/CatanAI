@@ -201,10 +201,11 @@ class State:
         return False
     
     def getWinner(self):
+        bestPlayer = self.playerDataList[0]
         for player in self.playerDataList:
-            if player.victoryPoints >= 10:
-                return player
-        return None
+            if player.victoryPoints > bestPlayer.victoryPoints:
+                bestPlayer = player
+        return bestPlayer
 
     def getPlayerWithColor(self, color):
         for player in self.playerDataList:

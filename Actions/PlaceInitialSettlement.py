@@ -24,10 +24,13 @@ class PlaceInitialSettlement(Action):
         newNode.piece = (NodePiece.SETTLEMENT, playerData.color)
         newState.board.nodes[self.nodeID] = newNode
         
+
+
         if self.isLastPlacedSettlement:
             for tileID, tile in state.board.tiles.items():
                 if self.nodeID in tile.nodes and tile.resource != Resource.DESERT:
                     playerData.resourcesAvailable[tile.resource] += 1
+                    print("\tadding resource:", tile.resource.name)
 
         if newNode.port != Port.EMPTY:
             playerData.portsAvailable.add(newNode.port)
@@ -43,4 +46,4 @@ class PlaceInitialSettlement(Action):
         return newState
 
     def getActionAsString(self):
-        return "BuildSettlement on " + str(self.nodeID) 
+        return "BuildInitialSettlement on " + str(self.nodeID) 
