@@ -20,16 +20,16 @@ class MoveRobber(Action):
             stealData = newState.getPlayerWithColor(self.stealPlayer.color)
 
             totalResourceCount = stealData.getTotalResources()
+            if totalResourceCount > 0 :
+                stealNum = random.randint(1, totalResourceCount)
 
-            stealNum = random.randint(1, totalResourceCount)
-
-            count = 0
-            for key in stealData.resourcesAvailable:
-                if count + stealData.resourcesAvailable[key] >= stealNum:
-                    stealData.resourcesAvailable[key] -= 1
-                    newState.playerDataList[newState.whoseTurn].resourcesAvailable[key] += 1
-                    break
-                count += stealData.resourcesAvailable[key]
+                count = 0
+                for key in stealData.resourcesAvailable:
+                    if count + stealData.resourcesAvailable[key] >= stealNum:
+                        stealData.resourcesAvailable[key] -= 1
+                        newState.playerDataList[newState.whoseTurn].resourcesAvailable[key] += 1
+                        break
+                    count += stealData.resourcesAvailable[key]
 
         newState.necessaryActions = self.necessaryActions
 

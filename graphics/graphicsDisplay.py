@@ -143,6 +143,7 @@ class CatanGraphics:
         self.drawNodes(board, tile, pos)
 
     def drawNodes(self, board, tile, pos):
+        self.drawEdges(board, tile, pos)
         # top left node:
         node = board.nodes[tile.nodes[0]]
         self.drawPiece(node.piece, pos, (0, 0.25))
@@ -162,7 +163,25 @@ class CatanGraphics:
         node = board.nodes[tile.nodes[5]]
         self.drawPiece(node.piece, pos, (1, 0.75))
 
-        # draw edges
+    def drawPiece(self, piece, pos, offset):
+        if piece[0] == NodePiece.EMPTY:
+            return
+        newPos = (pos[0] + TILE_SIZE * offset[0] - SETTLEMENT_SIZE / 2,
+                  pos[1] + TILE_SIZE * offset[1] - SETTLEMENT_SIZE / 2)
+        coords = []
+        if piece[0] == NodePiece.SETTLEMENT:
+            for (x, y) in SETTLEMENT_SHAPE:
+                coordPos = (SETTLEMENT_SIZE * x +
+                            newPos[0], SETTLEMENT_SIZE * y + newPos[1])
+                coords.append(coordPos)
+        else:
+            for (x, y) in CITY_SHAPE:
+                coordPos = (CITY_SIZE * x +
+                            newPos[0], CITY_SIZE * y + newPos[1])
+                coords.append(newPos)
+        pygame.draw.polygon(self.canvas, PLAYER_COLOR_MAP[piece[1]], coords)
+
+    def drawEdges(self, board, tile, pos):
         self.drawEdge(board, tile.nodes[0],
                       tile.nodes[1], pos, (0, 0.25), (0.5, 0))
         self.drawEdge(board, tile.nodes[1],
@@ -188,21 +207,3 @@ class CatanGraphics:
                             pos[1] + offset2[1] * TILE_SIZE)
                     pygame.draw.line(
                         self.canvas, PLAYER_COLOR_MAP[edge.playerColor], pos1, pos2, 5)
-
-    def drawPiece(self, piece, pos, offset):
-        if piece[0] == NodePiece.EMPTY:
-            return
-        newPos = (pos[0] + TILE_SIZE * offset[0] - SETTLEMENT_SIZE / 2,
-                  pos[1] + TILE_SIZE * offset[1] - SETTLEMENT_SIZE / 2)
-        coords = []
-        if piece[0] == NodePiece.SETTLEMENT:
-            for (x, y) in SETTLEMENT_SHAPE:
-                coordPos = (SETTLEMENT_SIZE * x +
-                            newPos[0], SETTLEMENT_SIZE * y + newPos[1])
-                coords.append(coordPos)
-        else:
-            for (x, y) in CITY_SHAPE:
-                coordPos = (CITY_SIZE * x +
-                            newPos[0], CITY_SIZE * y + newPos[1])
-                coords.append(newPos)
-        pygame.draw.polygon(self.canvas, PLAYER_COLOR_MAP[piece[1]], coords)
