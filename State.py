@@ -110,7 +110,7 @@ class State:
         actions = []
 
         ports = currentPlayer.getPorts()
-        maxTradeQuantity = 3 if Port.THREE_TO_ONE else 4
+        maxTradeQuantity = 3 if Port.THREE_TO_ONE in ports else 4
         inaccessiblePorts = set(
             [Port.BRICK, Port.LOG, Port.ORE, Port.SHEEP, Port.WHEAT]) - ports
         portsToResources = {Port.BRICK: Resource.BRICK, Port.LOG: Resource.LOG,

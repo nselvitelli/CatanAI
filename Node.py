@@ -43,14 +43,15 @@ class Node:
 
         if self.piece == (NodePiece.EMPTY, PlayerColor.BLANK):
             for edge in self.edges:
-                if edge.adjacentSettlement(self.id, edgeMap, nodeMap):
+                if edge.adjacentSettlement(self.id, nodeMap, edgeMap):
                     return []
             return [self.id]
 
         possibles = []
         for edge in self.edges:
+            print(edge, edgeMap)
             possibles.extend(edgeMap[edge].bfsPossibleSettlements(
-                self, playerColor, explored, edgeMap, nodeMap))
+                self, playerColor, explored, nodeMap, edgeMap))
         return possibles
 
     # def bfsUpgradeableSettlements(self, playerColor, explored, edgeMap, nodeMap):
@@ -93,7 +94,7 @@ class Edge:
     def bfsPossibleSettlements(self, playerColor, explored, comingFrom, nodeMap, edgeMap):
         if self.playerColor == playerColor:
             otherNode = self.nodeOne if self.nodeTwo == comingFrom else self.nodeTwo
-            return nodeMap[otherNode].bfsPossibleSettlements(playerColor, explored, nodeMap, edgeMap)
+            return nodeMap[otherNode].bfsPossibleSettlements(playerColor, explored, edgeMap, nodeMap)
         else:
             return []
 

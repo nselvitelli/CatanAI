@@ -31,7 +31,7 @@ class Board:
         return self.nodes[settlementNodeID].bfsEndpoints(whoseTurn, [], self.edges, self.nodes)
 
     def bfsPossibleSettlements(self, settlementNodeID, whoseTurn):
-        return self.nodes[settlementNodeID].bfsPossibleSettlements(whoseTurn, [], self.nodes, self.edges)
+        return self.nodes[settlementNodeID].bfsPossibleSettlements(whoseTurn, [], self.edges, self.nodes)
 
     """
     BOARD HARDCODE

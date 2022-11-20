@@ -1,5 +1,6 @@
 from Actions.Action import Action, EAction
 from Actions.BuildRoad import BuildRoad
+from DevCard import DevCardName
 from Resource import Resource
 
 
@@ -13,6 +14,8 @@ class RoadBuilding(Action):
         newState.necessaryActions.clear()
         newState.necessaryActions.append(EAction.BUILDFREEROAD)
         newState.necessaryActions.extend(state.necessaryActions)
+
+        newState.playerDataList[newState.whoseTurn].devCards.remove(DevCardName.ROAD_BUILDING)
 
         return newState
 

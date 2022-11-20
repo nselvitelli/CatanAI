@@ -15,8 +15,8 @@ class Trade(Action):
         newState = state.getCopy()
 
         playerData = newState.playerDataList[newState.whoseTurn]
-        playerData[self.resource] -= self.quantity
-        playerData[self.targetResource] += 1
+        playerData.resourcesAvailable[self.resource] -= self.quantity
+        playerData.resourcesAvailable[self.targetResource] += 1
 
         return newState
 
