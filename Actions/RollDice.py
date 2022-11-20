@@ -42,6 +42,9 @@ class RollDice(Action):
 
         newState.necessaryActions.extend(self.necessaryActions)
 
+        for player in state.playerDataList:
+            print(player.color, player.resourcesAvailable)
+
         return newState
 
     def getActionAsString(self):
