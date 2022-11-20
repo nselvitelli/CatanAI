@@ -150,9 +150,14 @@ class State:
             robbingActions = []
 
             for tileID, value in self.board.tiles.items():
-                for player in self.playerDataList:
-                    if len(set(value.nodes) - set(player.settlements)) != len(value.nodes): #player is on this tile
-                        robbingActions.append(MoveRobber(tileID, player, necessaryActionsCopy))
+                addedTile = False
+                if tileID != self.board.robber_tile:
+                    for player in self.playerDataList:
+                        if len(set(value.nodes) - set(player.settlements)) != len(value.nodes): #player is on this tile
+                            robbingActions.append(MoveRobber(tileID, player, necessaryActionsCopy))
+                            addedTile = True
+                    if not addedTile: # add for each tile that doesn't have a player on it too
+                        robbingActions.append(MoveRobber(tileID, None, necessaryActionsCopy))
             return robbingActions
         elif nextNeededActionEnum == EAction.ROLLDICE:
             return [RollDice(necessaryActionsCopy)]
