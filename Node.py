@@ -45,7 +45,7 @@ class Node:
         if self.piece == (NodePiece.EMPTY, PlayerColor.BLANK):
             print(self.id)
             for edge in self.edges:
-                if edge.adjacentSettlement(self.id, nodeMap, edgeMap):
+                if edgeMap[edge].adjacentSettlement(self.id, nodeMap, edgeMap):
                     return []
             return [self.id]
 

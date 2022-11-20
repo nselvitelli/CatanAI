@@ -31,11 +31,11 @@ if __name__ == '__main__':
     display = CatanGraphics()
 
     agents = [
-        #KeyboardAgent(PlayerColor.RED),
-        RandomAgent(PlayerColor.RED),
+        KeyboardAgent(PlayerColor.RED),
+        #RandomAgent(PlayerColor.RED),
         RandomAgent(PlayerColor.BLUE),
-        RandomAgent(PlayerColor.ORANGE),
-        RandomAgent(PlayerColor.WHITE)
+        # RandomAgent(PlayerColor.ORANGE),
+        # RandomAgent(PlayerColor.WHITE)
     ]
 
     state = State.generateState(agents)
