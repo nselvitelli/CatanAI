@@ -6,6 +6,7 @@ from Node import NodePiece
 
 
 WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
 GREY = (211, 211, 211)
 
 TILE_COLOR_MAP = {
@@ -61,7 +62,7 @@ class CatanGraphics:
         self.canvas = pygame.display.set_mode((600, 600))
         # TITLE OF CANVAS
         pygame.display.set_caption("Catan")
-        self.canvas.fill(WHITE)
+        self.canvas.fill(BLACK)
 
         self.drawState(state)
 
