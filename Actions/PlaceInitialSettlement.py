@@ -1,6 +1,7 @@
 from Actions.Action import Action
 from Node import NodePiece, Port
 from Actions.Action import EAction
+from Resource import Resource
 
 
 class PlaceInitialSettlement(Action):
@@ -25,7 +26,7 @@ class PlaceInitialSettlement(Action):
         
         if self.isLastPlacedSettlement:
             for tileID, tile in state.board.tiles.items():
-                if self.nodeID in tile.nodes:
+                if self.nodeID in tile.nodes and tile.resource != Resource.DESERT:
                     playerData.resourcesAvailable[tile.resource] += 1
 
         if newNode.port != Port.EMPTY:
