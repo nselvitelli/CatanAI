@@ -13,6 +13,7 @@ class RoadBuilding(Action):
         newState = state.getCopy()
         newState.necessaryActions.clear()
         newState.necessaryActions.append(EAction.BUILDFREEROAD)
+        newState.necessaryActions.append(EAction.BUILDFREEROAD)
         newState.necessaryActions.extend(state.necessaryActions)
 
         newState.playerDataList[newState.whoseTurn].devCards.remove(DevCardName.ROAD_BUILDING)
