@@ -24,5 +24,5 @@ class KeyboardAgent(Agent):
 
     def printEnumeratedActions(self, actions):
         for i in range(len(actions)):
-            print("\t", i, ": ", actions[i].getActionAsString(), "\n")
+            print("\t", i, ": ", actions[i].getActionAsString())
 
