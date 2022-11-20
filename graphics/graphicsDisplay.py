@@ -10,7 +10,7 @@ GREY = (211, 211, 211)
 
 TILE_COLOR_MAP = {
     Resource.DESERT: (255, 255, 204),
-    Resource.BRICK: (255, 51, 51),
+    Resource.BRICK: (255, 102, 102),
     Resource.WHEAT: (255, 255, 0),
     Resource.SHEEP: (178, 255, 102),
     Resource.ORE: (96, 96, 96),
@@ -165,13 +165,14 @@ class CatanGraphics:
     def drawPiece(self, piece, pos, offset):
         if piece[0] == NodePiece.EMPTY:
             return
-        newPos = (pos[0] + offset[0], pos[1] + offset[1])
+        newPos = (pos[0] + TILE_SIZE * offset[0] - SETTLEMENT_SIZE / 2,
+                  pos[1] + TILE_SIZE * offset[1] - SETTLEMENT_SIZE / 2)
         coords = []
         if piece[0] == NodePiece.SETTLEMENT:
             for (x, y) in SETTLEMENT_SHAPE:
-                newPos = (SETTLEMENT_SIZE * x +
-                          newPos[0], SETTLEMENT_SIZE * y + newPos[1])
-                coords.append(newPos)
+                coordPos = (SETTLEMENT_SIZE * x +
+                            newPos[0], SETTLEMENT_SIZE * y + newPos[1])
+                coords.append(coordPos)
         else:
             for (x, y) in CITY_SHAPE:
                 newPos = (CITY_SIZE * x +

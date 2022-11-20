@@ -34,5 +34,4 @@ class Game:
                 exit = True
 
             self.state = nextState
-
-            pygame.display.update()
+            self.display.drawState(self.state)
