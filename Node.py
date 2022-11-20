@@ -94,7 +94,6 @@ class Edge:
             return []
 
     def bfsPossibleSettlements(self, playerColor, explored, comingFrom, nodeMap, edgeMap):
-        print(self.id, self.playerColor, playerColor, playerColor.id)
         if self.playerColor == playerColor:
             otherNode = self.nodeOne if self.nodeTwo == comingFrom else self.nodeTwo
             return nodeMap[otherNode].bfsPossibleSettlements(playerColor, explored, nodeMap, edgeMap)
