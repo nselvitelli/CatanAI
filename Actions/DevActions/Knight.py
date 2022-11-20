@@ -17,8 +17,8 @@ class Knight(Action):
 
         # corrects largest army if necessary
         maxKnights = 0
-        for key in newState.playerDataList:
-            maxKnights = max(maxKnights, newState.playerDataList[key].armySize)
+        for player in newState.playerDataList:
+            maxKnights = max(maxKnights, player.armySize)
 
         playerTurnData = newState.playerDataList[state.whoseTurn]
         if maxKnights == playerTurnData.armySize and maxKnights >= 2:
@@ -28,11 +28,8 @@ class Knight(Action):
             playerTurnData.victoryPoints += 2
         playerTurnData.armySize += 1
 
-        # removes used card from player's hand
-        for index, devCard in enumerate(playerTurnData.devCards):
-            if devCard.name == DevCardName.KNIGHT:
-                playerTurnData.devCards.pop(index)
-                break
+        newState.playerDataList[newState.whoseTurn].devCards.remove(DevCardName.KNIGHT)
+
         return newState
 
     # remove card from player hand

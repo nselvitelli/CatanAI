@@ -16,6 +16,8 @@ class RollDice(Action):
         d2 = random.randint(1, 6)
         rollVal = d1 + d2
 
+        print(rollVal)
+
         newState.necessaryActions.clear()
 
         if rollVal == 7:

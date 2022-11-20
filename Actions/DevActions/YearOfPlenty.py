@@ -1,4 +1,5 @@
 from Actions.Action import Action
+from DevCard import DevCardName
 
 
 class YearOfPlenty(Action):
@@ -10,9 +11,13 @@ class YearOfPlenty(Action):
 
     def apply(self, state):
         newState = state.getCopy()
-        playerData = newState.playerDataList[newState.whoseTurn]
+        playerData = newState.getPlayerWithColor[newState.whoseTurn]
         playerData.resourcesAvailable[self.resource1] += 1
         playerData.resourcesAvailable[self.resource2] += 1
+
+        newState.playerDataList[newState.whoseTurn].devCards.remove(DevCardName.YEAR_OF_PLENTY)
+
+
         return newState
 
     def getActionAsString(self):

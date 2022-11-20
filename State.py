@@ -70,7 +70,7 @@ class State:
                 if self.board.nodes[settlement].piece[0] == NodePiece.SETTLEMENT:
                     validActions.append(BuildCity(settlement))
 
-        if self.hasResourcesAvailable(0, 0, 1, 1, 1, resourcesAvailable):
+        if len(self.devCards) > 0 and self.hasResourcesAvailable(0, 0, 1, 1, 1, resourcesAvailable):
             validActions.append(DevelopmentCard())
 
         validActions.extend(self.getPortActions(currentPlayer))
@@ -99,7 +99,7 @@ class State:
             valid = set()
             for settlementNodeID in currentPlayer.settlements[0:2]:
                 valid = valid.union(set(func(settlementNodeID, self.playerDataList[self.whoseTurn].color)))
-            return [action(x, self.whoseTurn) for x in valid]
+            return [action(x) for x in valid]
         else:
             return []
 

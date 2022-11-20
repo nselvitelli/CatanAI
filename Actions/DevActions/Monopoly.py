@@ -1,4 +1,5 @@
 from Actions.Action import Action
+from DevCard import DevCardName
 
 
 class Monopoly(Action):
@@ -11,12 +12,15 @@ class Monopoly(Action):
         newState = state.getCopy()
 
         stealCount = 0
-        for playerColor in newState.playerDataList:
-            if playerColor != newState.whoseTurn:
-                stealCount += newState.playerDataList[playerColor].resourcesAvailable[self.resource]
-                newState.playerDataList[playerColor].resourcesAvailable[self.resource] = 0
+        for idx,player in enumerate(newState.playerDataList):
+            if idx != newState.whoseTurn:
+                stealCount += newState.getPlayerWithColor[player].resourcesAvailable[self.resource]
+                newState.playerDataList[player].resourcesAvailable[self.resource] = 0
 
-        newState.playerDataList[newState.whoseTurn].resourcesAvailable[self.resource] += stealCount
+        newState[newState.whoseTurn].resourcesAvailable[self.resource] += stealCount
+
+        newState.playerDataList[newState.whoseTurn].devCards.remove(DevCardName.MONOPOLY)
+
         return newState
 
     def getActionAsString(self):

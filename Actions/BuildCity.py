@@ -12,7 +12,7 @@ class BuildCity(Action):
     def apply(self, state):
         newState = state.getCopy()
 
-        playerData = newState.playerDataList[newState.whoseTurn]
+        playerData = newState.getPlayerWithColor(newState.whoseTurn)
 
         newNode = newState.board.nodes[self.nodeID].getCopy()
         newNode.piece = (NodePiece.CITY, playerData.color)
