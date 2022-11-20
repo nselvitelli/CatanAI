@@ -19,7 +19,6 @@ class Game:
         self.display.initialize(self.state)
 
         while not exit:
-            pygame.event.get()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     exit = True
