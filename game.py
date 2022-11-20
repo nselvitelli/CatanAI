@@ -31,6 +31,7 @@ class Game:
 
             if(nextState.isGameOver()):
                 print("GAME OVER")
+                print("WINNER: ", nextState.getWinner().color)
                 exit = True
 
             self.state = nextState
