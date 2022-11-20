@@ -18,21 +18,23 @@ class Game:
         if not self.display == None:
             self.display.initialize(self.state)
 
+        nextState = self.state
+
         while not exit:
             if not self.display == None:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         exit = True
 
-            currentPlayerData = self.state.playerDataList[self.state.whoseTurn]
-            currentAgent = currentPlayerData.agent
-            action = currentAgent.getAction(self.state)
-            nextState = action.apply(self.state)
-
             if(nextState.isGameOver()):
                 print("GAME OVER")
                 print("WINNER: ", nextState.getWinner().color)
-                exit = True
+                # exit = True
+            else:
+                currentPlayerData = self.state.playerDataList[self.state.whoseTurn]
+                currentAgent = currentPlayerData.agent
+                action = currentAgent.getAction(self.state)
+                nextState = action.apply(self.state)
 
             self.state = nextState
             if not self.display == None:
