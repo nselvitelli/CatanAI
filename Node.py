@@ -34,7 +34,7 @@ class Node:
         endpoints = []
         for edge in self.edges:
             endpoints.extend(edgeMap[edge].bfsEndpoints(
-                playerColor, explored + [self.id], self.id, edgeMap, nodeMap))
+                playerColor, (explored + [self.id]), self.id, nodeMap, edgeMap))
         return endpoints
 
     def bfsPossibleSettlements(self, playerColor, explored, edgeMap, nodeMap):
@@ -86,7 +86,7 @@ class Edge:
             return [self.id]
         elif self.playerColor == playerColor:
             otherNode = self.nodeOne if self.nodeTwo == comingFrom else self.nodeTwo
-            return nodeMap[otherNode].bfsEndpoints(playerColor, explored, nodeMap, edgeMap)
+            return nodeMap[otherNode].bfsEndpoints(playerColor, explored, edgeMap, nodeMap)
         else:
             return []
 

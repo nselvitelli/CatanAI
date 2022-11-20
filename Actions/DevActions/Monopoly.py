@@ -11,12 +11,12 @@ class Monopoly(Action):
         newState = state.getCopy()
 
         stealCount = 0
-        for playerColor in newState.playerDataDict:
+        for playerColor in newState.playerDataList:
             if playerColor != newState.whoseTurn:
-                stealCount += newState.playerDataDict[playerColor].resourcesAvailable[self.resource]
-                newState.playerDataDict[playerColor].resourcesAvailable[self.resource] = 0
+                stealCount += newState.playerDataList[playerColor].resourcesAvailable[self.resource]
+                newState.playerDataList[playerColor].resourcesAvailable[self.resource] = 0
 
-        newState.playerDataDict[newState.whoseTurn].resourcesAvailable[self.resource] += stealCount
+        newState.playerDataList[newState.whoseTurn].resourcesAvailable[self.resource] += stealCount
         return newState
 
     def getActionAsString(self):

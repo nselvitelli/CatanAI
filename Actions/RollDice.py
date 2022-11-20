@@ -32,10 +32,10 @@ class RollDice(Action):
                     for nodeNum in tile.nodes:
                         node = newState.board.nodes[nodeNum]
                         if node.piece[0] == NodePiece.SETTLEMENT:
-                            playerData = newState.playerDataDict[node.piece[1]]
+                            playerData = newState.getPlayerWithColor(node.piece[1])
                             playerData.resourcesAvailable[tile.resource] += 1
                         elif node.piece[0] == NodePiece.CITY:
-                            playerData = newState.playerDataDict[node.piece[1]]
+                            playerData = newState.getPlayerWithColor(node.piece[1])
                             playerData.resourcesAvailable[tile.resource] += 2
 
         newState.necessaryActions.extend(self.necessaryActions)

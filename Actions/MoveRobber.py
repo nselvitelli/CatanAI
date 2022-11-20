@@ -16,7 +16,7 @@ class MoveRobber(Action):
         newState.board.robber_tile = self.tileID
 
         # performs steal
-        stealData = newState.playerDataDict[self.stealPlayer]
+        stealData = newState.getPlayerWithColor(self.stealPlayer.color)
 
         totalResourceCount = stealData.getTotalResources()
 
@@ -26,7 +26,7 @@ class MoveRobber(Action):
         for key in stealData.resourcesAvailable:
             if count + stealData.resourcesAvailable[key] >= stealNum:
                 stealData.resourcesAvailable[key] -= 1
-                newState.playerDataDict[newState.whoseTurn].resourcesAvailable[key] += 1
+                newState.playerDataList[newState.whoseTurn].resourcesAvailable[key] += 1
                 break
             count += stealData.resourcesAvailable[key]
 

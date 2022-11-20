@@ -17,13 +17,13 @@ class Knight(Action):
 
         # corrects largest army if necessary
         maxKnights = 0
-        for key in newState.playerDataDict:
-            maxKnights = max(maxKnights, newState.playerDataDict[key].armySize)
+        for key in newState.playerDataList:
+            maxKnights = max(maxKnights, newState.playerDataList[key].armySize)
 
-        playerTurnData = newState.playerDataDict[state.whoseTurn]
+        playerTurnData = newState.playerDataList[state.whoseTurn]
         if maxKnights == playerTurnData.armySize and maxKnights >= 2:
             if state.largestArmy != PlayerColor.BLANK:
-                newState.playerDataDict[state.largestArmy].victoryPoints -= 2
+                newState.playerDataList[state.largestArmy].victoryPoints -= 2
             state.largestArmy = state.whoseTurn
             playerTurnData.victoryPoints += 2
         playerTurnData.armySize += 1

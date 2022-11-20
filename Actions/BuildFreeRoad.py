@@ -4,12 +4,15 @@ from Resource import Resource
 
 class BuildFreeRoad(Action):
 
-    def __init__(self, edgeID) -> None:
+    def __init__(self, edgeID, necessaryActions) -> None:
         super().__init__()
         self.edgeID = edgeID
+        self.necessaryActions = necessaryActions
 
     def apply(self, state):
         newState = state.getCopy()
+
+        newState.necessaryActions.clear()
 
         newEdge = newState.board.edges[self.edgeID].getCopy()
 
@@ -17,6 +20,8 @@ class BuildFreeRoad(Action):
 
         newEdge.playerColor = playerData.color
         newState.board.edges[self.edgeID] = newEdge
+
+        newState.necessaryActions = self.necessaryActions
 
         return newState
     

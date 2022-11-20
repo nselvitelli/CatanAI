@@ -5,14 +5,17 @@ from Actions.Action import EAction
 
 class PlaceInitialSettlement(Action):
 
-    def __init__(self, nodeID, isLastPlacedSettlement) -> None:
+    def __init__(self, nodeID, isLastPlacedSettlement, necessaryActions) -> None:
         super().__init__()
         self.nodeID = nodeID
         self.isLastPlacedSettlement = isLastPlacedSettlement
+        self.necessaryActions = necessaryActions
 
 
     def apply(self, state):
         newState = state.getCopy()
+
+        newState.necessaryActions.clear()
 
         playerData = newState.playerDataList[newState.whoseTurn]
 
@@ -33,6 +36,8 @@ class PlaceInitialSettlement(Action):
         playerData.victoryPoints += 1
 
         newState.necessaryActions.insert(0, EAction.BUILDFREEROAD)
+
+        newState.necessaryActions.extend(self.necessaryActions)
 
         return newState
 

@@ -98,7 +98,7 @@ class State:
         if self.hasResourcesAvailable(brick, log, sheep, wheat, ore, resourcesAvailable):
             valid = set()
             for settlementNodeID in currentPlayer.settlements[0:2]:
-                valid.union(set(func(settlementNodeID, self.playerDataList[self.whoseTurn].color)))
+                valid = valid.union(set(func(settlementNodeID, self.playerDataList[self.whoseTurn].color)))
             return [action(x, self.whoseTurn) for x in valid]
         else:
             return []
@@ -131,11 +131,9 @@ class State:
         return actions
     
     def getNecessaryActions(self):
-        print(self.necessaryActions)
         necessaryActionsCopy = self.necessaryActions.copy()
         nextNeededActionEnum = necessaryActionsCopy.pop(0)
         currentPlayer = self.playerDataList[self.whoseTurn]
-
 
         if nextNeededActionEnum == EAction.DISCARD:
             discardActions = []
@@ -159,7 +157,6 @@ class State:
         elif nextNeededActionEnum == EAction.ROLLDICE:
             return [RollDice(necessaryActionsCopy)]
         elif nextNeededActionEnum == EAction.PLACE_INIT_SETTLEMENT or nextNeededActionEnum == EAction.PLACE_INIT_SETTLEMENT_GET_RESOURCES:
-            " TODO: FIX THIS"
             allNodeLocations = set(self.board.nodes.keys())
             takenLocations = set() # including nodes 1 away from a settlement
             for player in self.playerDataList:
@@ -172,19 +169,25 @@ class State:
             initialSettlementActions = []
             getResourcesFromSettlement = nextNeededActionEnum == EAction.PLACE_INIT_SETTLEMENT_GET_RESOURCES
             for nodeID in allPossibleLocations:
-                initialSettlementActions.append(PlaceInitialSettlement(nodeID, getResourcesFromSettlement))
+                initialSettlementActions.append(PlaceInitialSettlement(nodeID, getResourcesFromSettlement, necessaryActionsCopy))
             return initialSettlementActions
         elif nextNeededActionEnum == EAction.BUILDFREEROAD:
             valid = set()
             for settlementNodeID in currentPlayer.settlements[0:2]: 
-                valid.union(set(self.board.bfsEndpoint(settlementNodeID, self.playerDataList[self.whoseTurn].color)))
-            return [BuildFreeRoad(edge) for edge in valid]
+                valid = valid.union(set(self.board.bfsEndpoint(settlementNodeID, self.playerDataList[self.whoseTurn].color)))
+
+            return [BuildFreeRoad(edge, necessaryActionsCopy) for edge in valid]
     
     def isGameOver(self):
         for player in self.playerDataList:
             if player.victoryPoints >= 10:
                 return True
         return False
+
+    def getPlayerWithColor(self, color):
+        for player in self.playerDataList:
+            if player.color == color:
+                return player
 
 
 def generateState(agents) -> State:
