@@ -167,14 +167,15 @@ class CatanGraphics:
                       tile.nodes[1], pos, (0, 0.25), (0.5, 0))
         self.drawEdge(board, tile.nodes[1],
                       tile.nodes[2], pos, (0.5, 0), (1, 0.25))
-        self.drawEdge(board, tile.nodes[2],
-                      tile.nodes[3], pos, (1, 0.25), (0, 0.75))
+
+        self.drawEdge(board, tile.nodes[0],
+                      tile.nodes[3], pos, (0, 0.25), (0, 0.75))
         self.drawEdge(board, tile.nodes[3],
                       tile.nodes[4], pos, (0, 0.75), (0.5, 1))
         self.drawEdge(board, tile.nodes[4],
                       tile.nodes[5], pos, (0.5, 1), (1, 0.75))
         self.drawEdge(board, tile.nodes[5],
-                      tile.nodes[1], pos, (1, 0.75), (0, 0.25))
+                      tile.nodes[2], pos, (1, 0.75), (1, 0.25))
 
     def drawEdge(self, board, tileID1, tileID2, pos, offset1, offset2):
         for edgeID in board.edges:
