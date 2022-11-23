@@ -14,27 +14,33 @@ class Game:
         """
         Main control loop for game play.
         """
-        exit = False
+        exit_gui = False
+        game_over_printed_once = False
+
         if not self.display == None:
             self.display.initialize(self.state)
 
         nextState = self.state
 
-        while not exit:
+        while not exit_gui:
             if not self.display == None:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        exit = True
+                        exit_gui = True
 
-            if(nextState.isGameOver()):
-                print("GAME OVER")
-                print("WINNER: ", nextState.getWinner().color)
-                # exit = True
+            if nextState.isGameOver():
+                if not game_over_printed_once:
+                    print("GAME OVER")
+                    print("WINNER: ", nextState.getWinner().color)
+                    game_over_printed_once = True
             else:
                 currentPlayerData = self.state.playerDataList[self.state.whoseTurn]
                 currentAgent = currentPlayerData.agent
                 action = currentAgent.getAction(self.state)
+
+                prevState = nextState
                 nextState = action.apply(self.state)
+                nextState.printStateDifferences(prevState)
 
             self.state = nextState
             if not self.display == None:

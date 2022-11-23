@@ -212,29 +212,53 @@ class State:
             if player.color == color:
                 return player
 
+    def printStateDifferences(self, prevState):
+        print("\n-----\nSTATE CHANGE:")
+        print(str(self.board.getBoardDifferences(prevState.board)))
+        print(str(self.getPlayerDataDifferences(prevState.playerDataList)))
+        print(str(self.getDevCardStackDifferences(prevState.devCards)))
+        print("Turn: " + str(prevState.playerDataList[prevState.whoseTurn].color.name) + " -> " + str(self.playerDataList[self.whoseTurn].color.name))
+        print("Longest Road: " + str(prevState.longestRoad.name) +  " -> " +  str(self.longestRoad.name))
+        print("Largest Army: " + str(prevState.largestArmy.name) +  " -> " +  str(self.largestArmy.name))
+
+        prevNecessary = list(map(lambda a: a.name, prevState.necessaryActions))
+        curNecessary = list(map(lambda a: a.name, self.necessaryActions))
+        if len(prevNecessary) == 0 and len(curNecessary) == 0:
+            print("Necessary Actions: [] -> []")
+        else:
+            print("Necessary Actions:\n" + str(prevNecessary) +  "\n\t->\n" + str(curNecessary))
+            
+        print("-----\n")
+
+    def getPlayerDataDifferences(self, prevList):
+        pass
+
+    def getDevCardStackDifferences(self, prevDevCards):
+        pass
+
 
 def generateState(agents) -> State:
-        board = Board(None, None, None, None)
-        board.generate_start_board()
-        playerList = []
-        numAgents = len(agents)
-        for i in range(numAgents):
-            playerList.append(PlayerData(agents[i], color=agents[i].color))
-        devCards = getDevCardPool()
+    board = Board(None, None, None, None)
+    board.generate_start_board()
+    playerList = []
+    numAgents = len(agents)
+    for i in range(numAgents):
+        playerList.append(PlayerData(agents[i], color=agents[i].color))
+    devCards = getDevCardPool()
 
-        necessaryActions = []
-        "first round of place settlement"
-        for i in range(numAgents):
-            necessaryActions.append(EAction.PLACE_INIT_SETTLEMENT)
+    necessaryActions = []
+    "first round of place settlement"
+    for i in range(numAgents):
+        necessaryActions.append(EAction.PLACE_INIT_SETTLEMENT)
+        necessaryActions.append(EAction.NEXTPLAYER)
+    "second round of place settlement"
+    for i in range(numAgents):
+        for b in range(numAgents - 1):
             necessaryActions.append(EAction.NEXTPLAYER)
-        "second round of place settlement"
-        for i in range(numAgents):
-            for b in range(numAgents - 1):
-                necessaryActions.append(EAction.NEXTPLAYER)
-            necessaryActions.append(EAction.PLACE_INIT_SETTLEMENT_GET_RESOURCES)
+        necessaryActions.append(EAction.PLACE_INIT_SETTLEMENT_GET_RESOURCES)
 
-        state = State(board, playerList, devCards, PlayerColor.BLANK, PlayerColor.BLANK, 0, necessaryActions)
-        return state
+    state = State(board, playerList, devCards, PlayerColor.BLANK, PlayerColor.BLANK, 0, necessaryActions)
+    return state
 
 def getDevCardPool():
     """

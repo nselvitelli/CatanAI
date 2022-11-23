@@ -2,7 +2,7 @@ import pygame
 import math
 from Resource import Resource
 from PlayerColor import PlayerColor
-from Node import NodePiece
+from Node import NodePiece, Port
 
 
 WHITE = (255, 255, 255)
@@ -23,6 +23,15 @@ PLAYER_COLOR_MAP = {
     PlayerColor.ORANGE: (255, 128, 0),
     PlayerColor.RED: (255, 0, 0),
     PlayerColor.WHITE: WHITE
+}
+
+PORT_COLOR_MAP = {
+    Port.BRICK: TILE_COLOR_MAP[Resource.BRICK],
+    Port.LOG: TILE_COLOR_MAP[Resource.LOG],
+    Port.ORE: TILE_COLOR_MAP[Resource.ORE],
+    Port.SHEEP: TILE_COLOR_MAP[Resource.SHEEP],
+    Port.THREE_TO_ONE: TILE_COLOR_MAP[Resource.DESERT],
+    Port.WHEAT: TILE_COLOR_MAP[Resource.WHEAT]
 }
 
 TILE_SHAPE = [
@@ -67,6 +76,7 @@ class CatanGraphics:
         self.drawState(state)
 
     def drawState(self, state):
+        self.canvas.fill(BLACK)
         self.drawBoard(state.board)
         pygame.display.update()
 
@@ -202,28 +212,32 @@ class CatanGraphics:
         self.drawEdges(board, tile, pos)
         # top left node:
         node = board.nodes[tile.nodes[0]]
-        self.drawPiece(node.piece, pos, (0, 0.25))
+        self.drawPiece(node, node.piece, pos, (0, 0.25))
         # top node:
         node = board.nodes[tile.nodes[1]]
-        self.drawPiece(node.piece, pos, (0.5, 0))
+        self.drawPiece(node, node.piece, pos, (0.5, 0))
         # top right node:
         node = board.nodes[tile.nodes[2]]
-        self.drawPiece(node.piece, pos, (1, 0.25))
+        self.drawPiece(node, node.piece, pos, (1, 0.25))
         # bottom left node:
         node = board.nodes[tile.nodes[3]]
-        self.drawPiece(node.piece, pos, (0, 0.75))
+        self.drawPiece(node, node.piece, pos, (0, 0.75))
         # bottom node:
         node = board.nodes[tile.nodes[4]]
-        self.drawPiece(node.piece, pos, (0.5, 1))
+        self.drawPiece(node, node.piece, pos, (0.5, 1))
         # bottom right node:
         node = board.nodes[tile.nodes[5]]
-        self.drawPiece(node.piece, pos, (1, 0.75))
+        self.drawPiece(node, node.piece, pos, (1, 0.75))
 
-    def drawPiece(self, piece, pos, offset):
-        if piece[0] == NodePiece.EMPTY:
-            return
+    def drawPiece(self, node, piece, pos, offset):
         newPos = (pos[0] + TILE_SIZE * offset[0] - SETTLEMENT_SIZE / 2,
                   pos[1] + TILE_SIZE * offset[1] - SETTLEMENT_SIZE / 2)
+        if node.port != Port.EMPTY:
+            pygame.draw.circle(self.canvas, PORT_COLOR_MAP[node.port], newPos, 8)
+            pygame.draw.circle(self.canvas, BLACK, newPos, 8, width=1)
+        
+        if piece[0] == NodePiece.EMPTY:
+            return
         coords = []
         if piece[0] == NodePiece.SETTLEMENT:
             for (x, y) in SETTLEMENT_SHAPE:
@@ -263,3 +277,12 @@ class CatanGraphics:
                             pos[1] + offset2[1] * TILE_SIZE)
                     pygame.draw.line(
                         self.canvas, PLAYER_COLOR_MAP[edge.playerColor], pos1, pos2, 5)
+    
+    def drawText(self, message):
+        fontSize = 64
+        font = pygame.font.Font(None, fontSize)
+        antialias = True
+        textColor = (0, 255, 0)
+        text = font.render("Pummel The Chimp, And Win $$$", antialias, textColor)
+        textpos = text.get_rect(centerx=self.canvas.get_width() / 2, y=10)
+        self.canvas.blit(text, textpos)

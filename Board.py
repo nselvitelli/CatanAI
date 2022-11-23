@@ -32,6 +32,9 @@ class Board:
 
     def bfsPossibleSettlements(self, settlementNodeID, whoseTurn):
         return self.nodes[settlementNodeID].bfsPossibleSettlements(whoseTurn, [], self.nodes, self.edges)
+    
+    def getBoardDifferences(self, prevBoard):
+        pass
 
     """
     BOARD HARDCODE

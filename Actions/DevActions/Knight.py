@@ -24,7 +24,7 @@ class Knight(Action):
         if maxKnights == playerTurnData.armySize and maxKnights >= 2:
             if state.largestArmy != PlayerColor.BLANK:
                 newState.playerDataList[state.largestArmy].victoryPoints -= 2
-            state.largestArmy = state.whoseTurn
+            state.largestArmy = newState.playerDataList[state.whoseTurn].color
             playerTurnData.victoryPoints += 2
         playerTurnData.armySize += 1
 
