@@ -27,4 +27,4 @@ class BuildCity(Action):
         return newState
 
     def getActionAsString(self):
-        return "BuildCity on " + str(self.nodeID)
+        return "BuildCity on " + str('%02d' % self.nodeID)

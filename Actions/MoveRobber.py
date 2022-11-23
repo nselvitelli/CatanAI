@@ -36,5 +36,5 @@ class MoveRobber(Action):
         return newState
 
     def getActionAsString(self):
-        player = str(None) if self.stealPlayer == None else str(self.stealPlayer.color)
+        player = str(None) if self.stealPlayer == None else str(self.stealPlayer.color.name)
         return "MoveRobber to " + str(self.tileID) + ", steal from Player " + player

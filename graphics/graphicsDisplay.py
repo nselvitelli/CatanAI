@@ -1,3 +1,4 @@
+import os
 import pygame
 import math
 from Resource import Resource
@@ -68,7 +69,13 @@ class CatanGraphics:
         pygame.init()
         pygame.font.init()
 
-        self.canvas = pygame.display.set_mode((600, 600))
+        self.canvas = pygame.display.set_mode((800, 600))
+
+        base_path = os.path.dirname(__file__)
+        board_ref_path = os.path.join(base_path, "board_ref.jpeg")
+        self.player = pygame.image.load(board_ref_path)
+        self.player = pygame.transform.scale(self.player, (450, 450))
+
         # TITLE OF CANVAS
         pygame.display.set_caption("Catan")
         self.canvas.fill(BLACK)
@@ -77,11 +84,13 @@ class CatanGraphics:
 
     def drawState(self, state):
         self.canvas.fill(BLACK)
+        self.canvas.blit(self.player, (350, 100))
+
         self.drawBoard(state.board)
         pygame.display.update()
 
     def drawBoard(self, board):
-        startX = 150
+        startX = 100
         startY = 100
         yOffset = TILE_SIZE * math.sqrt(2.5) / 2
 
@@ -136,7 +145,7 @@ class CatanGraphics:
         self.drawNodes(board)
 
     def drawNodes(self, board):
-        startX = 150
+        startX = 100
         startY = 100
         yOffset = TILE_SIZE * math.sqrt(2.5) / 2
 

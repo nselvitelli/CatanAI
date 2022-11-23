@@ -46,4 +46,4 @@ class PlaceInitialSettlement(Action):
         return newState
 
     def getActionAsString(self):
-        return "BuildInitialSettlement on " + str(self.nodeID) 
+        return "BuildInitialSettlement on " + str('%02d' % self.nodeID) 

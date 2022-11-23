@@ -33,4 +33,4 @@ class BuildSettlement(Action):
         return newState
 
     def getActionAsString(self):
-        return "BuildSettlement on " + str(self.nodeID) 
+        return "BuildSettlement on " + str('%02d' % self.nodeID) 

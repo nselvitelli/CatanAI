@@ -1,3 +1,4 @@
+from Actions.CheatAction import CheatAction
 from Agents.Agent import Agent
 
 
@@ -10,7 +11,9 @@ class KeyboardAgent(Agent):
         """
         The Agent will receive a GameState and must return an action
         """
-        actions = state.getValidActions()
+        actions = sorted(state.getValidActions(), key=lambda a: a.getActionAsString())
+
+        actions.append(CheatAction()) # keyboard player can cheat for debugging
 
         print("Your valid actions are: ")
         self.printEnumeratedActions(actions)

@@ -26,4 +26,4 @@ class BuildFreeRoad(Action):
         return newState
     
     def getActionAsString(self):
-        return "BuildFreeRoad on " + str(self.edgeID)
+        return "BuildFreeRoad on " + str('%02d' % self.edgeID)

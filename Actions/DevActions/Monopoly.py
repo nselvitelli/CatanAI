@@ -17,6 +17,7 @@ class Monopoly(Action):
         for idx,player in enumerate(set(newState.playerDataList) - set([currentPlayer])):
             if idx != newState.whoseTurn:
                 stealCount += player.resourcesAvailable[self.resource]
+                print(currentPlayer.color.name, "stole", str(stealCount), self.resource.name, "from", player.color.name)
                 player.resourcesAvailable[self.resource] = 0
 
         currentPlayer.resourcesAvailable[self.resource] += stealCount
@@ -25,4 +26,4 @@ class Monopoly(Action):
         return newState
 
     def getActionAsString(self):
-        return "Play Monopoly DevCard to get " + str(self.resource) + " from all players"
+        return "Play Monopoly DevCard to get " + str(self.resource.name) + " from all players"
