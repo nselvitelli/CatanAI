@@ -213,28 +213,44 @@ class State:
                 return player
 
     def printStateDifferences(self, prevState):
-        print("\n-----\nSTATE CHANGE:")
+        print("\n-----\nSTATE CHANGE:\n")
         print(str(self.board.getBoardDifferences(prevState.board)))
         print(str(self.getPlayerDataDifferences(prevState.playerDataList)))
-        print(str(self.getDevCardStackDifferences(prevState.devCards)))
-        print("Turn: " + str(prevState.playerDataList[prevState.whoseTurn].color.name) + " -> " + str(self.playerDataList[self.whoseTurn].color.name))
-        print("Longest Road: " + str(prevState.longestRoad.name) +  " -> " +  str(self.longestRoad.name))
-        print("Largest Army: " + str(prevState.largestArmy.name) +  " -> " +  str(self.largestArmy.name))
 
-        prevNecessary = list(map(lambda a: a.name, prevState.necessaryActions))
-        curNecessary = list(map(lambda a: a.name, self.necessaryActions))
-        if len(prevNecessary) == 0 and len(curNecessary) == 0:
-            print("Necessary Actions: [] -> []")
-        else:
-            print("Necessary Actions:\n" + str(prevNecessary) +  "\n\t->\n" + str(curNecessary))
-            
+        cardsDrawn = set(self.devCards) - set(prevState.devCards)
+        if len(cardsDrawn) > 0:
+            print("Dev Cards Drawn: " + str(list(map(lambda a: a.name, cardsDrawn))))
+        
+        
+        print("Turn: " + str(prevState.playerDataList[prevState.whoseTurn].color.name) + " -> " + str(self.playerDataList[self.whoseTurn].color.name) + "\n")
+
+        prevLong = str(prevState.longestRoad.name)
+        curLong = str(self.longestRoad.name)
+        if self.longestRoad != PlayerColor.BLANK:
+            if curLong != prevLong:
+                print("Longest Road: " + prevLong + " -> " + curLong)
+            else:
+                print("Longest Road: " + curLong)
+        
+        prevArmy = str(prevState.largestArmy.name)
+        curArmy = str(self.largestArmy.name)
+        if self.largestArmy != PlayerColor.BLANK:
+            if prevArmy != curArmy:
+                print("Largest Army: " + prevArmy + " -> " + curArmy)
+            else:
+                print("Largest Army: " + curArmy)
+        
+        if len(self.necessaryActions) > 0:
+            curNecessary = list(map(lambda a: a.name, self.necessaryActions))        
+            print("Necessary Actions:\n" + str(curNecessary) + "\n")
+
         print("-----\n")
 
     def getPlayerDataDifferences(self, prevList):
-        pass
-
-    def getDevCardStackDifferences(self, prevDevCards):
-        pass
+        message = "Player Changes:\n"
+        for idx, player in enumerate(self.playerDataList):
+            message = message + player.getPlayerDifferences(prevList[idx]) + "\n"
+        return message
 
 
 def generateState(agents) -> State:
@@ -256,6 +272,7 @@ def generateState(agents) -> State:
         for b in range(numAgents - 1):
             necessaryActions.append(EAction.NEXTPLAYER)
         necessaryActions.append(EAction.PLACE_INIT_SETTLEMENT_GET_RESOURCES)
+    necessaryActions.append(EAction.ROLLDICE)
 
     state = State(board, playerList, devCards, PlayerColor.BLANK, PlayerColor.BLANK, 0, necessaryActions)
     return state

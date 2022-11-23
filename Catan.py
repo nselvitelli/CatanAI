@@ -5,8 +5,6 @@ from Agents.FirstActionAgent import FirstActionAgent
 from game import Game
 from graphics.graphicsDisplay import CatanGraphics
 from PlayerColor import PlayerColor
-from graphics.graphicsTest import GraphicsTest
-
 
 
 if __name__ == '__main__':
@@ -32,11 +30,11 @@ if __name__ == '__main__':
     display = CatanGraphics()
 
     agents = [
-        # KeyboardAgent(PlayerColor.RED),
-        RandomAgent(PlayerColor.RED),
-        FirstActionAgent(PlayerColor.BLUE),
-        RandomAgent(PlayerColor.ORANGE),
-        RandomAgent(PlayerColor.WHITE),
+        KeyboardAgent(PlayerColor.RED),
+        # RandomAgent(PlayerColor.RED),
+        RandomAgent(PlayerColor.BLUE),
+        # RandomAgent(PlayerColor.ORANGE),
+        # RandomAgent(PlayerColor.WHITE),
     ]
 
     state = State.generateState(agents)

@@ -34,7 +34,15 @@ class Board:
         return self.nodes[settlementNodeID].bfsPossibleSettlements(whoseTurn, [], self.nodes, self.edges)
     
     def getBoardDifferences(self, prevBoard):
-        pass
+        message = "Nodes:\n"
+        for key, value in self.nodes.items():
+            if value.piece[0] != prevBoard.nodes[key].piece[0]:
+                message += str(key) + " - " + prevBoard.nodes[key].piece[0].name + " -> " + value.piece[0].name + ": " + value.piece[1].name + "\n"
+        message += "Edges:\n"
+        for key, value in self.edges.items():
+            if value.playerColor != prevBoard.edges[key].playerColor:
+                message += str(key) + " - " + prevBoard.edges[key].playerColor.name + " -> " + value.playerColor.name + "\n"
+        return message
 
     """
     BOARD HARDCODE
@@ -71,7 +79,7 @@ class Board:
         self.tiles['C'] = Tile(frequency_pool[2], resource_pool[2], [4, 5, 6, 12, 13, 14])
         self.tiles['D'] = Tile(frequency_pool[3], resource_pool[3], [7, 8, 9, 17, 18, 19])
         self.tiles['E'] = Tile(frequency_pool[4], resource_pool[4], [9, 10, 11, 19, 20, 21])
-        self.tiles['F'] = Tile(frequency_pool[5], resource_pool[5], [11, 12, 14, 21, 22, 23])
+        self.tiles['F'] = Tile(frequency_pool[5], resource_pool[5], [11, 12, 13, 21, 22, 23])
         self.tiles['G'] = Tile(frequency_pool[6], resource_pool[6], [13, 14, 15, 23, 24, 25])
         self.tiles['H'] = Tile(frequency_pool[7], resource_pool[7], [16, 17, 18, 27, 28, 29])
         self.tiles['I'] = Tile(frequency_pool[8], resource_pool[8], [18, 19, 20, 29, 30, 31])

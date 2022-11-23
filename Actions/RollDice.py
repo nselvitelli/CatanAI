@@ -16,7 +16,9 @@ class RollDice(Action):
         d2 = random.randint(1, 6)
         rollVal = d1 + d2
 
-        print(rollVal)
+        print("\n----")
+        print("Player " + state.playerDataList[state.whoseTurn].color.name + " rolled a [" + str(rollVal) + "]")
+        print("----")
 
         newState.necessaryActions.clear()
 
@@ -43,9 +45,6 @@ class RollDice(Action):
                             playerData.resourcesAvailable[tile.resource] += 2
 
         newState.necessaryActions.extend(self.necessaryActions)
-
-        for player in newState.playerDataList:
-            print(player.color, player.resourcesAvailable)
 
         return newState
 

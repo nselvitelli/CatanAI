@@ -45,7 +45,53 @@ class PlayerData:
         for key in self.resourcesAvailable:
             newResources[key] = self.resourcesAvailable[key]
 
-        return PlayerData(self.agent, self.victoryPoints, newDevCards, newSettlements, newResources, self.armySize, self.color)
+        newPendingDevCards = []
+        for card in self.pendingDevCards:
+            newPendingDevCards.append(card)
+
+        return PlayerData(self.agent, self.victoryPoints, newDevCards, newSettlements, newResources, self.armySize, self.color, newPendingDevCards)
 
     def getPorts(self):
         return self.portsAvailable
+    
+    def getPlayerDifferences(self, prevPlayer):
+        message = "Player " + self.color.name + ":\n"
+
+        if self.victoryPoints != prevPlayer.victoryPoints:
+            message += "\tVP: " + str(prevPlayer.victoryPoints) + " -> " + str(self.victoryPoints)+ "\n"
+        else:
+            message += "\tVP: " + str(self.victoryPoints) + "\n"
+        
+        if len(self.devCards) < len(prevPlayer.devCards):
+            message += "\tUsed DevCards: " + str(list(map(lambda a: a.name, set(prevPlayer.devCards) - set(self.devCards)))) + "\n"
+        
+        if len(self.devCards) > 0:
+            message += "\tDevCards Available: " + str(list(map(lambda a: a.name, self.devCards))) + "\n"
+
+        if len(self.pendingDevCards) > 0:
+            message += "\tDevCards Pending: " + str(list(map(lambda a: a.name, self.pendingDevCards))) + "\n"
+        
+        if len(self.settlements) > len(prevPlayer.settlements):
+            message += "\tBuilt Settlements: " + str(list(set(self.settlements) - set(prevPlayer.settlements))) + "\n"
+        
+        message += "\tCurrent Settlements: " + str(list( self.settlements)) + "\n"
+
+        if self.resourcesAvailable != prevPlayer.resourcesAvailable:
+            message += "\tResources:\n"
+            for key, value in self.resourcesAvailable.items():
+                prevAmt = prevPlayer.resourcesAvailable[key]
+                message += "\t - " + key.name + ": " + str(value)
+                if value > prevAmt:
+                    message += " (+" + str(value - prevAmt) + ")\n"
+                elif value < prevAmt:
+                    message += " (" + str(value - prevAmt) + ")\n"
+                else:
+                    message += "\n"
+        
+        if self.armySize > 0:
+            message += "\tArmySize: " + (str(self.armySize) if self.armySize == prevPlayer.armySize else (str(prevPlayer.armySize) + " -> " + str(self.armySize))) + "\n"
+        
+        if len(self.portsAvailable) > 0:
+            message += "\tPorts owned: " + str(list(map(lambda a: a.name, self.portsAvailable)))
+
+        return message
