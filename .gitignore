@@ -5,3 +5,5 @@ __pycache__/PlayerData.cpython-39.pyc
 __pycache__/Resource.cpython-39.pyc
 __pycache__/Tile.cpython-39.pyc
 __pycache__/
+*/.DS_Store
+.DS_Store
