@@ -13,22 +13,41 @@ class Knight(Action):
 
     def apply(self, state):
         newState = state.getCopy()
+
         newState.necessaryActions.insert(0, EAction.MOVEROBBER)
+        
+        playerTurnData = newState.playerDataList[newState.whoseTurn]
+        playerTurnData.armySize += 1
+        playerTurnData.devCards.remove(DevCardName.KNIGHT)
+
 
         # corrects largest army if necessary
-        maxKnights = 0
-        for player in newState.playerDataList:
-            maxKnights = max(maxKnights, player.armySize)
 
-        playerTurnData = newState.playerDataList[state.whoseTurn]
-        if maxKnights == playerTurnData.armySize and maxKnights >= 2:
-            if state.largestArmy != PlayerColor.BLANK:
-                newState.playerDataList[state.largestArmy].victoryPoints -= 2
-            state.largestArmy = newState.playerDataList[state.whoseTurn].color
-            playerTurnData.victoryPoints += 2
-        playerTurnData.armySize += 1
+        # state.largestArmy is an index, -1 if no one has it yet
+        previousLargestArmyPlayer = newState.playerDataList[newState.largestArmy] if newState.largestArmy != -1 else None
+        largestArmyPlayer = None if newState.largestArmy == -1 else newState.playerDataList[newState.largestArmy]
+        largestIdx = -1
+        maxKnights = largestArmyPlayer.armySize if largestArmyPlayer != None else 0
 
-        newState.playerDataList[newState.whoseTurn].devCards.remove(DevCardName.KNIGHT)
+        print("BEFORE - prev:", previousLargestArmyPlayer, "largest:", largestArmyPlayer, "max", maxKnights, "state:", newState.largestArmy)
+
+        for idx, player in enumerate(newState.playerDataList):
+            if player.armySize > maxKnights:
+                maxKnights = player.armySize
+                largestArmyPlayer = player
+                largestIdx = idx
+
+        print("AFTER - prev:", previousLargestArmyPlayer, "largest:", largestArmyPlayer, "max", maxKnights)
+        
+        if maxKnights >= 3 and previousLargestArmyPlayer != largestArmyPlayer:
+            if previousLargestArmyPlayer != None:
+                previousLargestArmyPlayer.victoryPoints -= 2
+            if largestArmyPlayer != None:
+                largestArmyPlayer.victoryPoints += 2
+            newState.largestArmy = largestIdx
+            
+
+        print("AFTER AFTER - prev:", previousLargestArmyPlayer, "largest:", largestArmyPlayer, "max", maxKnights, "state:", newState.largestArmy)
 
         return newState
 

@@ -1,6 +1,9 @@
 import pygame
 
 
+DEBUG_STATES = True
+
+
 class Game:
     """
     The Game manages the control flow, soliciting actions from agents.
@@ -21,6 +24,7 @@ class Game:
             self.display.initialize(self.state)
 
         nextState = self.state
+        prevState = self.state
 
         while not exit_gui:
             if not self.display == None:
@@ -33,6 +37,8 @@ class Game:
                     print("GAME OVER")
                     print("WINNER: ", nextState.getWinner().color)
                     game_over_printed_once = True
+                    if not DEBUG_STATES:
+                        nextState.printStateDifferences(prevState)
             else:
                 currentPlayerData = self.state.playerDataList[self.state.whoseTurn]
                 currentAgent = currentPlayerData.agent
@@ -40,7 +46,8 @@ class Game:
 
                 prevState = nextState
                 nextState = action.apply(self.state)
-                nextState.printStateDifferences(prevState)
+                if DEBUG_STATES:
+                    nextState.printStateDifferences(prevState)
 
             self.state = nextState
             if not self.display == None:

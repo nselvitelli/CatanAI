@@ -31,7 +31,7 @@ class State:
         self.devCards = devCards
         self.whoseTurn = whoseTurn  # this is an index
         self.longestRoad = longestRoad
-        self.largestArmy = largestArmy
+        self.largestArmy = largestArmy # i'm making this an index instead of a color fuck you <3
         self.necessaryActions = necessaryActions
 
     def getCopy(self):
@@ -232,9 +232,9 @@ class State:
             else:
                 print("Longest Road: " + curLong)
         
-        prevArmy = str(prevState.largestArmy.name)
-        curArmy = str(self.largestArmy.name)
-        if self.largestArmy != PlayerColor.BLANK:
+        prevArmy = str(prevState.playerDataList[prevState.largestArmy].color.name)
+        curArmy = str(self.playerDataList[self.largestArmy].color.name)
+        if self.largestArmy != -1:
             if prevArmy != curArmy:
                 print("Largest Army: " + prevArmy + " -> " + curArmy)
             else:
@@ -249,7 +249,7 @@ class State:
     def getPlayerDataDifferences(self, prevList):
         message = "Player Changes:\n"
         for idx, player in enumerate(self.playerDataList):
-            message = message + player.getPlayerDifferences(prevList[idx]) + "\n"
+            message = message + player.getPlayerDifferences(prevList[idx], self.board) + "\n"
         return message
 
 
@@ -274,7 +274,7 @@ def generateState(agents) -> State:
         necessaryActions.append(EAction.PLACE_INIT_SETTLEMENT_GET_RESOURCES)
     necessaryActions.append(EAction.ROLLDICE)
 
-    state = State(board, playerList, devCards, PlayerColor.BLANK, PlayerColor.BLANK, 0, necessaryActions)
+    state = State(board, playerList, devCards, PlayerColor.BLANK, -1, 0, necessaryActions)
     return state
 
 def getDevCardPool():

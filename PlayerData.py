@@ -54,7 +54,7 @@ class PlayerData:
     def getPorts(self):
         return self.portsAvailable
     
-    def getPlayerDifferences(self, prevPlayer):
+    def getPlayerDifferences(self, prevPlayer, board):
         message = "Player " + self.color.name + ":\n"
 
         if self.victoryPoints != prevPlayer.victoryPoints:
@@ -63,18 +63,24 @@ class PlayerData:
             message += "\tVP: " + str(self.victoryPoints) + "\n"
         
         if len(self.devCards) < len(prevPlayer.devCards):
-            message += "\tUsed DevCards: " + str(list(map(lambda a: a.name, set(prevPlayer.devCards) - set(self.devCards)))) + "\n"
+            trackerCards = self.devCards.copy()
+            usedCards = []
+            for i in prevPlayer.devCards:
+                if i not in trackerCards:
+                    usedCards.append(i.name)
+                else:
+                    trackerCards.remove(i)
+            message += "\tUsed DevCards: " + str(usedCards) + "\n"
         
         if len(self.devCards) > 0:
             message += "\tDevCards Available: " + str(list(map(lambda a: a.name, self.devCards))) + "\n"
 
         if len(self.pendingDevCards) > 0:
             message += "\tDevCards Pending: " + str(list(map(lambda a: a.name, self.pendingDevCards))) + "\n"
-        
-        if len(self.settlements) > len(prevPlayer.settlements):
-            message += "\tBuilt Settlements: " + str(list(set(self.settlements) - set(prevPlayer.settlements))) + "\n"
-        
-        message += "\tCurrent Settlements: " + str(list( self.settlements)) + "\n"
+
+        settlementLocTypeTupleList = list(map(lambda a: (a, board.nodes[a].piece[0].name), self.settlements))
+
+        message += "\tCurrent Settlements: " + str(settlementLocTypeTupleList) + "\n"
 
         if self.resourcesAvailable != prevPlayer.resourcesAvailable:
             message += "\tResources:\n"
