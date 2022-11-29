@@ -11,10 +11,9 @@ class Discard(Action):
     def apply(self, state):
         nextState = state.getCopy()
 
-        nextState.playerData[nextState.whoseTurn].resourcesAvailable.remove(self.resource)
+        nextState.playerDataList[nextState.whoseTurn].resourcesAvailable[self.resource] -= 1
         
         nextState.necessaryActions = self.necessaryActions
-
 
         return nextState
 

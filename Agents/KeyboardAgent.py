@@ -4,8 +4,9 @@ from Agents.Agent import Agent
 
 class KeyboardAgent(Agent):
 
-    def __init__(self, playerColor) -> None:
+    def __init__(self, playerColor, cheats=False) -> None:
         super().__init__(playerColor)
+        self.cheats = cheats
 
     def getAction(self, state):
         """
@@ -13,7 +14,8 @@ class KeyboardAgent(Agent):
         """
         actions = sorted(state.getValidActions(), key=lambda a: a.getActionAsString())
 
-        actions.append(CheatAction()) # keyboard player can cheat for debugging
+        if self.cheats:
+            actions.append(CheatAction()) # keyboard player can cheat for debugging
 
         print("Your valid actions are: ")
         self.printEnumeratedActions(actions)

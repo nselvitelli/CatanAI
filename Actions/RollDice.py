@@ -23,12 +23,29 @@ class RollDice(Action):
         newState.necessaryActions.clear()
 
         if rollVal == 7:
-            for player in state.playerDataList:
-                newState.necessaryActions.append(EAction.NEXTPLAYER)
-                numPlayerCards = len(player.resourcesAvailable.items())
+
+            playerIdx = newState.whoseTurn
+            count = 0
+            playerAmt = len(newState.playerDataList)
+
+            while count < playerAmt:
+                player = newState.playerDataList[playerIdx]
+
+                numPlayerCards = 0
+                for x in player.resourcesAvailable.values():
+                    numPlayerCards += x
+
                 cardsToRemove = int(numPlayerCards / 2) if numPlayerCards > 7 else 0
+
+                print("Player", player.color, "has [", numPlayerCards, "] cards, removing", cardsToRemove)
+
                 for i in range(cardsToRemove):
                     newState.necessaryActions.append(EAction.DISCARD)
+                
+                newState.necessaryActions.append(EAction.NEXTPLAYER)
+                playerIdx = (playerIdx + 1) % playerAmt
+                count += 1
+
             newState.necessaryActions.append(EAction.MOVEROBBER)
 
         else:

@@ -21,4 +21,4 @@ class EndTurn(Action):
         return nextState
 
     def getActionAsString(self):
-        return "EndTurn"
+        return "_EndTurn_"

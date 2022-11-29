@@ -111,16 +111,22 @@ class State:
 
         ports = set(currentPlayer.getPorts())
         maxTradeQuantity = 3 if Port.THREE_TO_ONE in ports else 4
-        inaccessiblePorts = set(
-            [Port.BRICK, Port.LOG, Port.ORE, Port.SHEEP, Port.WHEAT]) - ports
-        portsToResources = {Port.BRICK: Resource.BRICK, Port.LOG: Resource.LOG,
-                            Port.ORE: Resource.ORE, Port.SHEEP: Resource.SHEEP, Port.WHEAT: Resource.SHEEP}
+        inaccessiblePorts = set([Port.BRICK, Port.LOG, Port.ORE, Port.SHEEP, Port.WHEAT]) - ports
+
+        portsToResources = {
+            Port.BRICK: Resource.BRICK, 
+            Port.LOG: Resource.LOG,
+            Port.ORE: Resource.ORE,
+            Port.SHEEP: Resource.SHEEP, 
+            Port.WHEAT: Resource.WHEAT}
+        
         for port in ports - set([Port.THREE_TO_ONE]):
             resource = portsToResources[port]
             if currentPlayer.resourcesAvailable[resource] >= 2:
                 for targetResource in Resource:
                     if targetResource not in [Resource.DESERT, resource]:
                         actions.append(Trade(resource, 2, targetResource))
+        
         for port in inaccessiblePorts - set([Port.THREE_TO_ONE]):
             resource = portsToResources[port]
             if currentPlayer.resourcesAvailable[resource] >= maxTradeQuantity:
