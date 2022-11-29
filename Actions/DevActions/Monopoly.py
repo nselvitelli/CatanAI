@@ -14,10 +14,9 @@ class Monopoly(Action):
         currentPlayer = newState.playerDataList[newState.whoseTurn]
 
         stealCount = 0
-        for idx,player in enumerate(set(newState.playerDataList) - set([currentPlayer])):
+        for idx, player in enumerate(newState.playerDataList):
             if idx != newState.whoseTurn:
                 stealCount += player.resourcesAvailable[self.resource]
-                print(currentPlayer.color.name, "stole", str(stealCount), self.resource.name, "from", player.color.name)
                 player.resourcesAvailable[self.resource] = 0
 
         currentPlayer.resourcesAvailable[self.resource] += stealCount
