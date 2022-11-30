@@ -25,10 +25,9 @@ class BuildRoad(Action):
         previousLongestRoadPlayer = newState.playerDataList[newState.longestRoad[0]] if newState.longestRoad[0] != -1 else None
         previousLongestRoadLength = newState.longestRoad[1]
 
-        maxLength = 0
-        exploredEdges = []
-        for settlement in playerData.settlements :
-            maxLength = max(maxLength, self.exploreLongestRoadNode(state.board, settlement, 0, exploredEdges))
+        exploredEdges = [self.edgeID]
+        maxLength = self.exploreLongestRoadNode(newState.board, newEdge.nodeOne, 1, exploredEdges, playerData.color)
+        maxLength += self.exploreLongestRoadNode(newState.board, newEdge.nodeTwo, 0, exploredEdges, playerData.color)
 
         if maxLength > 4 and maxLength > previousLongestRoadLength :
             if not previousLongestRoadPlayer == None :
@@ -38,16 +37,17 @@ class BuildRoad(Action):
 
         return newState
 
-    def exploreLongestRoadNode(self, board, nodeID, currentLength, exploredEdges) :
+    def exploreLongestRoadNode(self, board, nodeID, currentLength, exploredEdges, playerColor) :
         node = board.nodes[nodeID]
         for edgeID in node.edges :
             if not edgeID in exploredEdges :
                 edge = board.edges[edgeID]
                 exploredEdges.append(edgeID)
-                if edge.nodeOne == nodeID :
-                    currentLength = max(currentLength, self.exploreLongestRoadNode(board, edge.nodeTwo, currentLength + 1, exploredEdges))
-                else :
-                    currentLength = max(currentLength, self.exploreLongestRoadNode(board, edge.nodeOne, currentLength + 1, exploredEdges))
+                if edge.playerColor == playerColor :
+                    if edge.nodeOne == nodeID :
+                        currentLength = max(currentLength, self.exploreLongestRoadNode(board, edge.nodeTwo, currentLength + 1, exploredEdges, playerColor))
+                    else :
+                        currentLength = max(currentLength, self.exploreLongestRoadNode(board, edge.nodeOne, currentLength + 1, exploredEdges, playerColor))
         
         return currentLength
 
