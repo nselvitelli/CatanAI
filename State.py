@@ -230,8 +230,8 @@ class State:
         
         print("Turn: " + str(prevState.playerDataList[prevState.whoseTurn].color.name) + " -> " + str(self.playerDataList[self.whoseTurn].color.name) + "\n")
 
-        prevLong = str(prevState.longestRoad.name)
-        curLong = str(self.longestRoad.name)
+        prevLong = str(prevState.longestRoad[0])
+        curLong = str(self.longestRoad[0])
         if self.longestRoad != PlayerColor.BLANK:
             if curLong != prevLong:
                 print("Longest Road: " + prevLong + " -> " + curLong)
@@ -280,7 +280,7 @@ def generateState(agents) -> State:
         necessaryActions.append(EAction.PLACE_INIT_SETTLEMENT_GET_RESOURCES)
     necessaryActions.append(EAction.ROLLDICE)
 
-    state = State(board, playerList, devCards, PlayerColor.BLANK, -1, 0, necessaryActions)
+    state = State(board, playerList, devCards, (-1, 0), -1, 0, necessaryActions)
     return state
 
 def getDevCardPool():

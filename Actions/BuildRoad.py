@@ -21,29 +21,35 @@ class BuildRoad(Action):
         playerData.resourcesAvailable[Resource.LOG] -= 1
         playerData.resourcesAvailable[Resource.BRICK] -= 1
 
-        # here we should check if we have a new longest road, and if that road is longer than the current longest
-        # probably should store longestroad as a tuple of (length, player)
+        #LONGEST ROAD LOGIC
+        previousLongestRoadPlayer = newState.playerDataList[newState.longestRoad[0]] if newState.longestRoad[0] != -1 else None
+        previousLongestRoadLength = newState.longestRoad[1]
 
-        previousLargestArmyPlayer = newState.playerDataList[newState.largestArmy] if newState.largestArmy != -1 else None
-        #Gonna need to be recursive, but track a global explored set
-        #algorithm:
-        #keep track of explored set of roads
-        #maxLength = 0
-        #rexplored = []
-        #for each settlement in player.settlements
-            #maxLength = max(maxLength, exploreNode(settlement, 0, explored))
+        maxLength = 0
+        exploredEdges = []
+        for settlement in playerData.settlements :
+            maxLength = max(maxLength, self.exploreLongestRoadNode(state.board, settlement, 0, exploredEdges))
 
-
-        #exploreNode(nodeID, currentLength, explored):
-            #IF NODE IS ENEMY PLAYER COLOR, RETURN currentLength
-            #maxLength = currentLength
-            #for each adjacent road of player color NOT in explored set
-                #add road to explored set
-                #maxLength = max(maxLength, exploreNode(otherNodeOnRoad, currentLength + 1, explored))
-            #return maxLength
-
+        if maxLength > 4 and maxLength > previousLongestRoadLength :
+            if not previousLongestRoadPlayer == None :
+                previousLongestRoadPlayer.victoryPoints -= 2
+            playerData.victoryPoints += 2
+            newState.longestRoad = (newState.whoseTurn, maxLength)
 
         return newState
+
+    def exploreLongestRoadNode(self, board, nodeID, currentLength, exploredEdges) :
+        node = board.nodes[nodeID]
+        for edgeID in node.edges :
+            if not edgeID in exploredEdges :
+                edge = board.edges[edgeID]
+                exploredEdges.append(edgeID)
+                if edge.nodeOne == nodeID :
+                    currentLength = max(currentLength, self.exploreLongestRoadNode(board, edge.nodeTwo, currentLength + 1, exploredEdges))
+                else :
+                    currentLength = max(currentLength, self.exploreLongestRoadNode(board, edge.nodeOne, currentLength + 1, exploredEdges))
+        
+        return currentLength
 
     def getActionAsString(self):
         return "BuildRoad on " + str('%02d' % self.edgeID)
