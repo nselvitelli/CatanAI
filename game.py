@@ -34,11 +34,12 @@ class Game:
 
             if nextState.isGameOver():
                 if not game_over_printed_once:
+                    if not DEBUG_STATES:
+                        nextState.printStateDifferences(prevState)
                     print("GAME OVER")
                     print("WINNER: ", nextState.getWinner().color)
                     game_over_printed_once = True
-                    if not DEBUG_STATES:
-                        nextState.printStateDifferences(prevState)
+                    
             else:
                 currentPlayerData = self.state.playerDataList[self.state.whoseTurn]
                 currentAgent = currentPlayerData.agent
