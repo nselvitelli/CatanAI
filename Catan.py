@@ -2,6 +2,7 @@ from Agents.MiniMaxAgent import MiniMaxAgent
 from Agents.KeyboardAgent import KeyboardAgent
 from Agents.RandomAgent import RandomAgent
 from Agents.FirstActionAgent import FirstActionAgent
+from Agents.AlphaBetaAgent import AlphaBetaAgent
 from game import Game
 from graphics.graphicsDisplay import CatanGraphics
 from PlayerColor import PlayerColor
@@ -30,14 +31,15 @@ if __name__ == '__main__':
     # should construct a new "Game" class with an initialized starting state
     # and graphics (if graphics have not been flagged off)
 
-    display = None #CatanGraphics()
+    display = CatanGraphics()
 
     agents = [
         # KeyboardAgent(PlayerColor.RED, cheats=True),
         # RandomAgent(PlayerColor.RED),
-        MiniMaxAgent(PlayerColor.RED, depth=2, evaluationFunction=Agents.EvalFunctions.evalFuncVP),
-        MiniMaxAgent(PlayerColor.BLUE, depth=2, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll)
-        # RandomAgent(PlayerColor.BLUE),
+        AlphaBetaAgent(PlayerColor.RED, depth=1),
+        #MiniMaxAgent(PlayerColor.RED, depth=1, evaluationFunction=Agents.EvalFunctions.evalFuncVP),
+        MiniMaxAgent(PlayerColor.BLUE, depth=1, evaluationFunction=Agents.EvalFunctions.evalFuncVP)
+        #RandomAgent(PlayerColor.BLUE),
         # RandomAgent(PlayerColor.ORANGE),
         # RandomAgent(PlayerColor.WHITE),
     ]
