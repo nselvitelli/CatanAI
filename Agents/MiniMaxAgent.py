@@ -18,6 +18,7 @@ class MiniMaxAgent(Agent):
         actions = state.getValidActions()
 
         if len(actions) == 1:
+            print("Minimax Agent ", self.color.name, "chose action ", actions[0].getActionAsString())
             return actions[0]
 
         bestActions = []

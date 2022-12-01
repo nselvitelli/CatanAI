@@ -36,9 +36,9 @@ if __name__ == '__main__':
     agents = [
         # KeyboardAgent(PlayerColor.RED, cheats=True),
         # RandomAgent(PlayerColor.RED),
-        AlphaBetaAgent(PlayerColor.RED, depth=1),
+        AlphaBetaAgent(PlayerColor.RED, depth=2, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll),
         #MiniMaxAgent(PlayerColor.RED, depth=1, evaluationFunction=Agents.EvalFunctions.evalFuncVP),
-        MiniMaxAgent(PlayerColor.BLUE, depth=1, evaluationFunction=Agents.EvalFunctions.evalFuncVP)
+        MiniMaxAgent(PlayerColor.BLUE, depth=2, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll)
         #RandomAgent(PlayerColor.BLUE),
         # RandomAgent(PlayerColor.ORANGE),
         # RandomAgent(PlayerColor.WHITE),

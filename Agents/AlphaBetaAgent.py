@@ -19,6 +19,8 @@ class AlphaBetaAgent(Agent):
         actions = state.getValidActions()
 
         if len(actions) == 1:
+            print("AlphaBeta Agent ", self.color.name,
+              "chose action ", actions[0].getActionAsString())
             return actions[0]
 
         bestActions = []
@@ -39,7 +41,7 @@ class AlphaBetaAgent(Agent):
 
         bestAction = bestActions[random.randint(0, len(bestActions) - 1)]
 
-        print("Minimax Agent ", self.color.name,
+        print("AlphaBeta Agent ", self.color.name,
               "chose action ", bestAction.getActionAsString())
 
         return bestAction

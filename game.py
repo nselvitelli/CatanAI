@@ -1,7 +1,7 @@
 import pygame
 
 
-DEBUG_STATES = True
+DEBUG_STATES = False
 
 
 class Game:
