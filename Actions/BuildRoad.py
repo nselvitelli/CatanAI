@@ -4,8 +4,8 @@ from Resource import Resource
 
 class BuildRoad(Action):
 
-    def __init__(self, edgeID) -> None:
-        super().__init__()
+    def __init__(self, edgeID, debug=False) -> None:
+        super().__init__(debug)
         self.edgeID = edgeID
 
     def apply(self, state):

@@ -42,7 +42,9 @@ class Game:
             else:
                 currentPlayerData = self.state.playerDataList[self.state.whoseTurn]
                 currentAgent = currentPlayerData.agent
+
                 action = currentAgent.getAction(self.state)
+                action.debug = True # print debug only when it is an official game move
 
                 prevState = nextState
                 nextState = action.apply(self.state)

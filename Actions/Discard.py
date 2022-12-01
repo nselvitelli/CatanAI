@@ -3,8 +3,8 @@ from Actions.Action import Action
 
 class Discard(Action):
 
-    def __init__(self, resource, necessaryActions) -> None:
-        super().__init__()
+    def __init__(self, resource, necessaryActions, debug=False) -> None:
+        super().__init__(debug)
         self.resource = resource
         self.necessaryActions = necessaryActions
 

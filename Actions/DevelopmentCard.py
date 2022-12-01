@@ -7,8 +7,8 @@ from Resource import Resource
 
 class DevelopmentCard(Action):
 
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, debug=False) -> None:
+        super().__init__(debug)
 
     def apply(self, state):
         newState = state.getCopy()

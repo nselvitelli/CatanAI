@@ -4,8 +4,8 @@ from DevCard import DevCardName
 
 class Monopoly(Action):
 
-    def __init__(self, resource) -> None:
-        super().__init__()
+    def __init__(self, resource, debug=False) -> None:
+        super().__init__(debug)
         self.resource = resource
 
     def apply(self, state):

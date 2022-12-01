@@ -4,8 +4,8 @@ import random
 
 class MoveRobber(Action):
 
-    def __init__(self, tileID, stealPlayer, necessaryActions) -> None:
-        super().__init__()
+    def __init__(self, tileID, stealPlayer, necessaryActions, debug=False) -> None:
+        super().__init__(debug)
         self.tileID = tileID
         self.stealPlayer = stealPlayer
         self.necessaryActions = necessaryActions

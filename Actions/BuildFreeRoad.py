@@ -4,8 +4,8 @@ from Resource import Resource
 
 class BuildFreeRoad(Action):
 
-    def __init__(self, edgeID, necessaryActions) -> None:
-        super().__init__()
+    def __init__(self, edgeID, necessaryActions, debug=False) -> None:
+        super().__init__(debug)
         self.edgeID = edgeID
         self.necessaryActions = necessaryActions
 

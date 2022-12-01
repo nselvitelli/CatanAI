@@ -4,8 +4,8 @@ from Node import Port
 
 class Trade(Action):
 
-    def __init__(self, resource, quantity, targetResource) -> None:
-        super().__init__()
+    def __init__(self, resource, quantity, targetResource, debug=False) -> None:
+        super().__init__(debug)
         self.resource = resource
         self.quantity = quantity
         self.targetResource = targetResource

@@ -3,8 +3,8 @@ from Actions.Action import Action, EAction
 
 class EndTurn(Action):
 
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, debug=False) -> None:
+        super().__init__(debug)
 
     def apply(self, state):
         nextState = state.getCopy()

@@ -8,8 +8,8 @@ from DevCard import DevCardName
 
 class Knight(Action):
 
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, debug=False) -> None:
+        super().__init__(debug)
 
     def apply(self, state):
         newState = state.getCopy()
@@ -29,15 +29,11 @@ class Knight(Action):
         largestIdx = -1
         maxKnights = largestArmyPlayer.armySize if largestArmyPlayer != None else 0
 
-        print("BEFORE - prev:", previousLargestArmyPlayer, "largest:", largestArmyPlayer, "max", maxKnights, "state:", newState.largestArmy)
-
         for idx, player in enumerate(newState.playerDataList):
             if player.armySize > maxKnights:
                 maxKnights = player.armySize
                 largestArmyPlayer = player
                 largestIdx = idx
-
-        print("AFTER - prev:", previousLargestArmyPlayer, "largest:", largestArmyPlayer, "max", maxKnights)
         
         if maxKnights >= 3 and previousLargestArmyPlayer != largestArmyPlayer:
             if previousLargestArmyPlayer != None:
@@ -46,9 +42,6 @@ class Knight(Action):
                 largestArmyPlayer.victoryPoints += 2
             newState.largestArmy = largestIdx
             
-
-        print("AFTER AFTER - prev:", previousLargestArmyPlayer, "largest:", largestArmyPlayer, "max", maxKnights, "state:", newState.largestArmy)
-
         return newState
 
     # remove card from player hand

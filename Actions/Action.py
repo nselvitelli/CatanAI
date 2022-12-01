@@ -5,8 +5,8 @@ from sre_parse import State
 
 class Action(ABC):
 
-    def __init__(self) -> None:
-        return
+    def __init__(self, debug) -> None:
+        self.debug = debug
 
     @abstractmethod
     def apply(self, state):

@@ -6,8 +6,8 @@ from Resource import Resource
 
 class PlaceInitialSettlement(Action):
 
-    def __init__(self, nodeID, isLastPlacedSettlement, necessaryActions) -> None:
-        super().__init__()
+    def __init__(self, nodeID, isLastPlacedSettlement, necessaryActions, debug=False) -> None:
+        super().__init__(debug)
         self.nodeID = nodeID
         self.isLastPlacedSettlement = isLastPlacedSettlement
         self.necessaryActions = necessaryActions
@@ -30,7 +30,8 @@ class PlaceInitialSettlement(Action):
             for tileID, tile in state.board.tiles.items():
                 if self.nodeID in tile.nodes and tile.resource != Resource.DESERT:
                     playerData.resourcesAvailable[tile.resource] += 1
-                    print("\tadding resource:", tile.resource.name)
+                    if self.debug:
+                        print("\tadding resource:", tile.resource.name)
 
         if newNode.port != Port.EMPTY:
             playerData.portsAvailable.add(newNode.port)

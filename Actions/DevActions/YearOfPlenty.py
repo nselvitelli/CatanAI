@@ -4,8 +4,8 @@ from DevCard import DevCardName
 
 class YearOfPlenty(Action):
 
-    def __init__(self, resource1, resource2) -> None:
-        super().__init__()
+    def __init__(self, resource1, resource2, debug=False) -> None:
+        super().__init__(debug)
         self.resource1 = resource1
         self.resource2 = resource2
 

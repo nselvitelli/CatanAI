@@ -5,8 +5,8 @@ import random
 
 class RollDice(Action):
 
-    def __init__(self, necessaryActions) -> None:
-        super().__init__()
+    def __init__(self, necessaryActions, debug=False) -> None:
+        super().__init__(debug)
         self.necessaryActions = necessaryActions
 
     def apply(self, state):
@@ -16,9 +16,10 @@ class RollDice(Action):
         d2 = random.randint(1, 6)
         rollVal = d1 + d2
 
-        print("\n----")
-        print("Player " + state.playerDataList[state.whoseTurn].color.name + " rolled a [" + str(rollVal) + "]")
-        print("----")
+        if self.debug:
+            print("\n----")
+            print("Player " + state.playerDataList[state.whoseTurn].color.name + " rolled a [" + str(rollVal) + "]")
+            print("----")
 
         newState.necessaryActions.clear()
 
@@ -37,7 +38,8 @@ class RollDice(Action):
 
                 cardsToRemove = int(numPlayerCards / 2) if numPlayerCards > 7 else 0
 
-                print("Player", player.color, "has [", numPlayerCards, "] cards, removing", cardsToRemove)
+                if self.debug:
+                    print("Player", player.color, "has [", numPlayerCards, "] cards, removing", cardsToRemove)
 
                 for i in range(cardsToRemove):
                     newState.necessaryActions.append(EAction.DISCARD)

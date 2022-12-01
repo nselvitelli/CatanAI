@@ -5,8 +5,8 @@ from Resource import Resource
 
 class BuildCity(Action):
 
-    def __init__(self, nodeID) -> None:
-        super().__init__()
+    def __init__(self, nodeID, debug=False) -> None:
+        super().__init__(debug)
         self.nodeID = nodeID
 
     def apply(self, state):
