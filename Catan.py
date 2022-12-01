@@ -6,6 +6,7 @@ from game import Game
 from graphics.graphicsDisplay import CatanGraphics
 from PlayerColor import PlayerColor
 import State
+import Agents.EvalFunctions
 
 
 
@@ -34,8 +35,9 @@ if __name__ == '__main__':
     agents = [
         # KeyboardAgent(PlayerColor.RED, cheats=True),
         # RandomAgent(PlayerColor.RED),
-        MiniMaxAgent(PlayerColor.RED),
-        RandomAgent(PlayerColor.BLUE),
+        MiniMaxAgent(PlayerColor.RED, depth=1, evaluationFunction=Agents.EvalFunctions.evalFuncVP),
+        MiniMaxAgent(PlayerColor.BLUE, depth=2, evaluationFunction=Agents.EvalFunctions.evalFuncVP)
+        # RandomAgent(PlayerColor.BLUE),
         # RandomAgent(PlayerColor.ORANGE),
         # RandomAgent(PlayerColor.WHITE),
     ]

@@ -1,10 +1,11 @@
 import math
+import random
 from Agents.Agent import Agent
 from Agents.EvalFunctions import evalFuncVP
 
 class MiniMaxAgent(Agent):
 
-    def __init__(self, color, depth=2, evaluationFunction=evalFuncVP) -> None:
+    def __init__(self, color, depth=3, evaluationFunction=evalFuncVP) -> None:
         super().__init__(color)
         self.depth = depth
         self.evaluationFunction = evaluationFunction
@@ -19,15 +20,20 @@ class MiniMaxAgent(Agent):
         if len(actions) == 1:
             return actions[0]
 
-        bestAction = actions[0]
-        
+        bestActions = []
+
         value = -1 * math.inf
+
         for action in actions:
             nextState = action.apply(state)
             minimaxVal = self.minimax(nextState, self.depth, state.whoseTurn, -1)
             if minimaxVal > value:
-                bestAction = action
                 value = minimaxVal
+                bestActions = [action]
+            elif minimaxVal == value:
+                bestActions.append(action)
+            
+        bestAction = bestActions[random.randint(0, len(bestActions) - 1)]
         
         print("Minimax Agent ", self.color.name, "chose action ", bestAction.getActionAsString())
 
