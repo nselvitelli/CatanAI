@@ -1,5 +1,5 @@
 import pygame
-
+import time
 
 DEBUG_STATES = False
 
@@ -26,6 +26,7 @@ class Game:
         nextState = self.state
         prevState = self.state
 
+        startTime = time.time()
         while not exit_gui:
             if not self.display == None:
                 for event in pygame.event.get():
@@ -36,6 +37,7 @@ class Game:
                 if not game_over_printed_once:
                     print("GAME OVER")
                     print("WINNER: ", nextState.getWinner().color)
+                    print("TIME: ", time.time() - startTime)
                     game_over_printed_once = True
                     if not DEBUG_STATES:
                         nextState.printStateDifferences(prevState)
