@@ -8,6 +8,9 @@ def evalFuncZero(state) -> int:
     """
     return 0
 
+def evalFuncCombineAll(state) -> int:
+    return evalFuncRealEstate(state) + evalFuncResourceDiversity(state) + evalFuncVP(state)
+
 def evalFuncVP(state) -> int:
     """
     Determines score of state for current player in State 'state'
@@ -58,10 +61,10 @@ def evalFuncResourceDiversity(state) -> int:
 
     player = state.playerDataList[state.whoseTurn]
 
-    for tile in state.board.tiles:
+    for tile in state.board.tiles.values():
         for nodeID in tile.nodes:
             node = state.board.nodes[nodeID]
-            if node[0] != NodePiece.EMPTY and node[1] == player.color:
+            if node.piece[0] != NodePiece.EMPTY and node.piece[1] == player.color:
                 resources -= set([tile.resource])
 
     return 5 - len(resources)
