@@ -35,7 +35,6 @@ class MiniMaxAgent(Agent):
         value = -1 * math.inf
 
         for action in actions:
-            print(action.getActionAsString())
             minimaxVal = 0
             className = type(action).__name__
             if className == "RollDice" or className == "DevelopmentCard" or className == "MoveRobber":
