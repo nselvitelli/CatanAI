@@ -9,7 +9,21 @@ def evalFuncZero(state) -> int:
     return 0
 
 def evalFuncCombineAll(state) -> int:
-    return evalFuncRealEstate(state) + evalFuncResourceDiversity(state) + evalFuncVP(state)
+    weightsAndFunctions = [
+        (evalFuncRealEstate, 1),
+        (evalFuncResourceDiversity, 1),
+        (evalFuncVP, 1),
+        (evalFuncRobberOnLand, 10),
+        (evalFuncRichResources, 1),
+        (evalFuncLessThan8Resources, 10),
+        (evalFuncLargestArmy, 10),
+        (evalFuncLongestRoad, 10)
+    ]
+
+    score = 0
+    for tuple in weightsAndFunctions:
+        score += tuple[1] * tuple[0](state)
+    return score
 
 def evalFuncVP(state) -> int:
     """
@@ -52,7 +66,6 @@ def scorePlayerSettlements(state, player) -> int:
             playerScore += 1
     return playerScore
 
-
 def evalFuncResourceDiversity(state) -> int:
     """
     Scored on how many resources the current player has access to
@@ -68,3 +81,78 @@ def evalFuncResourceDiversity(state) -> int:
                 resources -= set([tile.resource])
 
     return 5 - len(resources)
+
+def evalFuncRobberOnLand(state) -> int:
+    """
+        1 if the current player does not have a robber on one of their nodes
+        0 if they do have the robber blocking them
+    """
+    player = state.playerDataList[state.whoseTurn]
+
+    robber_tile = state.board.robber_tile
+
+    robberNodes = set(state.board.tiles[robber_tile].nodes)
+    playerNodes = set(player.settlements)
+
+    if len(playerNodes - robberNodes) < len(playerNodes):
+        return 0
+    return 1
+
+def evalFuncRichResources(state) -> int:
+    """
+    Calculates a score for each tile the player is on based on how rich the resources are at that tile
+    Sums score for each tile to get final score
+    
+    for each tile:
+    - get num resources the current player would get if the number was rolled
+    - score the roll number from [1, 6] (6 is most common, so - 6 = roll(7), 5 = roll(6, 8), etc.)
+    - get product of two values
+    - add product to the total score
+    """
+    player = state.playerDataList[state.whoseTurn]
+
+    # 2 - 12
+    # 7 is most common
+    totalPlayerRichTileScore = 0
+
+    for tile in state.board.tiles.values():
+
+        numResourcesGottenFromTile = 0
+        for nodeID in tile.nodes:
+            node = state.board.nodes[nodeID]
+            if node.piece[1] == player.color:
+                numResourcesGottenFromTile += 1 if node.piece[0] == NodePiece.SETTLEMENT else 2
+        
+        resourceFreq = 6 - abs(7 - tile.number) # scores number from [1, 6]  (6 being very common, 1 being very uncommon)
+        tileScore = numResourcesGottenFromTile * resourceFreq
+        totalPlayerRichTileScore += tileScore
+    return totalPlayerRichTileScore
+
+def evalFuncLessThan8Resources(state) -> int:
+    """
+    1 if less than 8 resources in hand
+    0 if more than 7
+    """
+    player = state.playerDataList[state.whoseTurn]
+
+    totalAmt = 0
+    for resourceAmt in player.resourcesAvailable.values():
+        totalAmt += resourceAmt
+
+    if totalAmt > 7:
+        return 0
+    return 1
+
+def evalFuncLargestArmy(state) -> int:
+    """
+    1 if player has largest army
+    0 if player doesn't
+    """
+    return 1 if state.whoseTurn == state.largestArmy else 0
+
+def evalFuncLongestRoad(state) -> int:
+    """
+    1 if player has longest road
+    0 if player doesn;t
+    """
+    return 1 if state.whoseTurn == state.longestRoad else 0

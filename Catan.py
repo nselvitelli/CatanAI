@@ -34,9 +34,9 @@ if __name__ == '__main__':
     display = CatanGraphics()
 
     agents = [
-        # KeyboardAgent(PlayerColor.RED, cheats=True),
+        KeyboardAgent(PlayerColor.RED, cheats=True),
         # RandomAgent(PlayerColor.RED),
-        AlphaBetaAgent(PlayerColor.RED, depth=2, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll),
+        # AlphaBetaAgent(PlayerColor.RED, depth=2, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll),
         #MiniMaxAgent(PlayerColor.RED, depth=1, evaluationFunction=Agents.EvalFunctions.evalFuncVP),
         MiniMaxAgent(PlayerColor.BLUE, depth=2, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll)
         #RandomAgent(PlayerColor.BLUE),

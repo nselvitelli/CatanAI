@@ -18,7 +18,7 @@ class KeyboardAgent(Agent):
             actions.append(CheatAction()) # keyboard player can cheat for debugging
 
         print("Your valid actions are: ")
-        self.printEnumeratedActions(actions)
+        printEnumeratedActions(actions)
 
         print("Type the index number of the action you want to use:")
         userData = input()
@@ -34,6 +34,6 @@ class KeyboardAgent(Agent):
 
         return actions[index]
 
-    def printEnumeratedActions(self, actions):
-        for i in range(len(actions)):
-            print("\t", i, ": ", actions[i].getActionAsString())
+def printEnumeratedActions(actions):
+    for i in range(len(actions)):
+        print("\t", i, ": ", actions[i].getActionAsString())

@@ -2,6 +2,7 @@ import math
 import random
 from Agents.Agent import Agent
 from Agents.EvalFunctions import evalFuncVP
+import Agents.KeyboardAgent
 
 class MiniMaxAgent(Agent):
 
@@ -16,6 +17,11 @@ class MiniMaxAgent(Agent):
         """
 
         actions = state.getValidActions()
+
+        # print("---\nDEBUG\n---")
+        # print("minimax actions to choose:")
+        # Agents.KeyboardAgent.printEnumeratedActions(actions)
+        # print("---\nDEBUG\n---")
 
         if len(actions) == 1:
             print("Minimax Agent ", self.color.name, "chose action ", actions[0].getActionAsString())
