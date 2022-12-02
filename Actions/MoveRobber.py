@@ -9,6 +9,24 @@ class MoveRobber(Action):
         self.tileID = tileID
         self.stealPlayer = stealPlayer
         self.necessaryActions = necessaryActions
+        self.stealValue = 0
+
+    def getAllOutcomes(self, state) :
+        if self.stealPlayer == None :
+            return [(1, 0)]
+        totalResources = state.getPlayerWithColor(self.stealPlayer.color).getTotalResources()
+        if totalResources == 0 :
+            return [(1, 0)]
+        outcomes = []
+        i = 1
+        while i <= totalResources :
+            outcomes.append((1 / totalResources, i))
+            i += 1
+        return outcomes
+
+    def applyExact(self, state, value) :
+        self.stealValue = value
+        return self.apply(state)
 
     def apply(self, state):
         newState = state.getCopy()
@@ -21,7 +39,9 @@ class MoveRobber(Action):
 
             totalResourceCount = stealData.getTotalResources()
             if totalResourceCount > 0 :
-                stealNum = random.randint(1, totalResourceCount)
+                stealNum = self.stealValue
+                if stealNum == 0 :
+                    stealNum = random.randint(1, totalResourceCount)
 
                 count = 0
                 for key in stealData.resourcesAvailable:

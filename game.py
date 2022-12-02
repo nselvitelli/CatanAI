@@ -3,7 +3,6 @@ import time
 
 DEBUG_STATES = True
 
-
 class Game:
     """
     The Game manages the control flow, soliciting actions from agents.

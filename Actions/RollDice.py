@@ -8,13 +8,35 @@ class RollDice(Action):
     def __init__(self, necessaryActions, debug=False) -> None:
         super().__init__(debug)
         self.necessaryActions = necessaryActions
+        self.rollValue = 0
+
+    def getAllOutcomes(self, state) :
+        return [
+            (1/36, 2),
+            (2/36, 3),
+            (3/36, 4),
+            (4/36, 5),
+            (5/36, 6),
+            (6/36, 7),
+            (5/36, 8),
+            (4/36, 9),
+            (3/36, 10),
+            (2/36, 11),
+            (1/36, 12),
+        ]
+
+    def applyExact(self, state, value) :
+        self.rollValue = value
+        return self.apply(state)
 
     def apply(self, state):
         newState = state.getCopy()
 
-        d1 = random.randint(1, 6)
-        d2 = random.randint(1, 6)
-        rollVal = d1 + d2
+        rollVal = self.rollValue
+        if rollVal == 0 :
+            d1 = random.randint(1, 6)
+            d2 = random.randint(1, 6)
+            rollVal = d1 + d2
 
         if self.debug:
             print("\n----")
