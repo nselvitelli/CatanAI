@@ -35,6 +35,7 @@ class MiniMaxAgent(Agent):
         value = -1 * math.inf
 
         for action in actions:
+            print(action.getActionAsString())
             minimaxVal = 0
             className = type(action).__name__
             if className == "RollDice" or className == "DevelopmentCard" or className == "MoveRobber":
@@ -81,12 +82,12 @@ class MiniMaxAgent(Agent):
                     for prob, exact in allChances:
                         nextState = action.applyExact(state, exact)
                         minimaxVal += prob * \
-                            self.minimax(nextState, self.depth - 1,
+                            self.minimax(nextState, depth - 1,
                                          state.whoseTurn, -1)
                 else:
                     nextState = action.apply(state)
                     minimaxVal = self.minimax(
-                        nextState, self.depth - 1, state.whoseTurn, -1)
+                        nextState, depth - 1, state.whoseTurn, -1)
                 value = max(value, minimaxVal)
             return value
         else:  # Minimize for enemy agents
