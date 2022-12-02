@@ -42,6 +42,7 @@ class Node:
         if self.id in explored:
             return []
 
+        canPlaceSettlement = False
         if self.piece == (NodePiece.EMPTY, PlayerColor.BLANK):
             # print(self.id)
             flag = False
@@ -49,13 +50,14 @@ class Node:
                 if edgeMap[edge].adjacentSettlement(self.id, nodeMap, edgeMap):
                     flag = True
             if not flag:
-                return [self.id]
+                canPlaceSettlement = True
 
         possibles = []
         for edge in self.edges:
             possibles.extend(edgeMap[edge].bfsPossibleSettlements(
                 playerColor, explored + [self.id], self.id, nodeMap, edgeMap))
-        # print(possibles)
+        if canPlaceSettlement:
+            possibles.append(self.id)
         return possibles
 
     # def bfsUpgradeableSettlements(self, playerColor, explored, edgeMap, nodeMap):

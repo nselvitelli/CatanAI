@@ -1,5 +1,6 @@
 import math
 import random
+import time
 from Agents.Agent import Agent
 from Agents.EvalFunctions import evalFuncVP
 
@@ -27,7 +28,11 @@ class MiniMaxAgent(Agent):
 
         for action in actions:
             nextState = action.apply(state)
-            minimaxVal = self.minimax(nextState, self.depth, state.whoseTurn, -1)
+            print(action.getActionAsString())
+            start = time.time()
+            minimaxVal = self.minimax(nextState, self.depth, state.whoseTurn, -1, action.getActionAsString())
+            end = time.time()
+            print(end-start)
             if minimaxVal > value:
                 value = minimaxVal
                 bestActions = [action]
@@ -41,27 +46,32 @@ class MiniMaxAgent(Agent):
         return bestAction
 
 
-    def minimax(self, gameState, depth, maxPlayerIndex, prevPlayerActionIndex):
+    def minimax(self, gameState, depth, maxPlayerIndex, prevPlayerActionIndex, tempFlag):
         agentIndex = gameState.whoseTurn
 
         actions = gameState.getValidActions()
+        # if tempFlag == '_EndTurn_': print(depth, maxPlayerIndex, prevPlayerActionIndex, len(actions))
+
+        # if depth == 0: print(tempFlag, depth)
+
+        # if 'BuildFreeRoad' in tempFlag: print(maxPlayerIndex, agentIndex, actions)
 
         if gameState.isGameOver() or len(actions) == 0:
             return self.evaluationFunction(gameState)
 
         if agentIndex == maxPlayerIndex: # Maximize for max player
-            if agentIndex != prevPlayerActionIndex:
-                depth = depth - 1
-            if depth == 0:
+            if depth <= 0:
                 return self.evaluationFunction(gameState)
             value = -1 * math.inf
             for action in actions:
                 nextState = action.apply(gameState)
-                value = max(value, self.minimax(nextState, depth, maxPlayerIndex, agentIndex))
+                value = max(value, self.minimax(nextState, depth - 1, maxPlayerIndex, agentIndex, action.getActionAsString()))
             return value
         else: # Minimize for enemy agents
+            if depth <= 0:
+                return self.evaluationFunction(gameState)
             value = math.inf
             for action in actions:
                 nextState = action.apply(gameState)
-                value = min(value, self.minimax(nextState, depth, maxPlayerIndex, agentIndex))
+                value = min(value, self.minimax(nextState, depth - 1, maxPlayerIndex, agentIndex, action.getActionAsString()))
             return value
