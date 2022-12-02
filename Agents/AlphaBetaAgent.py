@@ -29,9 +29,19 @@ class AlphaBetaAgent(Agent):
         alpha = -1 * math.inf
         beta = math.inf
         for action in actions:
-            nextState = action.apply(state)
-            minimaxVal = self.minimax(
-                nextState, self.depth, state.whoseTurn, -1, alpha, beta)
+            minimaxVal = 0
+            className = type(action).__name__
+            if className == "RollDice" or className == "DevelopmentCard" or className == "MoveRobber":
+                allChances = action.getAllOutcomes(state)
+                for prob, exact in allChances:
+                    nextState = action.applyExact(state, exact)
+                    minimaxVal += prob * \
+                        self.minimax(nextState, self.depth,
+                                     state.whoseTurn, -1, alpha, beta)
+            else:
+                nextState = action.apply(state)
+                minimaxVal = self.minimax(
+                    nextState, self.depth, state.whoseTurn, -1, alpha, beta)
             if minimaxVal > value:
                 value = minimaxVal
                 bestActions = [action]
@@ -46,24 +56,35 @@ class AlphaBetaAgent(Agent):
 
         return bestAction
 
-    def minimax(self, gameState, depth, maxPlayerIndex, prevPlayerActionIndex, alpha, beta):
-        agentIndex = gameState.whoseTurn
+    def minimax(self, state, depth, maxPlayerIndex, prevPlayerActionIndex, alpha, beta):
+        agentIndex = state.whoseTurn
 
-        actions = gameState.getValidActions()
+        actions = state.getValidActions()
 
-        if gameState.isGameOver() or len(actions) == 0:
-            return self.evaluationFunction(gameState)
+        if state.isGameOver() or len(actions) == 0:
+            return self.evaluationFunction(state)
 
         if agentIndex == maxPlayerIndex:  # Maximize for max player
             if agentIndex != prevPlayerActionIndex:
                 depth = depth - 1
             if depth == 0:
-                return self.evaluationFunction(gameState)
+                return self.evaluationFunction(state)
             value = -1 * math.inf
             for action in actions:
-                nextState = action.apply(gameState)
-                value = max(value, self.minimax(nextState, depth,
-                            maxPlayerIndex, agentIndex, alpha, beta))
+                minimaxVal = 0
+                className = type(action).__name__
+                if className == "RollDice" or className == "DevelopmentCard" or className == "MoveRobber":
+                    allChances = action.getAllOutcomes(state)
+                    for prob, exact in allChances:
+                        nextState = action.applyExact(state, exact)
+                        minimaxVal += prob * \
+                            self.minimax(nextState, depth,
+                                        maxPlayerIndex, agentIndex, alpha, beta)
+                else:
+                    nextState = action.apply(state)
+                    minimaxVal = self.minimax(
+                        nextState, depth, maxPlayerIndex, agentIndex, alpha, beta)
+                value = max(value, minimaxVal)
                 if value > beta:
                     return value
                 alpha = max(alpha, value)
@@ -71,9 +92,20 @@ class AlphaBetaAgent(Agent):
         else:  # Minimize for enemy agents
             value = math.inf
             for action in actions:
-                nextState = action.apply(gameState)
-                value = min(value, self.minimax(nextState, depth,
-                            maxPlayerIndex, agentIndex, alpha, beta))
+                minimaxVal = 0
+                className = type(action).__name__
+                if className == "RollDice" or className == "DevelopmentCard" or className == "MoveRobber":
+                    allChances = action.getAllOutcomes(state)
+                    for prob, exact in allChances:
+                        nextState = action.applyExact(state, exact)
+                        minimaxVal += prob * \
+                            self.minimax(nextState, depth,
+                                        maxPlayerIndex, agentIndex, alpha, beta)
+                else:
+                    nextState = action.apply(state)
+                    minimaxVal = self.minimax(
+                        nextState, depth, maxPlayerIndex, agentIndex, alpha, beta)
+                value = min(value, minimaxVal)
                 if value < alpha:
                     return value
                 beta = min(beta, value)
