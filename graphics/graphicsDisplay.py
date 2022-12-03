@@ -58,7 +58,7 @@ CITY_SHAPE = [
     (1, 1),
     (0, 1)
 ]
-CITY_SIZE = 10
+CITY_SIZE = 12
 
 
 class CatanGraphics:
@@ -257,7 +257,7 @@ class CatanGraphics:
             for (x, y) in CITY_SHAPE:
                 coordPos = (CITY_SIZE * x +
                             newPos[0], CITY_SIZE * y + newPos[1])
-                coords.append(newPos)
+                coords.append(coordPos)
         pygame.draw.polygon(self.canvas, PLAYER_COLOR_MAP[piece[1]], coords)
 
     def drawEdges(self, board, tile, pos):
