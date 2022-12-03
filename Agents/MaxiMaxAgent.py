@@ -1,9 +1,7 @@
 import math
 import random
-import time
 from Agents.Agent import Agent
 from Agents.EvalFunctions import evalFuncVP
-import Agents.KeyboardAgent
 
 
 class MaxiMaxAgent(Agent):
