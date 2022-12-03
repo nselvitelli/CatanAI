@@ -86,7 +86,7 @@ class RollDice(Action):
                             playerData.resourcesAvailable[tile.resource] += 2
 
         newState.necessaryActions.extend(self.necessaryActions)
-
+        self.rollValue = 0
         return newState
 
     def getActionAsString(self):

@@ -52,7 +52,7 @@ class MoveRobber(Action):
                     count += stealData.resourcesAvailable[key]
 
         newState.necessaryActions = self.necessaryActions
-
+        self.stealValue = 0
         return newState
 
     def getActionAsString(self):
