@@ -20,7 +20,8 @@ def evalFuncCombineAll(state, maximizingPlayer, weights = None) -> int:
         (evalFuncRichResources, 10),
         (evalFuncLessThan8Resources, 10),
         (evalFuncLargestArmy, 10),
-        (evalFuncLongestRoad, 10)
+        (evalFuncLongestRoad, 10),
+        (evalFuncWinLose, 100),
     ] if weights == None else [
         (evalFuncRealEstate, weights[0]),
         (evalFuncResourceDiversity, weights[1]),
@@ -29,7 +30,34 @@ def evalFuncCombineAll(state, maximizingPlayer, weights = None) -> int:
         (evalFuncRichResources, weights[4]),
         (evalFuncLessThan8Resources, weights[5]),
         (evalFuncLargestArmy, weights[6]),
-        (evalFuncLongestRoad, weights[7])
+        (evalFuncLongestRoad, weights[7]),
+        (evalFuncWinLose, weights[8]),
+    ]
+
+    score = 0
+    for tuple in weightsAndFunctions:
+        score += tuple[1] * tuple[0](state, maximizingPlayer)
+    return score
+
+def evalFuncCombineAllButOne(state, maximizingPlayer, weights = None) -> int:
+    weightsAndFunctions = [
+        (evalFuncRealEstate, 1),
+        (evalFuncResourceDiversity, 20),
+        (evalFuncVP, 1),
+        (evalFuncRobberOnLand, 10),
+        (evalFuncRichResources, 10),
+        (evalFuncLessThan8Resources, 10),
+        (evalFuncLargestArmy, 10),
+        (evalFuncLongestRoad, 10),
+    ] if weights == None else [
+        (evalFuncRealEstate, weights[0]),
+        (evalFuncResourceDiversity, weights[1]),
+        (evalFuncVP, weights[2]),
+        (evalFuncRobberOnLand, weights[3]),
+        (evalFuncRichResources, weights[4]),
+        (evalFuncLessThan8Resources, weights[5]),
+        (evalFuncLargestArmy, weights[6]),
+        (evalFuncLongestRoad, weights[7]),
     ]
 
     score = 0
@@ -170,8 +198,9 @@ def evalFuncLongestRoad(state, maximizingPlayer) -> int:
     return 1 if maximizingPlayer == state.longestRoad else 0
 
 
-    #TODO: this is an issue!!!!
-    #right now max player works correctly, but assumes all opposing players only act to ruin max player
-    #new eval functions return a vector of length number of players 
-    #for length of players:
-        #spot in array
+def evalFuncWinLose(state, maximizingPlayer) -> int:
+    if state.isGameOver() :
+        if state.playerDataList[maximizingPlayer].victoryPoints >= 10 :
+            return 1
+        return -1
+    return 0
