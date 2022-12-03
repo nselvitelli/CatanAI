@@ -1,5 +1,6 @@
 from Agents.MaxiMaxAgent import MaxiMaxAgent
 from Agents.KeyboardAgent import KeyboardAgent
+from Agents.MiniMaxAgent import MiniMaxAgent
 from Agents.RandomAgent import RandomAgent
 from Agents.FirstActionAgent import FirstActionAgent
 from Agents.AlphaBetaAgent import AlphaBetaAgent
@@ -77,19 +78,19 @@ if __name__ == '__main__':
 
     agents = [
         # KeyboardAgent(PlayerColor.RED, cheats=True),
-        RandomAgent(PlayerColor.RED, loud=False),
-        # AlphaBetaAgent(PlayerColor.RED, depth=2, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll),
+        MiniMaxAgent(PlayerColor.RED, depth=3, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll, loud=False),
+        AlphaBetaAgent(PlayerColor.WHITE, depth=3, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll, loud=False),
         MaxiMaxAgent(PlayerColor.BLUE, depth=3, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll, loud=False),
         # MiniMaxAgent(PlayerColor.RED, depth=4, evaluationFunction=Agents.EvalFunctions.createCustomEvalFuncCombineAll([1,1,10,10,20,10,10,10]))
         # AlphaBetaAgent(PlayerColor.BLUE, depth=5, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll)
         #RandomAgent(PlayerColor.BLUE),
         RandomAgent(PlayerColor.ORANGE, loud=False),
-        RandomAgent(PlayerColor.WHITE, loud=False),
+        # RandomAgent(PlayerColor.WHITE, loud=False),
     ]
 
     state = State.generateState(agents)
     
-    RunMultipleGames(numberGames=10, state=state).launchGames()
+    RunMultipleGames(numberGames=20, state=state).launchGames()
 
     # playGame(state, CatanGraphics())
     pass
