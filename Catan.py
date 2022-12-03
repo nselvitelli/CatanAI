@@ -4,6 +4,7 @@ from Agents.MiniMaxAgent import MiniMaxAgent
 from Agents.RandomAgent import RandomAgent
 from Agents.FirstActionAgent import FirstActionAgent
 from Agents.AlphaBetaAgent import AlphaBetaAgent
+from Node import NodePiece
 from game import Game
 from graphics.graphicsDisplay import CatanGraphics
 from PlayerColor import PlayerColor
@@ -39,6 +40,9 @@ class RunMultipleGames:
         self.state = state
         self.statsMap = {}
 
+    def errorCallback(self, error):
+        print(bcolors.FAIL + "ERROR:", error, bcolors.ENDC)
+
     def gameProcessCallback(self, result):
         self.gamesComplete += 1
         print(bcolors.OKGREEN, "### Completed game", self.gamesComplete, "out of", self.numberGames, "###", bcolors.ENDC)
@@ -47,24 +51,35 @@ class RunMultipleGames:
 
         for player in players:
             playerCol = player.color
+            vp = player.victoryPoints
+
+            numSettlements = 0
+            numCities = 0
+            playerPieces = list(map(lambda a: result.board.nodes[a].piece[0], player.settlements))
+            for piece in playerPieces:
+                if piece == NodePiece.CITY:
+                    numCities += 1
+                elif piece == NodePiece.SETTLEMENT:
+                    numSettlements += 1
+
             if playerCol in self.statsMap.keys():
-                self.statsMap[playerCol]['VP'] = ((self.statsMap[playerCol]['VP'] * (self.gamesComplete - 1)) + player.victoryPoints) / self.gamesComplete
+                increaseAverage = lambda key, val: ((self.statsMap[playerCol][key] * (self.gamesComplete - 1)) + val) / self.gamesComplete
+                self.statsMap[playerCol]['VP'] = increaseAverage('VP', vp)
+                self.statsMap[playerCol]['SETTLEMENTS'] = increaseAverage('SETTLEMENTS', numSettlements)
+                self.statsMap[playerCol]['CITIES'] = increaseAverage('CITIES', numCities)
             else:
                 self.statsMap[playerCol] = {}
-                self.statsMap[playerCol]['VP'] = player.victoryPoints
+                self.statsMap[playerCol]['VP'] = vp
+                self.statsMap[playerCol]['SETTLEMENTS'] = numSettlements
+                self.statsMap[playerCol]['CITIES'] = numCities
+                self.statsMap[playerCol]['WINS'] = 0
 
         winnerCol = result.getWinner().color
-        if 'WINS' in self.statsMap[winnerCol].keys():
-            self.statsMap[winnerCol]['WINS'] += 1
-        else:
-            self.statsMap[winnerCol]['WINS'] = 1
-        return
-            
-
+        self.statsMap[winnerCol]['WINS'] += 1
 
     def launchGames(self):
 
-        pool = multiprocessing.Pool()
+        pool = multiprocessing.Pool(min(self.numberGames, multiprocessing.cpu_count()))
 
         self.winnersMap = {}
         self.gamesComplete = 0
@@ -73,20 +88,21 @@ class RunMultipleGames:
 
         for i in range(self.numberGames):
             print(bcolors.OKGREEN, "### Launching Game" + bcolors.WARNING, str(i + 1), bcolors.OKGREEN + "###", bcolors.ENDC)
-            pool.apply_async(playGame, args=(self.state,), callback=self.gameProcessCallback)   
+            pool.apply_async(playGame, args=(self.state,), callback=self.gameProcessCallback, error_callback=self.errorCallback)   
          
         pool.close()    
         pool.join()
-        print("done")
 
         for color, stats in self.statsMap.items():
-            wins = stats['WINS']
+            wins = stats['WINS'] 
             percent = 100 * (wins / self.numberGames)
-            print(bcolors.OKCYAN, color.name, "agent won", wins, "games. Win Rate:" + bcolors.WARNING, str(percent) + "%", bcolors.ENDC)
+            print(bcolors.OKGREEN, color.name, bcolors.OKCYAN + "agent won", wins, "game(s). Win Rate:" + bcolors.WARNING, str(percent) + "%", bcolors.ENDC)
             print(bcolors.OKCYAN, "- average VP:", stats['VP'], bcolors.ENDC)
+            print(bcolors.OKCYAN, "- average Settlements:", stats['SETTLEMENTS'], bcolors.ENDC)
+            print(bcolors.OKCYAN, "- average Cities:", stats['CITIES'], bcolors.ENDC)
 
         endTime = time.time()
-        print(bcolors.OKCYAN, self.numberGames, "games completed in" + bcolors.OKGREEN, endTime - startTime, bcolors.OKCYAN + "seconds", bcolors.ENDC)
+        print(bcolors.OKCYAN, self.gamesComplete, "games completed in" + bcolors.OKGREEN, endTime - startTime, bcolors.OKCYAN + "seconds", bcolors.ENDC)
 
 
 if __name__ == '__main__':
