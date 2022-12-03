@@ -67,11 +67,11 @@ class MiniMaxAgent(Agent):
         actions = state.getValidActions()
 
         if state.isGameOver() or len(actions) == 0:
-            return self.evaluationFunction(state)
+            return self.evaluationFunction(state, maxPlayerIndex)
 
         if agentIndex == maxPlayerIndex:  # Maximize for max player
             if depth == 0:
-                return self.evaluationFunction(state)
+                return self.evaluationFunction(state, maxPlayerIndex)
             value = -1 * math.inf
             for action in actions:
                 minimaxVal = 0
@@ -82,19 +82,30 @@ class MiniMaxAgent(Agent):
                         nextState = action.applyExact(state, exact)
                         minimaxVal += prob * \
                             self.minimax(nextState, depth - 1,
-                                         state.whoseTurn, -1)
+                                         maxPlayerIndex, -1)
                 else:
                     nextState = action.apply(state)
                     minimaxVal = self.minimax(
-                        nextState, depth - 1, state.whoseTurn, -1)
+                        nextState, depth - 1, maxPlayerIndex, -1)
                 value = max(value, minimaxVal)
             return value
         else:  # Minimize for enemy agents
             if depth == 0:
-                return self.evaluationFunction(state)
+                return self.evaluationFunction(state, maxPlayerIndex)
             value = math.inf
             for action in actions:
-                nextState = action.apply(state)
-                value = min(value, self.minimax(
-                    nextState, depth - 1, maxPlayerIndex, agentIndex))
+                minimaxVal = 0
+                className = type(action).__name__
+                if className == "RollDice" or className == "DevelopmentCard" or className == "MoveRobber":
+                    allChances = action.getAllOutcomes(state)
+                    for prob, exact in allChances:
+                        nextState = action.applyExact(state, exact)
+                        minimaxVal += prob * \
+                            self.minimax(nextState, depth - 1,
+                                         maxPlayerIndex, -1)
+                else:
+                    nextState = action.apply(state)
+                    minimaxVal = self.minimax(
+                        nextState, depth - 1, maxPlayerIndex, -1)
+                value = min(value, minimaxVal)
             return value
