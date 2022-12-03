@@ -24,8 +24,9 @@ class MiniMaxAgent(Agent):
         # print("---\nDEBUG\n---")
 
         if len(actions) == 1:
-            print("Minimax Agent ", self.color.name,
-                  "chose action ", actions[0].getActionAsString())
+            if self.loud :
+                print("Minimax Agent ", self.color.name,
+                    "chose action ", actions[0].getActionAsString())
             return actions[0]
 
         bestActions = []
@@ -54,8 +55,9 @@ class MiniMaxAgent(Agent):
 
         bestAction = bestActions[random.randint(0, len(bestActions) - 1)]
 
-        print("Minimax Agent ", self.color.name,
-              "chose action ", bestAction.getActionAsString())
+        if self.loud:
+            print("Minimax Agent ", self.color.name,
+                "chose action ", bestAction.getActionAsString())
 
         return bestAction
 
