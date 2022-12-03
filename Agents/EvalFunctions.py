@@ -17,7 +17,7 @@ def evalFuncCombineAll(state, maximizingPlayer, weights = None) -> int:
         (evalFuncResourceDiversity, 20),
         (evalFuncVP, 1),
         (evalFuncRobberOnLand, 10),
-        (evalFuncRichResources, 1),
+        (evalFuncRichResources, 10),
         (evalFuncLessThan8Resources, 10),
         (evalFuncLargestArmy, 10),
         (evalFuncLongestRoad, 10)
