@@ -1,5 +1,6 @@
 from Node import NodePiece
 from Resource import Resource
+import math
 
 
 def evalFuncZero(state) -> int:
@@ -22,6 +23,7 @@ def evalFuncCombineAll(state, maximizingPlayer, weights = None) -> int:
         (evalFuncLargestArmy, 10),
         (evalFuncLongestRoad, 10),
         (evalFuncWinLose, 100),
+        (evalFuncResourceCounts, 5)
     ] if weights == None else [
         (evalFuncRealEstate, weights[0]),
         (evalFuncResourceDiversity, weights[1]),
@@ -32,6 +34,7 @@ def evalFuncCombineAll(state, maximizingPlayer, weights = None) -> int:
         (evalFuncLargestArmy, weights[6]),
         (evalFuncLongestRoad, weights[7]),
         (evalFuncWinLose, weights[8]),
+        (evalFuncResourceCounts, weights[9]),
     ]
 
     score = 0
@@ -49,6 +52,8 @@ def evalFuncCombineAllButOne(state, maximizingPlayer, weights = None) -> int:
         (evalFuncLessThan8Resources, 10),
         (evalFuncLargestArmy, 10),
         (evalFuncLongestRoad, 10),
+        (evalFuncWinLose, 100),
+        (evalFuncResourceCounts, 5)
     ] if weights == None else [
         (evalFuncRealEstate, weights[0]),
         (evalFuncResourceDiversity, weights[1]),
@@ -58,6 +63,8 @@ def evalFuncCombineAllButOne(state, maximizingPlayer, weights = None) -> int:
         (evalFuncLessThan8Resources, weights[5]),
         (evalFuncLargestArmy, weights[6]),
         (evalFuncLongestRoad, weights[7]),
+        (evalFuncWinLose, weights[8]),
+        (evalFuncResourceCounts, weights[9]),
     ]
 
     score = 0
@@ -168,6 +175,34 @@ def evalFuncRichResources(state, maximizingPlayer) -> int:
         totalPlayerRichTileScore += tileScore
     return totalPlayerRichTileScore
 
+def evalFuncResourceCounts(state, maximizingPlayer) -> float :
+    """
+    Calculates a score for each resource, with decreasing maginal benefit to having more of this resource available
+    each resource = combined score of each tile of that type player has a piece bordering (double for cities)
+    returns sum of all resource totals, each log2
+    """
+    resources = {
+        Resource.WHEAT: 1,
+        Resource.BRICK: 1,
+        Resource.LOG: 1,
+        Resource.ORE: 1,
+        Resource.SHEEP: 1,
+    }
+    player = state.playerDataList[maximizingPlayer]
+    for tile in state.board.tiles.values():
+        for nodeID in tile.nodes:
+            node = state.board.nodes[nodeID]
+            if node.piece[1] == player.color:
+                if tile.resource != Resource.DESERT :
+                    if node.piece == NodePiece.CITY :
+                        resources[tile.resource] += tile.number
+                    resources[tile.resource] += tile.number
+
+    resourceValue = 0
+    for value in resources.values() :
+        resourceValue += math.log(value, 2)
+    return resourceValue
+
 def evalFuncLessThan8Resources(state, maximizingPlayer) -> int:
     """
     1 if less than 8 resources in hand
@@ -199,6 +234,11 @@ def evalFuncLongestRoad(state, maximizingPlayer) -> int:
 
 
 def evalFuncWinLose(state, maximizingPlayer) -> int:
+    """
+    1 if player won
+    0 if nobody has won
+    -1 if an opponent won
+    """
     if state.isGameOver() :
         if state.playerDataList[maximizingPlayer].victoryPoints >= 10 :
             return 1
