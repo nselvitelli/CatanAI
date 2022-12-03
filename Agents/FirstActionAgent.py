@@ -4,7 +4,7 @@ import random
 class FirstActionAgent(Agent):
 
     def __init__(self, playerColor, loud=True):
-        super.__init__(playerColor, loud)
+        super().__init__(playerColor, loud)
 
     def getAction(self, state):
         """
