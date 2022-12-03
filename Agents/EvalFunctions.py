@@ -20,10 +20,9 @@ def evalFuncCombineAll(state, maximizingPlayer, weights = None) -> int:
         (evalFuncRobberOnLand, 10),
         (evalFuncRichResources, 10),
         (evalFuncLessThan8Resources, 10),
-        (evalFuncLargestArmy, 10),
-        (evalFuncLongestRoad, 10),
         (evalFuncWinLose, 100),
-        (evalFuncResourceCounts, 5)
+        (evalFuncResourceCounts, 5),
+        (evalFuncArmySize, 1)
     ] if weights == None else [
         (evalFuncRealEstate, weights[0]),
         (evalFuncResourceDiversity, weights[1]),
@@ -31,10 +30,9 @@ def evalFuncCombineAll(state, maximizingPlayer, weights = None) -> int:
         (evalFuncRobberOnLand, weights[3]),
         (evalFuncRichResources, weights[4]),
         (evalFuncLessThan8Resources, weights[5]),
-        (evalFuncLargestArmy, weights[6]),
-        (evalFuncLongestRoad, weights[7]),
-        (evalFuncWinLose, weights[8]),
-        (evalFuncResourceCounts, weights[9]),
+        (evalFuncWinLose, weights[6]),
+        (evalFuncResourceCounts, weights[7]),
+        (evalFuncArmySize, weights[8])
     ]
 
     score = 0
@@ -50,8 +48,6 @@ def evalFuncCombineAllButOne(state, maximizingPlayer, weights = None) -> int:
         (evalFuncRobberOnLand, 10),
         (evalFuncRichResources, 10),
         (evalFuncLessThan8Resources, 10),
-        (evalFuncLargestArmy, 10),
-        (evalFuncLongestRoad, 10),
         (evalFuncWinLose, 100),
         (evalFuncResourceCounts, 5)
     ] if weights == None else [
@@ -61,10 +57,8 @@ def evalFuncCombineAllButOne(state, maximizingPlayer, weights = None) -> int:
         (evalFuncRobberOnLand, weights[3]),
         (evalFuncRichResources, weights[4]),
         (evalFuncLessThan8Resources, weights[5]),
-        (evalFuncLargestArmy, weights[6]),
-        (evalFuncLongestRoad, weights[7]),
-        (evalFuncWinLose, weights[8]),
-        (evalFuncResourceCounts, weights[9]),
+        (evalFuncWinLose, weights[6]),
+        (evalFuncResourceCounts, weights[7]),
     ]
 
     score = 0
@@ -218,20 +212,8 @@ def evalFuncLessThan8Resources(state, maximizingPlayer) -> int:
         return 0
     return 1
 
-def evalFuncLargestArmy(state, maximizingPlayer) -> int:
-    """
-    1 if player has largest army
-    0 if player doesn't
-    """
-    return 1 if maximizingPlayer == state.largestArmy else 0
-
-def evalFuncLongestRoad(state, maximizingPlayer) -> int:
-    """
-    1 if player has longest road
-    0 if player doesn;t
-    """
-    return 1 if maximizingPlayer == state.longestRoad else 0
-
+def evalFuncArmySize(state, maximizingPlayer) -> int:
+    return state.playerDataList[maximizingPlayer].armySize
 
 def evalFuncWinLose(state, maximizingPlayer) -> int:
     """
