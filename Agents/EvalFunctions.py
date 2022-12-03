@@ -23,7 +23,7 @@ def evalFuncCombineAll(state, maximizingPlayer, weights = None) -> int:
         (evalFuncLargestArmy, 10),
         (evalFuncLongestRoad, 10),
         (evalFuncWinLose, 100),
-        (evalFuncResourceCounts, 3)
+        (evalFuncResourceCounts, 5)
     ] if weights == None else [
         (evalFuncRealEstate, weights[0]),
         (evalFuncResourceDiversity, weights[1]),
@@ -53,7 +53,7 @@ def evalFuncCombineAllButOne(state, maximizingPlayer, weights = None) -> int:
         (evalFuncLargestArmy, 10),
         (evalFuncLongestRoad, 10),
         (evalFuncWinLose, 100),
-        (evalFuncResourceCounts, 3)
+        (evalFuncResourceCounts, 5)
     ] if weights == None else [
         (evalFuncRealEstate, weights[0]),
         (evalFuncResourceDiversity, weights[1]),
