@@ -1,4 +1,4 @@
-from Agents.MiniMaxAgent import MiniMaxAgent
+from Agents.MaxiMaxAgent import MaxiMaxAgent
 from Agents.KeyboardAgent import KeyboardAgent
 from Agents.RandomAgent import RandomAgent
 from Agents.FirstActionAgent import FirstActionAgent
@@ -53,7 +53,7 @@ def launchGames(numberGames, state):
     # pass
 
 def playGame(state):
-    game = Game(None, state)
+    game = Game(CatanGraphics(), state)
     return game.run()
 
 
@@ -83,15 +83,15 @@ if __name__ == '__main__':
         # KeyboardAgent(PlayerColor.RED, cheats=True),
         RandomAgent(PlayerColor.RED),
         # AlphaBetaAgent(PlayerColor.RED, depth=2, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll),
-        MiniMaxAgent(PlayerColor.BLUE, depth=4, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll),
+        MaxiMaxAgent(PlayerColor.BLUE, depth=2, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll),
         # MiniMaxAgent(PlayerColor.RED, depth=4, evaluationFunction=Agents.EvalFunctions.createCustomEvalFuncCombineAll([1,1,10,10,20,10,10,10]))
         # AlphaBetaAgent(PlayerColor.BLUE, depth=5, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll)
         #RandomAgent(PlayerColor.BLUE),
-        # RandomAgent(PlayerColor.ORANGE),
+        RandomAgent(PlayerColor.ORANGE),
         # RandomAgent(PlayerColor.WHITE),
     ]
 
-    numberGames = 25
+    numberGames = 1
 
     state = State.generateState(agents)
     
