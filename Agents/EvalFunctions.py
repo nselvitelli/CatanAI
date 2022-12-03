@@ -11,10 +11,10 @@ def evalFuncZero(state) -> int:
 def evalFuncCombineAll(state) -> int:
     weightsAndFunctions = [
         (evalFuncRealEstate, 1),
-        (evalFuncResourceDiversity, 1),
+        (evalFuncResourceDiversity, 10),
         (evalFuncVP, 1),
         (evalFuncRobberOnLand, 10),
-        (evalFuncRichResources, 1),
+        (evalFuncRichResources, 10),
         (evalFuncLessThan8Resources, 10),
         (evalFuncLargestArmy, 10),
         (evalFuncLongestRoad, 10)

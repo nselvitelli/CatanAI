@@ -10,6 +10,39 @@ import State
 import Agents.EvalFunctions
 
 
+import multiprocessing
+from multiprocessing import Process
+
+
+def launchGames(numberGames, state):
+
+    pool = multiprocessing.Pool()
+
+    winnersMap = {}
+    
+    for result in pool.imap(playGame, list(map(lambda a: state, range(numberGames)))):
+        if result in winnersMap.keys():
+            winnersMap[result] += 1
+        else:
+            winnersMap[result] = 1
+    
+    print(winnersMap)
+
+    # procs = []
+    # for i in range(numberCPUs):
+    #     proc = Process(target=playGame, args=(state,))
+    #     proc.start()
+    #     procs.append(proc)
+    
+    # for proc in procs:
+    #     proc.join()
+    # pass
+
+def playGame(state):
+    game = Game(CatanGraphics(), state)
+    return game.run()
+
+
 
 if __name__ == '__main__':
     """
@@ -34,19 +67,18 @@ if __name__ == '__main__':
     display = CatanGraphics()
 
     agents = [
-        # KeyboardAgent(PlayerColor.RED, cheats=True),
+        # KeyboardAgent(PlayerColor.WHITE, cheats=True),
         RandomAgent(PlayerColor.RED),
-        # AlphaBetaAgent(PlayerColor.RED, depth=2, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll),
-        #MiniMaxAgent(PlayerColor.RED, depth=1, evaluationFunction=Agents.EvalFunctions.evalFuncVP),
-        MiniMaxAgent(PlayerColor.BLUE, depth=5, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll)
-        #RandomAgent(PlayerColor.BLUE),
-        # RandomAgent(PlayerColor.ORANGE),
-        # RandomAgent(PlayerColor.WHITE),
+        # AlphaBetaAgent(PlayerColor.ORANGE, depth=1, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll),
+        MiniMaxAgent(PlayerColor.BLUE, depth=2, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll),
     ]
+
+    numberGames = 3
 
     state = State.generateState(agents)
 
-    game = Game(display, state)
+    launchGames(numberGames, state)
 
-    game.run()
+    # game = Game(display, state)
+    # game.run()
     pass

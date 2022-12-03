@@ -1,7 +1,8 @@
+from PlayerColor import PlayerColor
 import pygame
 import time
 
-DEBUG_STATES = True
+DEBUG_STATES = False
 
 class Game:
     """
@@ -40,7 +41,8 @@ class Game:
                     print("WINNER: ", nextState.getWinner().color)
                     print("TIME: ", time.time() - startTime)
                     game_over_printed_once = True
-                    
+                elif self.display == None:
+                    return nextState.getWinner().color
             else:
                 currentPlayerData = self.state.playerDataList[self.state.whoseTurn]
                 currentAgent = currentPlayerData.agent
@@ -57,3 +59,4 @@ class Game:
             self.state = nextState
             if not self.display == None:
                 self.display.drawState(self.state)
+        return PlayerColor.BLANK
