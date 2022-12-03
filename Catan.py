@@ -40,6 +40,9 @@ class RunMultipleGames:
         self.state = state
         self.statsMap = {}
 
+    def errorCallback(self, error):
+        print(bcolors.FAIL + "ERROR:", error, bcolors.ENDC)
+
     def gameProcessCallback(self, result):
         self.gamesComplete += 1
         print(bcolors.OKGREEN, "### Completed game", self.gamesComplete, "out of", self.numberGames, "###", bcolors.ENDC)
@@ -85,7 +88,7 @@ class RunMultipleGames:
 
         for i in range(self.numberGames):
             print(bcolors.OKGREEN, "### Launching Game" + bcolors.WARNING, str(i + 1), bcolors.OKGREEN + "###", bcolors.ENDC)
-            pool.apply_async(playGame, args=(self.state,), callback=self.gameProcessCallback)   
+            pool.apply_async(playGame, args=(self.state,), callback=self.gameProcessCallback, error_callback=self.errorCallback)   
          
         pool.close()    
         pool.join()
@@ -108,9 +111,9 @@ if __name__ == '__main__':
 
     agents = [
         # KeyboardAgent(PlayerColor.RED, cheats=True),
-        MiniMaxAgent(PlayerColor.RED, depth=3, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll, loud=False),
-        AlphaBetaAgent(PlayerColor.WHITE, depth=3, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll, loud=False),
-        MaxiMaxAgent(PlayerColor.BLUE, depth=3, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll, loud=False),
+        # MiniMaxAgent(PlayerColor.RED, depth=3, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll, loud=False),
+        # AlphaBetaAgent(PlayerColor.WHITE, depth=3, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll, loud=False),
+        # MaxiMaxAgent(PlayerColor.BLUE, depth=3, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll, loud=False),
         # MiniMaxAgent(PlayerColor.RED, depth=4, evaluationFunction=Agents.EvalFunctions.createCustomEvalFuncCombineAll([1,1,10,10,20,10,10,10]))
         # AlphaBetaAgent(PlayerColor.BLUE, depth=5, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll)
         RandomAgent(PlayerColor.BLUE, loud=False),
@@ -120,7 +123,7 @@ if __name__ == '__main__':
 
     state = State.generateState(agents)
     
-    RunMultipleGames(numberGames=40, state=state).launchGames()
+    RunMultipleGames(numberGames=2, state=state).launchGames()
 
     # playGame(state, CatanGraphics())
 
