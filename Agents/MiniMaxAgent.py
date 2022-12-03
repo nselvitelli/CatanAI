@@ -24,7 +24,7 @@ class MiniMaxAgent(Agent):
         # print("---\nDEBUG\n---")
 
         if len(actions) == 1:
-            if self.loud:
+            if self.loud :
                 print("Minimax Agent ", self.color.name,
                     "chose action ", actions[0].getActionAsString())
             return actions[0]
