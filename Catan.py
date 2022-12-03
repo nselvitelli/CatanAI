@@ -64,13 +64,13 @@ if __name__ == '__main__':
     # should construct a new "Game" class with an initialized starting state
     # and graphics (if graphics have not been flagged off)
 
-    display = None
+    display = CatanGraphics()
 
     agents = [
         # KeyboardAgent(PlayerColor.RED, cheats=True),
-        RandomAgent(PlayerColor.RED),
-        # AlphaBetaAgent(PlayerColor.RED, depth=2, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll),
-        MiniMaxAgent(PlayerColor.BLUE, depth=4, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll),
+        # RandomAgent(PlayerColor.RED),
+        AlphaBetaAgent(PlayerColor.RED, depth=3, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll),
+        MiniMaxAgent(PlayerColor.BLUE, depth=3, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll),
         # MiniMaxAgent(PlayerColor.RED, depth=4, evaluationFunction=Agents.EvalFunctions.createCustomEvalFuncCombineAll([1,1,10,10,20,10,10,10]))
         # AlphaBetaAgent(PlayerColor.BLUE, depth=5, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll)
         #RandomAgent(PlayerColor.BLUE),
@@ -78,7 +78,7 @@ if __name__ == '__main__':
         # RandomAgent(PlayerColor.WHITE),
     ]
 
-    numberGames = 25
+    numberGames = 20
 
     state = State.generateState(agents)
 

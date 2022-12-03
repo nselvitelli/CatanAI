@@ -107,7 +107,7 @@ class AlphaBetaAgent(Agent):
                     nextState = action.apply(state)
                     minimaxVal = self.minimax(
                         nextState, depth - 1, maxPlayerIndex, agentIndex, alpha, beta)
-                value = - max(value, minimaxVal)
+                value = min(value, minimaxVal)
                 if value < alpha:
                     return value
                 beta = min(beta, value)
