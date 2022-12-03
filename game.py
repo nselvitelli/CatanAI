@@ -42,7 +42,7 @@ class Game:
                     print("TIME: ", time.time() - startTime)
                     game_over_printed_once = True
                 elif self.display == None:
-                    return nextState.getWinner().color
+                    return nextState
             else:
                 currentPlayerData = self.state.playerDataList[self.state.whoseTurn]
                 currentAgent = currentPlayerData.agent
