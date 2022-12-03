@@ -94,7 +94,18 @@ class MiniMaxAgent(Agent):
                 return self.evaluationFunction(state, maxPlayerIndex)
             value = math.inf
             for action in actions:
-                nextState = action.apply(state)
-                value = min(value, self.minimax(
-                    nextState, depth - 1, maxPlayerIndex, agentIndex))
+                minimaxVal = 0
+                className = type(action).__name__
+                if className == "RollDice" or className == "DevelopmentCard" or className == "MoveRobber":
+                    allChances = action.getAllOutcomes(state)
+                    for prob, exact in allChances:
+                        nextState = action.applyExact(state, exact)
+                        minimaxVal += prob * \
+                            self.minimax(nextState, depth - 1,
+                                         maxPlayerIndex, -1)
+                else:
+                    nextState = action.apply(state)
+                    minimaxVal = self.minimax(
+                        nextState, depth - 1, maxPlayerIndex, -1)
+                value = min(value, minimaxVal)
             return value
