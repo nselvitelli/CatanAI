@@ -11,7 +11,7 @@ def evalFuncZero(state) -> int:
 def evalFuncCombineAll(state, maximizingPlayer) -> int:
     weightsAndFunctions = [
         (evalFuncRealEstate, 1),
-        (evalFuncResourceDiversity, 1),
+        (evalFuncResourceDiversity, 20),
         (evalFuncVP, 1),
         (evalFuncRobberOnLand, 10),
         (evalFuncRichResources, 1),
