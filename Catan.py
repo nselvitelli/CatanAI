@@ -67,10 +67,15 @@ if __name__ == '__main__':
     display = CatanGraphics()
 
     agents = [
-        # KeyboardAgent(PlayerColor.WHITE, cheats=True),
+        # KeyboardAgent(PlayerColor.RED, cheats=True),
         RandomAgent(PlayerColor.RED),
-        # AlphaBetaAgent(PlayerColor.ORANGE, depth=1, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll),
-        MiniMaxAgent(PlayerColor.BLUE, depth=2, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll),
+        # AlphaBetaAgent(PlayerColor.RED, depth=2, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll),
+        MiniMaxAgent(PlayerColor.BLUE, depth=4, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll),
+        # MiniMaxAgent(PlayerColor.RED, depth=4, evaluationFunction=Agents.EvalFunctions.createCustomEvalFuncCombineAll([1,1,10,10,20,10,10,10]))
+        # AlphaBetaAgent(PlayerColor.BLUE, depth=5, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll)
+        #RandomAgent(PlayerColor.BLUE),
+        # RandomAgent(PlayerColor.ORANGE),
+        # RandomAgent(PlayerColor.WHITE),
     ]
 
     numberGames = 3
