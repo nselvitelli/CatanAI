@@ -3,8 +3,8 @@ import random
 
 class RandomAgent(Agent):
 
-    def __init__(self, playerColor):
-        self.color = playerColor
+    def __init__(self, playerColor, loud=True):
+        super().__init__(playerColor, loud)
 
     def getAction(self, state):
         """
@@ -16,6 +16,7 @@ class RandomAgent(Agent):
         else:
             action = actions[random.randint(0, len(actions) - 1)]
 
-        print("RandomAgent ", self.color.name, "chose action ", action.getActionAsString())
+        if self.loud:
+            print("RandomAgent ", self.color.name, "chose action ", action.getActionAsString())
 
         return action

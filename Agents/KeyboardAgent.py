@@ -5,7 +5,7 @@ from Agents.Agent import Agent
 class KeyboardAgent(Agent):
 
     def __init__(self, playerColor, cheats=False) -> None:
-        super().__init__(playerColor)
+        super().__init__(playerColor, True)
         self.cheats = cheats
 
     def getAction(self, state):

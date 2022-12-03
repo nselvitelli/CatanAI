@@ -6,8 +6,8 @@ import random
 
 class AlphaBetaAgent(Agent):
 
-    def __init__(self, color, depth=3, evaluationFunction=evalFuncVP) -> None:
-        super().__init__(color)
+    def __init__(self, color, depth=3, evaluationFunction=evalFuncVP, loud=True) -> None:
+        super().__init__(color, loud)
         self.depth = depth
         self.evaluationFunction = evaluationFunction
 
@@ -19,8 +19,9 @@ class AlphaBetaAgent(Agent):
         actions = state.getValidActions()
 
         if len(actions) == 1:
-            print("AlphaBeta Agent ", self.color.name,
-              "chose action ", actions[0].getActionAsString())
+            if self.loud:
+                print("AlphaBeta Agent ", self.color.name,
+                "chose action ", actions[0].getActionAsString())
             return actions[0]
 
         bestActions = []
@@ -51,8 +52,9 @@ class AlphaBetaAgent(Agent):
 
         bestAction = bestActions[random.randint(0, len(bestActions) - 1)]
 
-        print("AlphaBeta Agent ", self.color.name,
-              "chose action ", bestAction.getActionAsString())
+        if self.loud:
+            print("AlphaBeta Agent ", self.color.name,
+                "chose action ", bestAction.getActionAsString())
 
         return bestAction
 
