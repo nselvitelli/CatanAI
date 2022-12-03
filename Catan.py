@@ -39,7 +39,7 @@ def launchGames(numberGames, state):
     # pass
 
 def playGame(state):
-    game = Game(CatanGraphics(), state)
+    game = Game(None, state)
     return game.run()
 
 
