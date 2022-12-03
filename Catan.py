@@ -25,33 +25,50 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 
-def launchGames(numberGames, state):
-
-    pool = multiprocessing.Pool()
-
-    winnersMap = {}
-    gamesComplete = 0
-
-    startTime = time.time()
-
-    for result in pool.imap(playGame, list(map(lambda a: state, range(numberGames)))):
-        gamesComplete += 1
-        print(bcolors.OKGREEN, "### Completed game", gamesComplete, "out of", numberGames, "###", bcolors.ENDC)
-        if result in winnersMap.keys():
-            winnersMap[result] += 1
-        else:
-            winnersMap[result] = 1
-    
-    for color, wins in winnersMap.items():
-        percent = 100 * (wins/numberGames)
-        print(bcolors.OKCYAN, color.name, "agent won", wins, "games. Win Rate:" + bcolors.WARNING, str(percent) + "%", bcolors.ENDC)
-
-    endTime = time.time()
-    print(bcolors.OKCYAN, numberGames, "games completed in" + bcolors.OKGREEN, endTime - startTime, bcolors.OKCYAN + "seconds", bcolors.ENDC)
 
 def playGame(state, display=None):
     game = Game(display, state)
     return game.run()
+
+class RunMultipleGames:
+
+    def __init__(self, numberGames, state) -> None:
+        self.gamesComplete = 0
+        self.winnersMap = {}
+        self.numberGames = numberGames
+        self.state = state
+
+    def gameProcessCallback(self, result):
+        self.gamesComplete += 1
+        print(bcolors.OKGREEN, "### Completed game", self.gamesComplete, "out of", self.numberGames, "###", bcolors.ENDC)
+        if result in self.winnersMap.keys():
+            self.winnersMap[result] += 1
+        else:
+            self.winnersMap[result] = 1
+
+
+    def launchGames(self):
+
+        pool = multiprocessing.Pool()
+
+        self.winnersMap = {}
+        self.gamesComplete = 0
+
+        startTime = time.time()
+
+        listOfStates = list(map(lambda a: state, range(self.numberGames)))
+
+        for i in range(self.numberGames):
+            pool.apply_async(playGame, args=(state,), callback=self.gameProcessCallback)    
+        pool.close()    
+        pool.join()
+
+        for color, wins in self.winnersMap.items():
+            percent = 100 * (wins / self.numberGames)
+            print(bcolors.OKCYAN, color.name, "agent won", wins, "games. Win Rate:" + bcolors.WARNING, str(percent) + "%", bcolors.ENDC)
+
+        endTime = time.time()
+        print(bcolors.OKCYAN, self.numberGames, "games completed in" + bcolors.OKGREEN, endTime - startTime, bcolors.OKCYAN + "seconds", bcolors.ENDC)
 
 
 if __name__ == '__main__':
@@ -67,13 +84,12 @@ if __name__ == '__main__':
         # AlphaBetaAgent(PlayerColor.BLUE, depth=5, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll)
         #RandomAgent(PlayerColor.BLUE),
         RandomAgent(PlayerColor.ORANGE, loud=False),
-        # RandomAgent(PlayerColor.WHITE),
+        RandomAgent(PlayerColor.WHITE, loud=False),
     ]
 
-    numberGames = 10
     state = State.generateState(agents)
     
-    launchGames(numberGames, state)
+    RunMultipleGames(numberGames=10, state=state).launchGames()
 
     # playGame(state, CatanGraphics())
     pass
