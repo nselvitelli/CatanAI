@@ -168,3 +168,10 @@ def evalFuncLongestRoad(state, maximizingPlayer) -> int:
     0 if player doesn;t
     """
     return 1 if maximizingPlayer == state.longestRoad else 0
+
+
+    #TODO: this is an issue!!!!
+    #right now max player works correctly, but assumes all opposing players only act to ruin max player
+    #new eval functions return a vector of length number of players 
+    #for length of players:
+        #spot in array
