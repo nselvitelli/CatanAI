@@ -91,7 +91,7 @@ if __name__ == '__main__':
         # RandomAgent(PlayerColor.WHITE),
     ]
 
-    numberGames = 3
+    numberGames = 25
 
     state = State.generateState(agents)
     
