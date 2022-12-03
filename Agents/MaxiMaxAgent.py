@@ -8,8 +8,8 @@ import Agents.KeyboardAgent
 
 class MaxiMaxAgent(Agent):
 
-    def __init__(self, color, depth=3, evaluationFunction=evalFuncVP) -> None:
-        super().__init__(color)
+    def __init__(self, color, depth=3, evaluationFunction=evalFuncVP, loud=True) -> None:
+        super().__init__(color, loud)
         self.depth = depth
         self.evaluationFunction = evaluationFunction
 

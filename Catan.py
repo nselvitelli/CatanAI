@@ -4,7 +4,7 @@ from Agents.RandomAgent import RandomAgent
 from Agents.FirstActionAgent import FirstActionAgent
 from Agents.AlphaBetaAgent import AlphaBetaAgent
 from game import Game
-# from graphics.graphicsDisplay import CatanGraphics
+from graphics.graphicsDisplay import CatanGraphics
 from PlayerColor import PlayerColor
 import State
 import Agents.EvalFunctions
