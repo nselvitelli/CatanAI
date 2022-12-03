@@ -35,17 +35,31 @@ class RunMultipleGames:
 
     def __init__(self, numberGames, state) -> None:
         self.gamesComplete = 0
-        self.winnersMap = {}
         self.numberGames = numberGames
         self.state = state
+        self.statsMap = {}
 
     def gameProcessCallback(self, result):
         self.gamesComplete += 1
         print(bcolors.OKGREEN, "### Completed game", self.gamesComplete, "out of", self.numberGames, "###", bcolors.ENDC)
-        if result in self.winnersMap.keys():
-            self.winnersMap[result] += 1
+
+        players = result.playerDataList
+
+        for player in players:
+            playerCol = player.color
+            if playerCol in self.statsMap.keys():
+                self.statsMap[playerCol]['VP'] = ((self.statsMap[playerCol]['VP'] * (self.gamesComplete - 1)) + player.victoryPoints) / self.gamesComplete
+            else:
+                self.statsMap[playerCol] = {}
+                self.statsMap[playerCol]['VP'] = player.victoryPoints
+
+        winnerCol = result.getWinner().color
+        if 'WINS' in self.statsMap[winnerCol].keys():
+            self.statsMap[winnerCol]['WINS'] += 1
         else:
-            self.winnersMap[result] = 1
+            self.statsMap[winnerCol]['WINS'] = 1
+        return
+            
 
 
     def launchGames(self):
@@ -57,16 +71,19 @@ class RunMultipleGames:
 
         startTime = time.time()
 
-        listOfStates = list(map(lambda a: state, range(self.numberGames)))
-
         for i in range(self.numberGames):
-            pool.apply_async(playGame, args=(state,), callback=self.gameProcessCallback)    
+            print(bcolors.OKGREEN, "### Launching Game" + bcolors.WARNING, str(i + 1), bcolors.OKGREEN + "###", bcolors.ENDC)
+            pool.apply_async(playGame, args=(self.state,), callback=self.gameProcessCallback)   
+         
         pool.close()    
         pool.join()
+        print("done")
 
-        for color, wins in self.winnersMap.items():
+        for color, stats in self.statsMap.items():
+            wins = stats['WINS']
             percent = 100 * (wins / self.numberGames)
             print(bcolors.OKCYAN, color.name, "agent won", wins, "games. Win Rate:" + bcolors.WARNING, str(percent) + "%", bcolors.ENDC)
+            print(bcolors.OKCYAN, "- average VP:", stats['VP'], bcolors.ENDC)
 
         endTime = time.time()
         print(bcolors.OKCYAN, self.numberGames, "games completed in" + bcolors.OKGREEN, endTime - startTime, bcolors.OKCYAN + "seconds", bcolors.ENDC)
@@ -90,7 +107,8 @@ if __name__ == '__main__':
 
     state = State.generateState(agents)
     
-    RunMultipleGames(numberGames=20, state=state).launchGames()
+    RunMultipleGames(numberGames=2, state=state).launchGames()
 
     # playGame(state, CatanGraphics())
+
     pass
