@@ -35,9 +35,10 @@ if __name__ == '__main__':
 
     agents = [
         # KeyboardAgent(PlayerColor.RED, cheats=True),
-        RandomAgent(PlayerColor.RED),
+        # RandomAgent(PlayerColor.RED),
         # AlphaBetaAgent(PlayerColor.RED, depth=2, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll),
         MiniMaxAgent(PlayerColor.BLUE, depth=5, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll),
+        MiniMaxAgent(PlayerColor.RED, depth = 5, evaluationFunction=Agents.EvalFunctions.createCustomEvalFuncCombineAll([1,1,100,10,1,10,10,10]))
         # AlphaBetaAgent(PlayerColor.BLUE, depth=5, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll)
         #RandomAgent(PlayerColor.BLUE),
         # RandomAgent(PlayerColor.ORANGE),

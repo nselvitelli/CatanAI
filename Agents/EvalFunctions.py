@@ -8,7 +8,10 @@ def evalFuncZero(state) -> int:
     """
     return 0
 
-def evalFuncCombineAll(state, maximizingPlayer) -> int:
+def createCustomEvalFuncCombineAll(weights):
+    return lambda state, maximizingPlayer: evalFuncCombineAll(state, maximizingPlayer, weights)
+
+def evalFuncCombineAll(state, maximizingPlayer, weights = None) -> int:
     weightsAndFunctions = [
         (evalFuncRealEstate, 1),
         (evalFuncResourceDiversity, 20),
@@ -18,6 +21,15 @@ def evalFuncCombineAll(state, maximizingPlayer) -> int:
         (evalFuncLessThan8Resources, 10),
         (evalFuncLargestArmy, 10),
         (evalFuncLongestRoad, 10)
+    ] if weights == None else [
+        (evalFuncRealEstate, weights[0]),
+        (evalFuncResourceDiversity, weights[1]),
+        (evalFuncVP, weights[2]),
+        (evalFuncRobberOnLand, weights[3]),
+        (evalFuncRichResources, weights[4]),
+        (evalFuncLessThan8Resources, weights[5]),
+        (evalFuncLargestArmy, weights[6]),
+        (evalFuncLongestRoad, weights[7])
     ]
 
     score = 0
