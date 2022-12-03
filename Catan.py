@@ -64,7 +64,7 @@ if __name__ == '__main__':
     # should construct a new "Game" class with an initialized starting state
     # and graphics (if graphics have not been flagged off)
 
-    display = CatanGraphics()
+    display = None
 
     agents = [
         # KeyboardAgent(PlayerColor.RED, cheats=True),
@@ -78,7 +78,7 @@ if __name__ == '__main__':
         # RandomAgent(PlayerColor.WHITE),
     ]
 
-    numberGames = 3
+    numberGames = 25
 
     state = State.generateState(agents)
 
