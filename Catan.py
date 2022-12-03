@@ -47,7 +47,7 @@ def launchGames(numberGames, state):
         print(bcolors.OKCYAN, color.name, "agent won", wins, "games. Win Rate:" + bcolors.WARNING, str(percent) + "%", bcolors.ENDC)
 
     endTime = time.time()
-    print(bcolors.OKCYAN + str(numberGames), "games completed in" + bcolors.OKGREEN, endTime - startTime, bcolors.OKCYAN + "seconds", bcolors.ENDC)
+    print(bcolors.OKCYAN, numberGames, "games completed in" + bcolors.OKGREEN, endTime - startTime, bcolors.OKCYAN + "seconds", bcolors.ENDC)
 
 def playGame(state, display=None):
     game = Game(display, state)
@@ -66,7 +66,7 @@ if __name__ == '__main__':
         # MiniMaxAgent(PlayerColor.RED, depth=4, evaluationFunction=Agents.EvalFunctions.createCustomEvalFuncCombineAll([1,1,10,10,20,10,10,10]))
         # AlphaBetaAgent(PlayerColor.BLUE, depth=5, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll)
         #RandomAgent(PlayerColor.BLUE),
-        RandomAgent(PlayerColor.ORANGE),
+        RandomAgent(PlayerColor.ORANGE, loud=False),
         # RandomAgent(PlayerColor.WHITE),
     ]
 
