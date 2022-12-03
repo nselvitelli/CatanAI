@@ -8,7 +8,7 @@ def evalFuncZero(state) -> int:
     """
     return 0
 
-def evalFuncCombineAll(state) -> int:
+def evalFuncCombineAll(state, maximizingPlayer) -> int:
     weightsAndFunctions = [
         (evalFuncRealEstate, 1),
         (evalFuncResourceDiversity, 1),
@@ -22,10 +22,10 @@ def evalFuncCombineAll(state) -> int:
 
     score = 0
     for tuple in weightsAndFunctions:
-        score += tuple[1] * tuple[0](state)
+        score += tuple[1] * tuple[0](state, maximizingPlayer)
     return score
 
-def evalFuncVP(state) -> int:
+def evalFuncVP(state, maximizingPlayer) -> int:
     """
     Determines score of state for current player in State 'state'
     by subtracting the number of victory points the 'whoseTurn player' has by the average number
@@ -36,14 +36,14 @@ def evalFuncVP(state) -> int:
         averageVP += player.victoryPoints
     averageVP /= len(state.playerDataList)
 
-    return state.playerDataList[state.whoseTurn].victoryPoints - averageVP
+    return state.playerDataList[maximizingPlayer].victoryPoints - averageVP
 
-def evalFuncRealEstate(state) -> int:
+def evalFuncRealEstate(state, maximizingPlayer) -> int:
     """
     Determines score for which player by getting total num of settlements and cities and subtracting that by the average of every other player
     """
 
-    currentPlayer = state.playerDataList[state.whoseTurn]
+    currentPlayer = state.playerDataList[maximizingPlayer]
     playerScore = scorePlayerSettlements(state, currentPlayer)
 
     avgScore = 0
@@ -66,13 +66,13 @@ def scorePlayerSettlements(state, player) -> int:
             playerScore += 1
     return playerScore
 
-def evalFuncResourceDiversity(state) -> int:
+def evalFuncResourceDiversity(state, maximizingPlayer) -> int:
     """
     Scored on how many resources the current player has access to
     """
     resources = set([Resource.WHEAT, Resource.BRICK, Resource.LOG, Resource.ORE, Resource.SHEEP])
 
-    player = state.playerDataList[state.whoseTurn]
+    player = state.playerDataList[maximizingPlayer]
 
     for tile in state.board.tiles.values():
         for nodeID in tile.nodes:
@@ -82,12 +82,12 @@ def evalFuncResourceDiversity(state) -> int:
 
     return 5 - len(resources)
 
-def evalFuncRobberOnLand(state) -> int:
+def evalFuncRobberOnLand(state, maximizingPlayer) -> int:
     """
         1 if the current player does not have a robber on one of their nodes
         0 if they do have the robber blocking them
     """
-    player = state.playerDataList[state.whoseTurn]
+    player = state.playerDataList[maximizingPlayer]
 
     robber_tile = state.board.robber_tile
 
@@ -98,7 +98,7 @@ def evalFuncRobberOnLand(state) -> int:
         return 0
     return 1
 
-def evalFuncRichResources(state) -> int:
+def evalFuncRichResources(state, maximizingPlayer) -> int:
     """
     Calculates a score for each tile the player is on based on how rich the resources are at that tile
     Sums score for each tile to get final score
@@ -109,7 +109,7 @@ def evalFuncRichResources(state) -> int:
     - get product of two values
     - add product to the total score
     """
-    player = state.playerDataList[state.whoseTurn]
+    player = state.playerDataList[maximizingPlayer]
 
     # 2 - 12
     # 7 is most common
@@ -128,12 +128,12 @@ def evalFuncRichResources(state) -> int:
         totalPlayerRichTileScore += tileScore
     return totalPlayerRichTileScore
 
-def evalFuncLessThan8Resources(state) -> int:
+def evalFuncLessThan8Resources(state, maximizingPlayer) -> int:
     """
     1 if less than 8 resources in hand
     0 if more than 7
     """
-    player = state.playerDataList[state.whoseTurn]
+    player = state.playerDataList[maximizingPlayer]
 
     totalAmt = 0
     for resourceAmt in player.resourcesAvailable.values():
@@ -143,16 +143,16 @@ def evalFuncLessThan8Resources(state) -> int:
         return 0
     return 1
 
-def evalFuncLargestArmy(state) -> int:
+def evalFuncLargestArmy(state, maximizingPlayer) -> int:
     """
     1 if player has largest army
     0 if player doesn't
     """
-    return 1 if state.whoseTurn == state.largestArmy else 0
+    return 1 if maximizingPlayer == state.largestArmy else 0
 
-def evalFuncLongestRoad(state) -> int:
+def evalFuncLongestRoad(state, maximizingPlayer) -> int:
     """
     1 if player has longest road
     0 if player doesn;t
     """
-    return 1 if state.whoseTurn == state.longestRoad else 0
+    return 1 if maximizingPlayer == state.longestRoad else 0
