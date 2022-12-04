@@ -80,7 +80,7 @@ class RunMultipleGames:
     def launchGames(self):
 
         numPools = min(self.numberGames, multiprocessing.cpu_count())
-        pool = multiprocessing.Pool(1)
+        pool = multiprocessing.Pool(numPools)
 
         self.winnersMap = {}
         self.gamesComplete = 0
@@ -127,7 +127,7 @@ if __name__ == '__main__':
 
     state = State.generateState(agents)
     
-    RunMultipleGames(numberGames=100, state=state).launchGames()
+    RunMultipleGames(numberGames=10, state=state).launchGames()
 
     # playGame(state, CatanGraphics())
 
