@@ -53,7 +53,12 @@ class State:
     def getValidActions(self):
 
         if len(self.necessaryActions) > 0:
-            return self.getNecessaryActions()
+            reqActions = self.getNecessaryActions()
+            if reqActions != None and len(reqActions) > 0:
+                return reqActions
+            else:
+                self.necessaryActions.pop(0)
+                print("FUCKY WUCKY")
 
         currentPlayer = self.playerDataList[self.whoseTurn]
         resourcesAvailable = currentPlayer.resourcesAvailable
@@ -197,7 +202,7 @@ class State:
             valid = set()
             for settlementNodeID in currentPlayer.settlements[0:2]: 
                 valid = valid.union(set(self.board.bfsEndpoint(settlementNodeID, self.playerDataList[self.whoseTurn].color)))
-
+            
             return [BuildFreeRoad(edge, necessaryActionsCopy) for edge in valid]
     
     def isGameOver(self):

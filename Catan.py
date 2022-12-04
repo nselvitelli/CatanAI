@@ -79,7 +79,8 @@ class RunMultipleGames:
 
     def launchGames(self):
 
-        pool = multiprocessing.Pool(min(self.numberGames, multiprocessing.cpu_count()))
+        numPools = min(self.numberGames, multiprocessing.cpu_count())
+        pool = multiprocessing.Pool(1)
 
         self.winnersMap = {}
         self.gamesComplete = 0
@@ -95,14 +96,17 @@ class RunMultipleGames:
 
         for color, stats in self.statsMap.items():
             wins = stats['WINS'] 
-            percent = 100 * (wins / self.numberGames)
-            print(bcolors.OKGREEN, color.name, bcolors.OKCYAN + "agent won", wins, "game(s). Win Rate:" + bcolors.WARNING, str(percent) + "%", bcolors.ENDC)
-            print(bcolors.OKCYAN, "- average VP:", stats['VP'], bcolors.ENDC)
-            print(bcolors.OKCYAN, "- average Settlements:", stats['SETTLEMENTS'], bcolors.ENDC)
-            print(bcolors.OKCYAN, "- average Cities:", stats['CITIES'], bcolors.ENDC)
+            percent = "{:.2f}".format(100 * (wins / self.numberGames))
+            vp = "{:.2f}".format(stats['VP'])
+            settlements = "{:.2f}".format(stats['SETTLEMENTS'])
+            cities = "{:.2f}".format(stats['CITIES'])
+            print(bcolors.OKGREEN, color.name, bcolors.OKCYAN + "agent won", wins, "game(s). Win Rate:" + bcolors.WARNING, percent + '%', bcolors.ENDC)
+            print(bcolors.OKCYAN, "- average VP:", vp, bcolors.ENDC)
+            print(bcolors.OKCYAN, "- average Settlements:", settlements, bcolors.ENDC)
+            print(bcolors.OKCYAN, "- average Cities:", cities, bcolors.ENDC)
 
         endTime = time.time()
-        print(bcolors.OKCYAN, self.gamesComplete, "games completed in" + bcolors.OKGREEN, endTime - startTime, bcolors.OKCYAN + "seconds", bcolors.ENDC)
+        print(bcolors.OKCYAN, self.gamesComplete, "games completed in" + bcolors.OKGREEN, '{:0.2f}'.format(endTime - startTime), bcolors.OKCYAN + "seconds", bcolors.ENDC)
 
 
 if __name__ == '__main__':
@@ -123,7 +127,7 @@ if __name__ == '__main__':
 
     state = State.generateState(agents)
     
-    RunMultipleGames(numberGames=2, state=state).launchGames()
+    RunMultipleGames(numberGames=100, state=state).launchGames()
 
     # playGame(state, CatanGraphics())
 

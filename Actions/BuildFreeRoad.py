@@ -21,7 +21,7 @@ class BuildFreeRoad(Action):
         newEdge.playerColor = playerData.color
         newState.board.edges[self.edgeID] = newEdge
 
-        newState.necessaryActions = self.necessaryActions
+        newState.necessaryActions.extend(self.necessaryActions)
 
         return newState
     
