@@ -235,8 +235,8 @@ class State:
         
         print("Turn: " + str(prevState.playerDataList[prevState.whoseTurn].color.name) + " -> " + str(self.playerDataList[self.whoseTurn].color.name) + "\n")
 
-        prevLong = str(prevState.playerDataList[prevState.longestRoad[0]].color.name)
-        curLong = str(self.playerDataList[self.longestRoad[0]].color.name)
+        prevLong = PlayerColor.BLANK.name if prevState.longestRoad[0] == -1 else str(prevState.playerDataList[prevState.longestRoad[0]].color.name)
+        curLong = PlayerColor.BLANK.name if self.longestRoad[0] == -1 else str(self.playerDataList[self.longestRoad[0]].color.name)
         if self.longestRoad != PlayerColor.BLANK:
             if curLong != prevLong:
                 print("Longest Road: " + prevLong + " -> " + curLong)
