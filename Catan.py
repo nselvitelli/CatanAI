@@ -56,6 +56,8 @@ class RunMultipleGames:
         for player in players:
             playerCol = player.color
             vp = player.victoryPoints
+            devCardsBought = player.devCardsBought
+            devCardsUsed = player.devCardsUsed
 
             numSettlements = 0
             numCities = 0
@@ -71,6 +73,8 @@ class RunMultipleGames:
                 self.statsMap[playerCol]['SETTLEMENTS'] = increaseAverage('SETTLEMENTS', numSettlements)
                 self.statsMap[playerCol]['CITIES'] = increaseAverage('CITIES', numCities)
                 self.statsMap[playerCol]['TIME'] = increaseAverage('TIME', totalTime)
+                self.statsMap[playerCol]['DCB'] = increaseAverage('DCB', devCardsBought)
+                self.statsMap[playerCol]['DCU'] = increaseAverage('DCU', devCardsUsed)
             else:
                 self.statsMap[playerCol] = {}
                 self.statsMap[playerCol]['VP'] = vp
@@ -78,6 +82,8 @@ class RunMultipleGames:
                 self.statsMap[playerCol]['CITIES'] = numCities
                 self.statsMap[playerCol]['WINS'] = 0
                 self.statsMap[playerCol]['TIME'] = totalTime
+                self.statsMap[playerCol]['DCB'] = devCardsBought
+                self.statsMap[playerCol]['DCU'] = devCardsUsed
 
         winnerCol = state.getWinner().color
         self.statsMap[winnerCol]['WINS'] += 1
@@ -92,7 +98,7 @@ class RunMultipleGames:
 
         startTime = time.time()
 
-        print(bcolors.OKGREEN, "### Launching",  bcolors.WARNING + str(self.numberGames) + bcolors.OKGREEN  ,"Games with agents:", self.agents, " ###", bcolors.ENDC)
+        print(bcolors.OKGREEN, "### Launching",  bcolors.WARNING + str(self.numberGames) + bcolors.OKGREEN  ,"Games ###", bcolors.ENDC)
         for i in range(self.numberGames):
             random.shuffle(self.agents)
             pool.apply_async(playGame, args=(State.generateState(self.agents),), callback=self.gameProcessCallback, error_callback=self.errorCallback)   
@@ -107,11 +113,15 @@ class RunMultipleGames:
             settlements = "{:.2f}".format(stats['SETTLEMENTS'])
             cities = "{:.2f}".format(stats['CITIES'])
             gameTime = "{:.2f}".format(stats['TIME'])
+            dcb = "{:.2f}".format(stats['DCB'])
+            dcu = "{:.2f}".format(stats['DCU'])
             print(bcolors.OKGREEN, color.name, bcolors.OKCYAN + "agent won", wins, "game(s). Win Rate:" + bcolors.WARNING, percent + '%', bcolors.ENDC)
             print(bcolors.OKCYAN, "- average VP:", vp, bcolors.ENDC)
             print(bcolors.OKCYAN, "- average Settlements:", settlements, bcolors.ENDC)
             print(bcolors.OKCYAN, "- average Cities:", cities, bcolors.ENDC)
             print(bcolors.OKCYAN, "- average game time:", gameTime, "seconds", bcolors.ENDC)
+            print(bcolors.OKCYAN, "- average dev cards bought:", dcb, bcolors.ENDC)
+            print(bcolors.OKCYAN, "- average dev cards used:", dcu, bcolors.ENDC)
 
         endTime = time.time()
         print(bcolors.OKCYAN, self.gamesComplete, "games completed in" + bcolors.OKGREEN, '{:0.2f}'.format(endTime - startTime), bcolors.OKCYAN + "seconds", bcolors.ENDC)

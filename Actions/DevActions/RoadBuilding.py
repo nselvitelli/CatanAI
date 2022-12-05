@@ -18,6 +18,8 @@ class RoadBuilding(Action):
 
         newState.playerDataList[newState.whoseTurn].devCards.remove(DevCardName.ROAD_BUILDING)
 
+        newState.playerDataList[newState.whoseTurn].devCardsUsed += 1
+
         return newState
 
     def getActionAsString(self):

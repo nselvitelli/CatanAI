@@ -42,6 +42,8 @@ class DevelopmentCard(Action):
         playerData.resourcesAvailable[Resource.SHEEP] -= 1
         playerData.resourcesAvailable[Resource.ORE] -= 1
 
+        playerData.devCardsBought += 1
+
         self.devCardNumber = -1
         return newState
 
