@@ -3,6 +3,7 @@ import pygame
 import time
 
 DEBUG_STATES = False
+PRINT_LAST_STATE = False
 
 class Game:
     """
@@ -27,6 +28,7 @@ class Game:
         prevState = self.state
 
         startTime = time.time()
+        totalTime = -1
         while not exit_gui:
             if not self.display == None:
                 for event in pygame.event.get():
@@ -35,14 +37,15 @@ class Game:
 
             if nextState.isGameOver():
                 if not game_over_printed_once:
-                    if not DEBUG_STATES:
+                    if not DEBUG_STATES and PRINT_LAST_STATE:
                         nextState.printStateDifferences(prevState)
+                    totalTime = time.time() - startTime
                     print("GAME OVER")
                     print("WINNER: ", nextState.getWinner().color)
-                    print("TIME: ", time.time() - startTime)
+                    print("TIME: ", totalTime)
                     game_over_printed_once = True
-                elif self.display == None:
-                    return nextState
+                if self.display == None:
+                    return (nextState, totalTime)
             else:
                 currentPlayerData = self.state.playerDataList[self.state.whoseTurn]
                 currentAgent = currentPlayerData.agent

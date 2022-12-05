@@ -16,7 +16,7 @@ class YearOfPlenty(Action):
         playerData.resourcesAvailable[self.resource2] += 1
 
         newState.playerDataList[newState.whoseTurn].devCards.remove(DevCardName.YEAR_OF_PLENTY)
-
+        newState.playerDataList[newState.whoseTurn].devCardsUsed += 1
 
         return newState
 

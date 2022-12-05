@@ -22,6 +22,8 @@ class Monopoly(Action):
         currentPlayer.resourcesAvailable[self.resource] += stealCount
         currentPlayer.devCards.remove(DevCardName.MONOPOLY)
 
+        currentPlayer.devCardsUsed += 1
+
         return newState
 
     def getActionAsString(self):

@@ -20,6 +20,8 @@ class Knight(Action):
         playerTurnData.armySize += 1
         playerTurnData.devCards.remove(DevCardName.KNIGHT)
 
+        playerTurnData.devCardsUsed += 1
+
 
         # corrects largest army if necessary
 
