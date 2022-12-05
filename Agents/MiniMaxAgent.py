@@ -42,11 +42,11 @@ class MiniMaxAgent(Agent):
                     nextState = action.applyExact(state, exact)
                     minimaxVal += prob * \
                         self.minimax(nextState, self.depth,
-                                     state.whoseTurn, -1)
+                                     state.whoseTurn)
             else:
                 nextState = action.apply(state)
                 minimaxVal = self.minimax(
-                    nextState, self.depth, state.whoseTurn, -1)
+                    nextState, self.depth, state.whoseTurn)
             if minimaxVal > value:
                 value = minimaxVal
                 bestActions = [action]
@@ -61,7 +61,7 @@ class MiniMaxAgent(Agent):
 
         return bestAction
 
-    def minimax(self, state, depth, maxPlayerIndex, prevPlayerActionIndex):
+    def minimax(self, state, depth, maxPlayerIndex):
         agentIndex = state.whoseTurn
 
         actions = state.getValidActions()
@@ -82,11 +82,11 @@ class MiniMaxAgent(Agent):
                         nextState = action.applyExact(state, exact)
                         minimaxVal += prob * \
                             self.minimax(nextState, depth - 1,
-                                         maxPlayerIndex, -1)
+                                         maxPlayerIndex)
                 else:
                     nextState = action.apply(state)
                     minimaxVal = self.minimax(
-                        nextState, depth - 1, maxPlayerIndex, -1)
+                        nextState, depth - 1, maxPlayerIndex)
                 value = max(value, minimaxVal)
             return value
         else:  # Minimize for enemy agents
@@ -102,10 +102,10 @@ class MiniMaxAgent(Agent):
                         nextState = action.applyExact(state, exact)
                         minimaxVal += prob * \
                             self.minimax(nextState, depth - 1,
-                                         maxPlayerIndex, -1)
+                                         maxPlayerIndex)
                 else:
                     nextState = action.apply(state)
                     minimaxVal = self.minimax(
-                        nextState, depth - 1, maxPlayerIndex, -1)
+                        nextState, depth - 1, maxPlayerIndex)
                 value = min(value, minimaxVal)
             return value

@@ -60,8 +60,7 @@ class RunMultipleGames:
             for piece in playerPieces:
                 if piece == NodePiece.CITY:
                     numCities += 1
-                elif piece == NodePiece.SETTLEMENT:
-                    numSettlements += 1
+                numSettlements += 1
 
             if playerCol in self.statsMap.keys():
                 increaseAverage = lambda key, val: ((self.statsMap[playerCol][key] * (self.gamesComplete - 1)) + val) / self.gamesComplete

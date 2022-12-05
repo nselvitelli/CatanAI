@@ -38,11 +38,11 @@ class AlphaBetaAgent(Agent):
                     nextState = action.applyExact(state, exact)
                     minimaxVal += prob * \
                         self.minimax(nextState, self.depth,
-                                     state.whoseTurn, -1, alpha, beta)
+                                     state.whoseTurn, alpha, beta)
             else:
                 nextState = action.apply(state)
                 minimaxVal = self.minimax(
-                    nextState, self.depth, state.whoseTurn, -1, alpha, beta)
+                    nextState, self.depth, state.whoseTurn, alpha, beta)
             if minimaxVal > value:
                 value = minimaxVal
                 bestActions = [action]
@@ -58,7 +58,7 @@ class AlphaBetaAgent(Agent):
 
         return bestAction
 
-    def minimax(self, state, depth, maxPlayerIndex, prevPlayerActionIndex, alpha, beta):
+    def minimax(self, state, depth, maxPlayerIndex, alpha, beta):
         agentIndex = state.whoseTurn
 
         actions = state.getValidActions()
@@ -80,11 +80,11 @@ class AlphaBetaAgent(Agent):
                         nextState = action.applyExact(state, exact)
                         minimaxVal += prob * \
                             self.minimax(nextState, depth - 1,
-                                        maxPlayerIndex, agentIndex, alpha, beta)
+                                        maxPlayerIndex, alpha, beta)
                 else:
                     nextState = action.apply(state)
                     minimaxVal = self.minimax(
-                        nextState, depth - 1, maxPlayerIndex, agentIndex, alpha, beta)
+                        nextState, depth - 1, maxPlayerIndex, alpha, beta)
                 value = max(value, minimaxVal)
                 if value > beta:
                     return value
@@ -104,11 +104,11 @@ class AlphaBetaAgent(Agent):
                         nextState = action.applyExact(state, exact)
                         minimaxVal += prob * \
                             self.minimax(nextState, depth - 1,
-                                        maxPlayerIndex, agentIndex, alpha, beta)
+                                        maxPlayerIndex, alpha, beta)
                 else:
                     nextState = action.apply(state)
                     minimaxVal = self.minimax(
-                        nextState, depth - 1, maxPlayerIndex, agentIndex, alpha, beta)
+                        nextState, depth - 1, maxPlayerIndex, alpha, beta)
                 value = min(value, minimaxVal)
                 if value < alpha:
                     return value
