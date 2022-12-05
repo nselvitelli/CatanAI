@@ -59,8 +59,7 @@ class RunMultipleGames:
             for piece in playerPieces:
                 if piece == NodePiece.CITY:
                     numCities += 1
-                elif piece == NodePiece.SETTLEMENT:
-                    numSettlements += 1
+                numSettlements += 1
 
             if playerCol in self.statsMap.keys():
                 increaseAverage = lambda key, val: ((self.statsMap[playerCol][key] * (self.gamesComplete - 1)) + val) / self.gamesComplete
@@ -115,14 +114,14 @@ if __name__ == '__main__':
 
     agents = [
         # KeyboardAgent(PlayerColor.RED, cheats=True),
-        AlphaBetaAgent(PlayerColor.RED, depth=1, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll, loud=False),
-        AlphaBetaAgent(PlayerColor.WHITE, depth=3, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll, loud=False),
+        # AlphaBetaAgent(PlayerColor.RED, depth=1, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll, loud=False),
+        # AlphaBetaAgent(PlayerColor.WHITE, depth=3, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll, loud=False),
         # MaxiMaxAgent(PlayerColor.BLUE, depth=3, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll, loud=False),
         # MiniMaxAgent(PlayerColor.RED, depth=4, evaluationFunction=Agents.EvalFunctions.createCustomEvalFuncCombineAll([1,1,10,10,20,10,10,10]))
         # AlphaBetaAgent(PlayerColor.BLUE, depth=5, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll)
-        #RandomAgent(PlayerColor.BLUE),
-        # RandomAgent(PlayerColor.ORANGE, loud=False),
-        # RandomAgent(PlayerColor.WHITE, loud=False),
+        RandomAgent(PlayerColor.BLUE, loud=False),
+        RandomAgent(PlayerColor.ORANGE, loud=False),
+        RandomAgent(PlayerColor.WHITE, loud=False),
     ]
 
     state = State.generateState(agents)
