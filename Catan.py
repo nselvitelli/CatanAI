@@ -116,19 +116,20 @@ if __name__ == '__main__':
 
     agents = [
         # KeyboardAgent(PlayerColor.RED, cheats=True),
-        MiniMaxAgent(PlayerColor.RED, depth=1, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll, loud=False),
+        MiniMaxAgent(PlayerColor.RED, depth=2, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll, loud=False),
         MiniMaxAgent(PlayerColor.WHITE, depth=2, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll, loud=False),
-        MaxiMaxAgent(PlayerColor.BLUE, depth=2, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll, loud=False),
-        # MiniMaxAgent(PlayerColor.RED, depth=2, evaluationFunction=Agents.EvalFunctions.createCustomEvalFuncCombineAll([1,1,10,10,20,10,10,10]))
+        MiniMaxAgent(PlayerColor.BLUE, depth=2, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll, loud=False),
+        # MiniMaxAgent(PlayerColor.ORANGE, depth=3, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll, loud=False),
+        # # MiniMaxAgent(PlayerColor.RED, depth=2, evaluationFunction=Agents.EvalFunctions.createCustomEvalFuncCombineAll([1,1,10,10,20,10,10,10]))
         # AlphaBetaAgent(PlayerColor.BLUE, depth=2, evaluationFunction=Agents.EvalFunctions.evalFuncCombineAll, loud = False)
-        #RandomAgent(PlayerColor.BLUE),
+        # RandomAgent(PlayerColor.BLUE, loud=False),
         # RandomAgent(PlayerColor.ORANGE, loud=False),
         # RandomAgent(PlayerColor.WHITE, loud=False),
     ]
 
     #state = State.generateState(agents)
     
-    RunMultipleGames(numberGames=50, agents=agents).launchGames()
+    RunMultipleGames(numberGames=100, agents=agents).launchGames()
 
     # playGame(state, CatanGraphics())
 
